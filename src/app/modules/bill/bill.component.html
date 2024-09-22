@@ -1,0 +1,557 @@
+<nz-page-header
+  class="site-page-header"
+  nzBackIcon
+  nzTitle="Danh sách hóa đơn"
+  nzSubtitle="Total {{bill.length || 0}}"
+>
+  <nz-breadcrumb nz-page-header-breadcrumb>
+    <nz-breadcrumb-item>Hóa đơn</nz-breadcrumb-item>
+    <nz-breadcrumb-item>Quản lý hóa đơn</nz-breadcrumb-item>
+  </nz-breadcrumb>
+</nz-page-header>
+
+<div class="page-content">
+  <div>
+    <!--    <div style="float: right">-->
+    <!--      <button-->
+    <!--        class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium-->
+    <!--      text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500-->
+    <!--      group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800"-->
+    <!--        routerLink="/admin/room/room-create"-->
+    <!--      >-->
+    <!--      <span-->
+    <!--        class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">-->
+    <!--          Thêm mới-->
+    <!--      </span>-->
+    <!--      </button>-->
+    <!--    </div>-->
+    <div class="flex" style="margin: 10px">
+      <div style="float: left">
+        <fieldset class="w-full space-y-1 dark:text-gray-100">
+          <label class="hidden">Search</label>
+          <div class="relative">
+        <span class="absolute inset-y-0 left-0 flex items-center pl-2">
+          <button type="button" title="search" class="p-1 focus:outline-none focus:ring" (click)="getBillByString()">
+            <svg fill="currentColor" viewBox="0 0 512 512" class="w-4 h-4 dark:text-gray-100">
+              <path
+                d="M479.6,399.716l-81.084-81.084-62.368-25.767A175.014,175.014,0,0,0,368,192c0-97.047-78.953-176-176-176S16,94.953,16,192,94.953,368,192,368a175.034,175.034,0,0,0,101.619-32.377l25.7,62.2L400.4,478.911a56,56,0,1,0,79.2-79.195ZM48,192c0-79.4,64.6-144,144-144s144,64.6,144,144S271.4,336,192,336,48,271.4,48,192ZM456.971,456.284a24.028,24.028,0,0,1-33.942,0l-76.572-76.572-23.894-57.835L380.4,345.771l76.573,76.572A24.028,24.028,0,0,1,456.971,456.284Z"></path>
+            </svg>
+          </button>
+        </span>
+            <input type="search" name="Search" placeholder="Search..." id="searchInput"
+                   class="w-32 py-2 pl-10 text-sm rounded-md sm:w-96 focus:outline-0 dark:bg-gray-800 dark:text-white
+                 focus:dark:bg-gray-900 focus:dark:border-violet-400 bg-gray-300"
+                   [ngModel]="searchInput"
+                   (ngModelChange)="getBillByString()"
+            >
+          </div>
+        </fieldset>
+      </div>
+      <div class="flex" style="font-size: 18px;margin-left: 30px;font-family: Arial;margin-top: 10px">
+        <label>Trạng thái hóa đơn: </label>
+        <select id="trangThaiHoaDon" class="select-input" (change)="getBillByString()"
+                style="width: 300px;height: 30px;font-size: 18px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px;margin-left: 10px"
+        >
+          <option class="option" value="">Tất cả</option>
+          <option class="option" value="0">Đã thanh toán tiền phòng</option>
+          <option class="option" value="1">Chờ thanh toán</option>
+          <option class="option" value="2">Đang xác nhận</option>
+          <option class="option" value="3">Thanh toán sau</option>
+          <option class="option" value="4">Đã hủy</option>
+          <option class="option" value="5">Hoàn tất thanh toán</option>
+          <option class="option" value="6">Xác nhận tiền cọc</option>
+          <option class="option" value="7">Đã đặt cọc</option>
+        </select>
+      </div>
+      <div class="flex">
+        <div style="font-size: 18px;margin-left: 10px;font-family: Arial">
+          <label>Từ ngày: </label>
+          <input type="date" id="startDate" (change)="getBillByString()"
+                 style="width: 200px;height:30px;border-radius: 5px;border: 1px solid lightskyblue;margin-left: 10px;margin-top: 10px;padding: 5px">
+        </div>
+        <div style="font-size: 18px;margin-left: 30px;font-family: Arial">
+          <label>đến ngày</label>
+          <input type="date" id="endDate" (change)="getBillByString()"
+                 style="width: 200px;height:30px;border-radius: 5px;border: 1px solid lightskyblue;margin-left: 10px;margin-top: 10px;padding: 5px">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="margin: 10px">
+    <nz-table class="w-full text-sm text-left text-gray-500 dark:text-gray-400" #tableData [nzData]="bill">
+      <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <tr>
+        <th scope="col" class="px-6 py-3">
+          STT
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Mã HD
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Ngày tạo
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Ngày thanh toán
+        </th>
+<!--        <th scope="col" class="px-6 py-3">-->
+<!--          Tiền phòng-->
+<!--        </th>-->
+<!--        <th scope="col" class="px-6 py-3">-->
+<!--          Tiền dịch vụ-->
+<!--        </th>-->
+<!--        <th scope="col" class="px-6 py-3">-->
+<!--          Tiền phạt-->
+<!--        </th>-->
+        <th scope="col" class="px-6 py-3">
+          Tổng tiền
+        </th>
+<!--        <th scope="col" class="px-6 py-3">-->
+<!--          Tiền hoàn lại-->
+<!--        </th>-->
+<!--        <th scope="col" class="px-6 py-3">-->
+<!--          Giảm giá-->
+<!--        </th>-->
+<!--        <th scope="col" class="px-6 py-3">-->
+<!--          Tổng thanh toán-->
+<!--        </th>-->
+        <th scope="col" class="px-6 py-3">
+          Thanh toán trước
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Đơn đặt
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Trạng thái
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Khách hàng
+        </th>
+        <th scope="col" class="px-12 py-3">
+          Tác vụ
+        </th>
+        <!--      <th scope="col" class="px-6 py-3">-->
+        <!--      </th>-->
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="w-full bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+          *ngFor="let data of tableData.data; let i = index">
+        <td class="px-6 py-4">
+          {{i + 1}}
+        </td>
+        <td class="px-6 py-4">
+          {{ data.ma}}
+        </td>
+        <td class="px-6 py-4">
+          {{ data.ngayTao | date : 'dd-MM-yyyy'}}
+        </td>
+        <td class="px-6 py-4">
+          {{ data.ngayThanhToan | date : 'dd-MM-yyyy' }}
+        </td>
+<!--        <td class="px-6 py-4">-->
+<!--          {{ data.tienPhong??0 | currency:'VND': '':'1.0-0'}}-->
+<!--        </td>-->
+<!--        <td class="px-6 py-4">-->
+<!--          {{ data.tienDichVu??0 | currency:'VND': '':'1.0-0'}}-->
+<!--        </td>-->
+<!--        <td class="px-6 py-4">-->
+<!--          {{ data.tienPhat??0 | currency:'VND': '':'1.0-0'}}-->
+<!--        </td>-->
+        <td class="px-6 py-4">
+          {{ data.tongTien??0 | currency:'VND': '':'1.0-0'}}
+        </td>
+<!--        <td class="px-6 py-4">-->
+<!--          {{ data.tienHoanLai??0 | currency:'VND': '':'1.0-0'}}-->
+<!--        </td>-->
+<!--        <td class="px-6 py-4">-->
+<!--          {{ data.tienTichDiem??0 | currency:'VND': '':'1.0-0'}}-->
+<!--        </td>-->
+<!--        <td class="px-6 py-4">-->
+<!--          {{ data.tienThanhToan??0 | currency:'VND': '':'1.0-0'}}-->
+<!--        </td>-->
+        <td class="px-6 py-4">
+          {{ data.tienCoc }}
+        </td>
+        <td class="px-6 py-4">
+          <p *ngIf="data.ghiChu == '1' ">Online</p>
+          <p *ngIf="data.ghiChu != '1' ">Tại quầy</p>
+        </td>
+        <td class="px-6 py-4">
+          <div class="flex items-center" *ngIf="data.trangThai == 1">
+            <div class="h-2.5 w-2.5 rounded-full bg-yellow-500 mr-2"></div>
+            Chờ thanh toán
+          </div>
+          <div class="flex items-center" *ngIf="data.trangThai == 0">
+            <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div>
+            Đã thanh toán tiền phòng
+          </div>
+          <div class="flex items-center" *ngIf="data.trangThai == 2">
+            <div class="h-2.5 w-2.5 rounded-full bg-blue-500 mr-2"></div>
+            Đang xác nhận
+          </div>
+          <div class="flex items-center" *ngIf="data.trangThai == 3">
+            <div class="h-2.5 w-2.5 rounded-full bg-orange-500 mr-2"></div>
+            Thanh toán sau
+          </div>
+          <div class="flex items-center" *ngIf="data.trangThai == 4">
+            <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div>
+            Đã hủy
+          </div>
+          <div class="flex items-center" *ngIf="data.trangThai == 5">
+            <div class="h-2.5 w-2.5 rounded-full bg-green-700 mr-2"></div>
+            Hoàn tất thanh toán
+          </div>
+          <div class="flex items-center" *ngIf="data.trangThai == 6">
+            <div class="h-2.5 w-2.5 rounded-full bg-pink-500 mr-2"></div>
+            Xác nhận tiền cọc
+          </div>
+          <div class="flex items-center" *ngIf="data.trangThai == 7">
+            <div class="h-2.5 w-2.5 rounded-full bg-violet-500 mr-2"></div>
+            Đã đặt cọc
+          </div>
+        </td>
+        <td class="px-6 py-4">
+          {{ data.tenKhachHang }}
+        </td>
+        <td class="px-12 py-4" style="display: flex">
+          <div *ngIf="data.trangThai != 4" class="btn-info">
+            <button *ngIf="data.trangThai != 5" nz-button nz-dropdown [nzDropdownMenu]="menu" nzPlacement="bottomRight">
+          <span class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                nz-icon nzType="edit" nzTheme="outline" style="font-size: 24px"></span>
+            </button>
+            <nz-dropdown-menu #menu="nzDropdownMenu">
+              <ul nz-menu>
+                <li *ngIf="data.trangThai === 6" (click)="xacNhanTienCoc(data.id , data.idKhachHang)" nz-menu-item
+                    class="hover:bg-blue-400">
+                  Xác nhận tiền cọc
+                </li>
+                <li *ngIf="data.trangThai === 1 || data.trangThai === 2"
+                    (click)="updateStatus(data.id , data.idKhachHang)" nz-menu-item class="hover:bg-blue-400">
+                  Xác nhận thanh toán
+                </li>
+                <li nz-menu-item *ngIf="data.trangThai != 4 && data.trangThai != 5" (click)="huyHoaDon(data.id)" class="hover:bg-red-500">
+                  Hủy
+                </li>
+              </ul>
+            </nz-dropdown-menu>
+          </div>
+          <div class="btn-info ml-3" (click)="showChiTiet(data.id, data.tienPhong, data.tienDichVu, data.tienPhat, data.tienHoanLai, data.tienTichDiem, data.tienCoc)">
+            <span nz-icon nzType="info-circle" nzTheme="outline" style="font-size: 24px"></span>
+          </div>
+          <div *ngIf="data.trangThai === 5" class="font-medium text-blue-600 dark:text-blue-500 hover:underline ml-2">
+            <svg (click)="generatePDF(data.id)" style="color: blue" xmlns="http://www.w3.org/2000/svg" width="25"
+                 height="25" fill="currentColor"
+                 class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+              <path fill-rule="evenodd"
+                    d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"
+                    fill="blue"></path>
+              <path fill-rule="evenodd"
+                    d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"
+                    fill="blue"></path>
+            </svg>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>
+<nz-modal
+  [(nzVisible)]="isVisible"
+  nzTitle="DANH SÁCH ĐẶT PHÒNG"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleCancel()"
+  nzWidth="1100px"
+>
+  <ng-container *nzModalContent>
+    <div style="font-size: 16px;padding: 5px;margin: 5px" class="flex">
+      <div style="font-weight: bolder" class="flex">
+      <p>Tiền phòng: </p>
+      <i style="color: red;margin-left: 5px">{{tienPhongHD | currency:'VND': '':'1.0-0'}}</i>
+      </div>
+      <div style="font-weight: bolder;margin-left: 60px" class="flex">
+        <p>Tiền dịch vụ: </p>
+        <i style="color: red;margin-left: 5px">{{tienDichVuHD??0 | currency:'VND': '':'1.0-0'}}</i>
+      </div>
+      <div style="font-weight: bolder;margin-left: 60px" class="flex">
+        <p>Tiền phạt: </p>
+        <i style="color: red;margin-left: 5px">{{tienPhatHD??0 | currency:'VND': '':'1.0-0'}}</i>
+      </div>
+    </div>
+    <div style="font-size: 16px;padding: 5px;margin: 5px" class="flex">
+      <div style="font-weight: bolder" class="flex">
+        <p>Tiền hoàn lại: </p>
+        <i style="color: red;margin-left: 5px">{{tienHoanLaiHD??0 | currency:'VND': '':'1.0-0'}}</i>
+      </div>
+      <div style="font-weight: bolder;margin-left: 60px" class="flex">
+        <p>Tiền giảm giá: </p>
+        <i style="color: red;margin-left: 5px">{{tienGiamGiaHD??0 | currency:'VND': '':'1.0-0'}}</i>
+      </div>
+      <div style="font-weight: bolder;margin-left: 60px" class="flex">
+        <p>Thanh toán trước: </p>
+        <i style="color: red;margin-left: 5px">{{thanhToanTruoc??0 | currency:'VND': '':'1.0-0'}}</i>
+      </div>
+      <div *ngIf="(tienPhongHD + (tienDichVuHD??0) + (tienPhatHD??0) - (thanhToanTruoc??0) - (tienHoanLaiHD??0) - (tienGiamGiaHD??0)) >=0" style="font-weight: bolder;margin-left: 60px" class="flex">
+        <p>Cần thanh toán: </p>
+        <i style="color: red;margin-left: 5px">{{(tienPhongHD + (tienDichVuHD??0) + (tienPhatHD??0) - (thanhToanTruoc??0) - (tienHoanLaiHD??0) - (tienGiamGiaHD??0)) | currency:'VND': '':'1.0-0'}}</i>
+      </div>
+      <div *ngIf="(tienPhongHD + (tienDichVuHD??0) + (tienPhatHD??0) - (thanhToanTruoc??0) - (tienHoanLaiHD??0) - (tienGiamGiaHD??0)) <0" style="font-weight: bolder;margin-left: 60px" class="flex">
+        <p>Cần hoàn tiền: </p>
+        <i style="color: red;margin-left: 5px">{{-(tienPhongHD + (tienDichVuHD??0) + (tienPhatHD??0) - (thanhToanTruoc??0) - (tienHoanLaiHD??0) - (tienGiamGiaHD??0)) | currency:'VND': '':'1.0-0'}}</i>
+      </div>
+    </div>
+    <div>
+      <nz-table #tableData [nzData]="roomOrder" role="table" class="w-full min-w-[500px] overflow-x-scroll">
+        <thead>
+        <tr role="row">
+          <th
+            colspan="1"
+            role="columnheader"
+            title="Toggle SortBy"
+            style="cursor: pointer"
+          >
+            <div
+              class="flex items-center justify-between pb-2 pt-4 text-start uppercase tracking-wide text-gray-600 sm:text-xs lg:text-xs"
+            >
+              Stt
+            </div>
+          </th>
+          <th
+            colspan="1"
+            role="columnheader"
+            title="Toggle SortBy"
+            style="cursor: pointer"
+          >
+            <div
+              class="flex items-center justify-between pb-2 pt-4 text-start uppercase tracking-wide text-gray-600 sm:text-xs lg:text-xs"
+            >
+              Mã phòng
+            </div>
+          </th>
+          <th
+            colspan="1"
+            role="columnheader"
+            title="Toggle SortBy"
+            style="cursor: pointer"
+          >
+            <div
+              class="flex items-center justify-between pb-2 pt-4 text-start uppercase tracking-wide text-gray-600 sm:text-xs lg:text-xs"
+            >
+              Ngày nhận
+            </div>
+          </th>
+          <th
+            colspan="1"
+            role="columnheader"
+            title="Toggle SortBy"
+            style="cursor: pointer"
+          >
+            <div
+              class="flex items-center justify-between pb-2 pt-4 text-start uppercase tracking-wide text-gray-600 sm:text-xs lg:text-xs"
+            >
+              Ngày trả
+            </div>
+          </th>
+          <th
+            colspan="1"
+            role="columnheader"
+            title="Toggle SortBy"
+            style="cursor: pointer"
+          >
+            <div
+              class="flex items-center justify-between pb-2 pt-4 text-start uppercase tracking-wide text-gray-600 sm:text-xs lg:text-xs"
+            >
+              Thành tiền
+            </div>
+          </th>
+          <th
+            colspan="1"
+            role="columnheader"
+            title="Toggle SortBy"
+            style="cursor: pointer"
+          >
+            <div
+              class="flex items-center justify-between pb-2 pt-4 text-start uppercase tracking-wide text-gray-600 sm:text-xs lg:text-xs"
+            >
+              Trạng thái
+            </div>
+          </th>
+          <th
+            colspan="1"
+            role="columnheader"
+            title="Toggle SortBy"
+            style="cursor: pointer"
+          >
+            <div
+              class="flex items-center justify-between pb-2 pt-4 text-start uppercase tracking-wide text-gray-600 sm:text-xs lg:text-xs"
+            >
+              Hành động
+            </div>
+          </th>
+        </tr>
+        </thead>
+        <tbody role="rowgroup" class="px-4">
+        <tr role="row" *ngFor="let data of tableData.data; let i = index">
+          <td class="py-3 text-sm" role="cell">
+            <p class="text-md font-medium text-gray-600 dark:text-white">
+              {{i + 1}}
+            </p>
+          </td>
+          <td class="py-3 text-sm" role="cell">
+            <p class="text-md font-medium text-gray-600 dark:text-white">
+              {{data.tenPhong}}
+            </p>
+          </td>
+          <td class="py-3 text-sm" role="cell">
+            <p class="text-md font-medium text-gray-600 dark:text-white">
+              {{data.checkIn | date : 'dd-MM-yyyy'}}
+            </p>
+          </td>
+          <td class="py-3 text-sm" role="cell">
+            <p class="text-md font-medium text-gray-600 dark:text-white">
+              {{data.checkOut | date : 'dd-MM-yyyy'}}
+            </p>
+          </td>
+          <td class="py-3 text-sm" role="cell">
+            <p class="text-md font-medium text-gray-600 dark:text-white">
+              {{data.tongGia}} VND
+            </p>
+          </td>
+          <td class="py-3 text-sm" role="cell">
+            <div class="flex items-center" *ngIf="data.trangThai == 1">
+              <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div>
+              Đã đặt
+            </div>
+
+            <div class="flex items-center" *ngIf="data.trangThai == 0">
+              <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div>
+              Đã hủy
+            </div>
+            <div class="flex items-center" *ngIf="data.trangThai == 2">
+              <div class="h-2.5 w-2.5 rounded-full bg-blue-500 mr-2"></div>
+              Đã check-in
+            </div>
+            <div class="flex items-center" *ngIf="data.trangThai == 3">
+              <div class="h-2.5 w-2.5 rounded-full bg-yellow-500 mr-2"></div>
+              Đã trả phòng
+            </div>
+          </td>
+          <td class="px-12 py-4" style="display: flex">
+            <!--            <div style="margin-left: 3px">-->
+            <!--              <button nz-button style="margin-left: 3px" nz-tooltip nzTooltipTitle="Thông tin dịch vụ"-->
+            <!--                      (click)="showModalChiTietDichVu(data.id)">-->
+            <!--                <span class="font-medium text-blue-600 dark:text-blue-500 hover:underline"-->
+            <!--                      nz-icon nzType="infor-circle" nzTheme="outline" style="font-size: 24px"></span>-->
+            <!--              </button>-->
+            <!--            </div>-->
+            <div class="btn-info ml-3" (click)="showModalChiTietDichVu(data.id)" nz-tooltip
+                 nzTooltipTitle="Thông tin dịch vụ">
+              <span nz-icon nzType="info-circle" nzTheme="outline" style="font-size: 24px"></span>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </ng-container>
+</nz-modal>
+
+<nz-modal
+  [(nzVisible)]="isVisibleChiTietDichVu"
+  nzTitle="DANH SÁCH DỊCH VỤ"
+  (nzOnCancel)="handleCancelChiTietDichVu()"
+  (nzOnOk)="handleCancelChiTietDichVu()"
+  nzOkText="Thêm dịch vụ"
+  nzWidth="900px"
+  nzFooter=" "
+>
+  <ng-container *nzModalContent>
+    <div>
+      <nz-table #tableData [nzData]="detailsService" role="table" class="w-full min-w-[500px] overflow-x-scroll">
+        <thead>
+        <tr role="row">
+          <th
+            colspan="1"
+            role="columnheader"
+            title="Toggle SortBy"
+            style="cursor: pointer"
+          >
+            <div
+              class="flex items-center justify-between pb-2 pt-4 text-start uppercase tracking-wide text-gray-600 sm:text-xs lg:text-xs"
+            >
+              Stt
+            </div>
+          </th>
+          <th
+            colspan="1"
+            role="columnheader"
+            title="Toggle SortBy"
+            style="cursor: pointer"
+          >
+            <div
+              class="flex items-center justify-between pb-2 pt-4 text-start uppercase tracking-wide text-gray-600 sm:text-xs lg:text-xs"
+            >
+              Tên dịch vụ
+            </div>
+          </th>
+          <th
+            colspan="1"
+            role="columnheader"
+            title="Toggle SortBy"
+            style="cursor: pointer"
+          >
+            <div
+              class="flex items-center justify-between pb-2 pt-4 text-start uppercase tracking-wide text-gray-600 sm:text-xs lg:text-xs"
+            >Giá dịch vụ
+            </div>
+          </th>
+          <th
+            colspan="1"
+            role="columnheader"
+            title="Toggle SortBy"
+            style="cursor: pointer"
+          >
+            <div
+              class="flex items-center justify-between pb-2 pt-4 text-start uppercase tracking-wide text-gray-600 sm:text-xs lg:text-xs"
+            >Số lượng
+            </div>
+          </th>
+          <th
+            colspan="1"
+            role="columnheader"
+            title="Toggle SortBy"
+            style="cursor: pointer"
+          >
+          </th>
+        </tr>
+        </thead>
+        <tbody role="rowgroup" class="px-4">
+        <tr role="row" *ngFor="let data of tableData.data; let i = index">
+          <td class="py-3 text-sm" role="cell">
+            <p class="text-md font-medium text-gray-600 dark:text-white">
+              {{i + 1}}
+            </p>
+          </td>
+          <td class="py-3 text-sm" role="cell">
+            <p class="text-md font-medium text-gray-600 dark:text-white">
+              {{data.tenDichVu}}
+            </p>
+          </td>
+          <td class="py-3 text-sm" role="cell">
+            <p class="text-md font-medium text-gray-600 dark:text-white">
+              {{data.giaDichVu}}
+            </p>
+          </td>
+          <td class="py-3 text-sm" role="cell">
+            <p class="text-md font-medium text-gray-600 dark:text-white">
+              {{data.soLuong}}
+            </p>
+          </td>
+        </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </ng-container>
+</nz-modal>
+
+

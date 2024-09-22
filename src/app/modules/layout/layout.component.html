@@ -1,0 +1,179 @@
+<nz-layout class="app-layout">
+  <nz-sider class="menu-sidebar"
+            nzCollapsible
+            nzWidth="256px"
+            nzBreakpoint="md"
+            [(nzCollapsed)]="isCollapsed"
+            [nzTrigger]="null">
+    <div class="sidebar-logo">
+      <!--      <a href="" target="_blank">-->
+      <a href="/admin/dashboard">
+        <img src="assets/logo-main.png" alt="logo">
+        <h1>Mebunbo</h1>
+      </a>
+    </div>
+    <ul nz-menu [nzTheme]="theme ? 'dark' : 'light'" nzMode="inline" [nzInlineCollapsed]="isCollapsed"
+        *ngIf="(user$ | async) as user">
+      <li nz-submenu nzTitle="Thống kê" nzIcon="dashboard" *ngIf="user.role === 'admin'">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/admin/dashboard">Thống kê</a>
+          </li>
+        </ul>
+      </li>
+      <li nz-submenu nzTitle="Quản lý tài khoản" nzIcon="user-switch" *ngIf="user.role === 'admin'">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/admin/accounts">Tài khoản</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/admin/logs">Phân quyền</a>
+          </li>
+        </ul>
+      </li>
+      <li nz-submenu nzTitle="Quản lý phòng đặt" nzIcon="database" *ngIf="user.role === 'admin'">
+
+          <ul>
+            <li nz-menu-item nzMatchRouter>
+              <a routerLink="/admin/room-order-manager">Quản lý phòng đặt</a>
+            </li>
+          </ul>
+      </li>
+      <li nz-submenu nzTitle="Quản lý đặt phòng" nzIcon="group">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/admin/room-manager">Đặt phòng</a>
+          </li>
+<!--          <li nz-menu-item nzMatchRouter *ngIf="user.role === 'admin'">-->
+<!--            <a routerLink="/admin/voucher">Voucher</a>-->
+<!--          </li>-->
+        </ul>
+      </li>
+      <li nz-submenu nzTitle="Quản lý hóa đơn" nzIcon="group">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/admin/bill">Hóa đơn</a>
+            <nz-badge style="float: right;margin: 3px" [nzCount]="countBill">
+            </nz-badge>
+          </li>
+        </ul>
+      </li>
+      <li nz-submenu nzTitle="Quản lý phòng" nzIcon="database" *ngIf="user.role === 'admin'">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/admin/room">Phòng</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/admin/room-type">Loại phòng</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/admin/room-information">Chi tiết phòng</a>
+          </li>
+        </ul>
+      </li>
+      <li nz-submenu nzTitle="Quản lý khách hàng" nzIcon="team">
+        <ul>
+          <!--          <li nz-menu-item nzMatchRouter>-->
+          <!--            <a routerLink="/admin/account-user">Tài khoản</a>-->
+          <!--          </li>-->
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/admin/customer">Khách hàng</a>
+          </li>
+        </ul>
+      </li>
+      <!--      <li nz-submenu nzTitle="Quản lý bảo trì" nzIcon="database" *ngIf="user.role === 'admin'">-->
+      <!--        <ul>-->
+      <!--          <li nz-menu-item nzMatchRouter>-->
+      <!--            <a routerLink="/admin/maintenance">Bảo trì</a>-->
+      <!--          </li>-->
+
+      <!--        </ul>-->
+      <!--      </li>-->
+      <!--      <li nz-submenu nzTitle="Quản lý đối tác" nzIcon="database" *ngIf="user.role === 'admin'">-->
+      <!--        <ul>-->
+      <!--          <li nz-menu-item nzMatchRouter>-->
+      <!--            <a routerLink="/admin/partner">Đối tác</a>-->
+      <!--          </li>-->
+
+      <!--        </ul>-->
+      <!--      </li>-->
+      <!--      <li nz-submenu nzTitle="Quản lý Dự Án" nzIcon="customer-service" *ngIf="user.role === 'admin'">-->
+      <!--        <ul>-->
+      <!--          <li nz-menu-item nzMatchRouter>-->
+      <!--            <a routerLink="/admin/project"> Dự Án </a>-->
+      <!--          </li>-->
+      <!--        </ul>-->
+      <!--      </li>-->
+      <li nz-submenu nzTitle="Quản lý dịch vụ" nzIcon="customer-service" *ngIf="user.role === 'admin'">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/admin/room-service"> Dịch Vụ </a>
+          </li>
+          <!--          <li nz-menu-item nzMatchRouter>-->
+          <!--            <a routerLink="/admin/asset"> Tài sản </a>-->
+          <!--          </li>-->
+        </ul>
+      </li>
+      <!--      <li nz-submenu nzTitle="Quản lý sự kiện" nzIcon="schedule" *ngIf="user.role === 'admin'">-->
+      <!--        <ul>-->
+      <!--          <li nz-menu-item nzMatchRouter>-->
+      <!--            <a routerLink="/admin/sale"> Sự kiện </a>-->
+      <!--          </li>-->
+      <!--        </ul>-->
+      <!--      </li>-->
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-header>
+      <div nz-row class="app-header">
+        <div nz-col nzSpan="16">
+            <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
+              <span class="trigger"
+                    nz-icon
+                    [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+              ></span>
+          </span>
+        </div>
+        <div nz-col nzSpan="8" class="pr-5">
+          <div class="float-right">
+            <a nz-dropdown [nzDropdownMenu]="menu" *ngIf="(user$ | async) as userInfo">
+              <ng-container *ngIf="userInfo.imageUrl">
+                <!-- Hiển thị hình ảnh nếu userInfo.urlImage không null -->
+                <nz-avatar [nzSrc]="userInfo.imageUrl"></nz-avatar>
+              </ng-container>
+              <ng-container *ngIf="!userInfo.imageUrl">
+                <!-- Sử dụng consFirstChar nếu userInfo.urlImage là null -->
+                <nz-avatar nzText="{{userInfo.name | consFirstChar}}"></nz-avatar>
+              </ng-container>
+              {{userInfo?.name || ''}}
+              <span nz-icon nzType="down"></span>
+            </a>
+            <nz-dropdown-menu #menu="nzDropdownMenu">
+              <ul nz-menu nzSelectable>
+                <li nz-menu-item>Info</li>
+                <li nz-menu-item>Setting</li>
+                <li nz-menu-item>Can I Help?</li>
+                <li nz-menu-item>Theme -
+                  <nz-switch [(ngModel)]="theme">
+                    <span checked>Dark</span>
+                    <span unchecked>Light</span>
+                  </nz-switch>
+                </li>
+                <li nz-menu-item nzDanger (click)="onLogout()">
+                  Logout
+                </li>
+              </ul>
+            </nz-dropdown-menu>
+          </div>
+
+        </div>
+      </div>
+    </nz-header>
+    <nz-content>
+      <div class="inner-content">
+        <router-outlet></router-outlet>
+      </div>
+    </nz-content>
+    <nz-footer>Bds ©2023 Implement By K Team</nz-footer>
+  </nz-layout>
+</nz-layout>
