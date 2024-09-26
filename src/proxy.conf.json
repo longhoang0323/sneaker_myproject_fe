@@ -1,5 +1,5 @@
 {
-  "/rpc/bds": {
+  "/myproject/sneaker": {
     "target": "http://localhost:8080",
     "secure": false
   }

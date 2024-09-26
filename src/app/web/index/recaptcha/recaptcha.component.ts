@@ -42,7 +42,7 @@ export class RecaptchaComponent  implements OnInit {
       const captchaResponse = this.aFormGroup.get('recaptcha').value;
 
       // Send the captchaResponse to the backend for verification
-      this.http.post('/rpc/bds/recaptcha/verify-captcha', { captchaResponse }).subscribe(
+      this.http.post('/myproject/sneaker/recaptcha/verify-captcha', { captchaResponse }).subscribe(
         (data) => {
           console.log('Backend Response:', data);
           // Handle successful verification

@@ -2,10 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CustomerModel } from './models/customer.model';
 import { CustomerService } from './services/customer.service';
-import {RoomModel} from "../../models/room.model";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {BillService} from "../bill/bill.service";
-import {RoomOrder} from "../../models/room-order";
 
 interface DataItem {
   name: string;
@@ -25,8 +23,6 @@ export class CustomerComponent implements OnInit{
   message ='';
   isVisible = false;
   isOkLoading = false;
-  roomOrders: RoomOrder[] = [];
-  isVisibleLichSu = false;
   searchInput: string = "";
 
   // detail
@@ -148,19 +144,6 @@ export class CustomerComponent implements OnInit{
         },
         error: (e) => console.error(e)
       });
-  }
-
-  showLichSuDatPhong(id: any){
-    this.isVisibleLichSu = true;
-    this.billService.getDatPhongByKH(1, 10000, id).subscribe(res => {
-      if (res && res.content) {
-        this.roomOrders = res.content;
-      }
-    })
-  }
-
-  cancelLichSu(){
-    this.isVisibleLichSu = false;
   }
 
   sendPointToCustomer(id: any, email: string){

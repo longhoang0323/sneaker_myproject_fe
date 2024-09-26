@@ -72,12 +72,6 @@
             </button>
           </div>
           <div style="margin-left: 5px">
-            <button (click)="showLichSuDatPhong(data.id)"
-              class="button-thanh-toan">
-              Lịch sử đặt phòng
-            </button>
-          </div>
-          <div style="margin-left: 5px">
             <button (click)="sendPointToCustomer(data.id, data.diaChi)"
                     class="button-green">
               Gửi điểm
@@ -89,29 +83,6 @@
     </tbody>
   </nz-table>
   </div>
-<!--  test filler-->
-<!--  <div>-->
-<!--    <nz-table #sortTable [nzData]="customer" nzTableLayout="fixed">-->
-<!--      <thead>-->
-<!--      <tr>-->
-<!--        <th *ngFor="let column of listOfColumn2" [nzSortFn]="column.compare" [nzSortPriority]="column.priority">-->
-<!--          {{ column.title }}-->
-<!--        </th>-->
-<!--      </tr>-->
-<!--      </thead>-->
-<!--      <tbody>-->
-<!--      <tr *ngFor="let data of sortTable.data">-->
-<!--        <td nzLeft>{{ data.id }}</td>-->
-<!--        <td nzLeft>{{ data.ma }}</td>-->
-<!--        <td nzLeft>{{ data.hoTen }}</td>-->
-<!--        <td nzLeft>{{ data.cccd }}</td>-->
-<!--        <td nzLeft>{{ data.ngaySinh }}</td>-->
-<!--        <td nzLeft>{{ data.sdt }}</td>-->
-<!--        <td nzLeft>{{ data.ghiChu ?? 0 | currency:'VND': '':'1.0-0' }}</td>-->
-<!--      </tr>-->
-<!--      </tbody>-->
-<!--    </nz-table>-->
-<!--  </div>-->
 </div>
 
 <nz-modal
@@ -147,163 +118,6 @@
           <input nz-input type="text" id="email" name="diaChi" [(ngModel)]="currentCustomer.diaChi" required/>
         </nz-form-control>
       </nz-form-item>
-    </div>
-  </ng-container>
-</nz-modal>
-
-<nz-modal
-  [(nzVisible)]="isVisibleLichSu"
-  nzTitle="Lịch sử đặt phòng"
-  (nzOnCancel)="cancelLichSu()"
-  (nzOnOk)="cancelLichSu()"
-  nzFooter=" "
-  nzWidth="1000px"
->
-  <ng-container *nzModalContent>
-    <div>
-      <nz-table #tableData [nzData]="roomOrders" role="table" class="w-full min-w-[500px] overflow-x-scroll">
-        <thead>
-        <tr role="row">
-          <th
-            colspan="1"
-            role="columnheader"
-            title="Toggle SortBy"
-            style="cursor: pointer"
-          >
-            <div
-              class="flex items-center justify-between pb-2 pt-4 text-start uppercase tracking-wide text-gray-600 sm:text-xs lg:text-xs"
-            >
-              STT
-            </div>
-          </th>
-          <th
-            colspan="1"
-            role="columnheader"
-            title="Toggle SortBy"
-            style="cursor: pointer"
-          >
-            <div
-              class="flex items-center justify-between pb-2 pt-4 text-start uppercase tracking-wide text-gray-600 sm:text-xs lg:text-xs"
-            >
-              Mã đặt phòng
-            </div>
-          </th>
-          <th
-            colspan="1"
-            role="columnheader"
-            title="Toggle SortBy"
-            style="cursor: pointer"
-          >
-            <div
-              class="flex items-center justify-between pb-2 pt-4 text-start uppercase tracking-wide text-gray-600 sm:text-xs lg:text-xs"
-            >
-              Mã phòng
-            </div>
-          </th>
-          <th
-            colspan="1"
-            role="columnheader"
-            title="Toggle SortBy"
-            style="cursor: pointer"
-          >
-            <div
-              class="flex items-center justify-between pb-2 pt-4 text-start uppercase tracking-wide text-gray-600 sm:text-xs lg:text-xs"
-            >
-              Ngày check-in
-            </div>
-          </th>
-          <th
-            colspan="1"
-            role="columnheader"
-            title="Toggle SortBy"
-            style="cursor: pointer"
-          >
-            <div
-              class="flex items-center justify-between pb-2 pt-4 text-start uppercase tracking-wide text-gray-600 sm:text-xs lg:text-xs"
-            >
-              Ngày check-out
-            </div>
-          </th>
-          <th
-            colspan="1"
-            role="columnheader"
-            title="Toggle SortBy"
-            style="cursor: pointer"
-          >
-            <div
-              class="flex items-center justify-between pb-2 pt-4 text-start uppercase tracking-wide text-gray-600 sm:text-xs lg:text-xs"
-            >
-              Thành tiền
-            </div>
-          </th>
-          <th
-            colspan="1"
-            role="columnheader"
-            title="Toggle SortBy"
-            style="cursor: pointer"
-          >
-            <div
-              class="flex items-center justify-between pb-2 pt-4 text-start uppercase tracking-wide text-gray-600 sm:text-xs lg:text-xs"
-            >
-              Trạng thái
-            </div>
-          </th>
-        </tr>
-        </thead>
-        <tbody role="rowgroup" class="px-4">
-        <tr role="row" *ngFor="let data of tableData.data; let i = index">
-          <td class="py-3 text-sm" role="cell">
-            <p class="text-md font-medium text-gray-600 dark:text-white">
-              {{i + 1}}
-            </p>
-          </td>
-          <td class="py-3 text-sm" role="cell">
-            <p class="text-md font-medium text-gray-600 dark:text-white">
-              {{data.ma}}
-            </p>
-          </td>
-          <td class="py-3 text-sm" role="cell">
-            <p class="text-md font-medium text-gray-600 dark:text-white">
-              {{data.tenPhong}}
-            </p>
-          </td>
-          <td class="py-3 text-sm" role="cell">
-            <p class="text-md font-medium text-gray-600 dark:text-white">
-              {{data.checkIn | date : 'dd-MM-yyyy'}}
-            </p>
-          </td>
-          <td class="py-3 text-sm" role="cell">
-            <p class="text-md font-medium text-gray-600 dark:text-white">
-              {{data.checkOut | date : 'dd-MM-yyyy'}}
-            </p>
-          </td>
-          <td class="py-3 text-sm" role="cell">
-            <p class="text-md font-medium text-gray-600 dark:text-white">
-              {{data.tongGia | currency:'VND': '':'1.0-0' }}
-            </p>
-          </td>
-          <td class="py-3 text-sm" role="cell">
-            <div class="flex items-center" *ngIf="data.trangThai == 1">
-              <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div>
-              Đã đặt
-            </div>
-
-            <div class="flex items-center" *ngIf="data.trangThai == 0">
-              <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div>
-              Đã hủy
-            </div>
-            <div class="flex items-center" *ngIf="data.trangThai == 2">
-              <div class="h-2.5 w-2.5 rounded-full bg-blue-500 mr-2"></div>
-              Đã check-in
-            </div>
-            <div class="flex items-center" *ngIf="data.trangThai == 3">
-              <div class="h-2.5 w-2.5 rounded-full bg-yellow-500 mr-2"></div>
-              Đã trả phòng
-            </div>
-          </td>
-        </tr>
-        </tbody>
-      </nz-table>
     </div>
   </ng-container>
 </nz-modal>
