@@ -1,122 +1,4 @@
 <div>
-  <section>
-    <div style="background-image: url('/assets/sasha-kaunas-G6eXUCi8JgA-unsplash.jpg'); height: 770px">
-      <div class="text-hero">
-        Khách sạn Mebunbo
-      </div>
-      <div class="form-booking">
-        <div class="flex flex-col">
-          <div style="width: 1200px;" class="bg-white p-6 rounded-xl shadow-lg">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              <div class="flex flex-col">
-                <label for="checkIn" class="font-medium text-sm text-stone-600">Ngày nhận</label>
-                <input class="border rounded-md py-2 px-3" type="date" id="checkIn" min="<?= date('Y-m-d') ?>">
-                <span *ngIf="message" style="font-size: 15px;color: red;font-weight: bold">{{message}}</span>
-              </div>
-
-              <div class="flex flex-col">
-                <label for="checkOut" class="font-medium text-sm text-stone-600">Ngày trả</label>
-                <input class="border rounded-md py-2 px-3" type="date" id="checkOut">
-              </div>
-
-              <div class="flex flex-col">
-                <label for="soNguoi" class="font-medium text-sm text-stone-600">Số người</label>
-                <span (click)="changeSoNguoi()" style="width: 200px;font-size: 17px" class="border rounded-md py-2 px-3"
-                >{{ soNguoi }} người</span>
-                <div *ngIf="modalData.isShowNguoi" style="width: 200px" class="border flex">
-                  <div style="margin-top: 10px;margin-bottom: 10px">
-                    <button
-                      style="width:40px;height: 40px;font-size: 25px;margin-left: 15px;border: 2px solid #5e2ced;border-radius: 2px"
-                      (click)="giamSoNguoi()">-
-                    </button>
-                    <input type="number" max="30"
-                           style="font-size: 23px;width: 50px;height:40px;margin-left: 20px;text-align: center"
-                           id="soNguoi"
-                           [(ngModel)]="soNguoi" name="soNguoi" disabled>
-                    <button
-                      style="width:40px;height: 40px;font-size: 25px;margin-left: 20px;border: 2px solid #5e2ced;border-radius: 2px"
-                      (click)="tangSoNguoi()">+
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div class="flex flex-col">
-                <label for="soPhong" class="font-medium text-sm text-stone-600">Số phòng</label>
-                <span (click)="changeSoPhong()" style="width: 200px;font-size: 17px" class="border rounded-md py-2 px-3"
-                >{{ soPhong }} phòng</span>
-                <div *ngIf="modalData.isShowPhong" style="width: 200px" class="border flex">
-                  <div style="margin-top: 10px;margin-bottom: 10px">
-                    <button
-                      style="width:40px;height: 40px;font-size: 25px;margin-left: 15px;border: 2px solid #5e2ced;border-radius: 2px"
-                      (click)="giamSoPhong()">-
-                    </button>
-                    <input type="number" max="30"
-                           style="font-size: 23px;width: 50px;height:40px;margin-left: 20px;text-align: center"
-                           id="soPhong"
-                           [(ngModel)]="soPhong" name="soPhong" disabled>
-                    <button
-                      style="width:40px;height: 40px;font-size: 25px;margin-left: 20px;border: 2px solid #5e2ced;border-radius: 2px"
-                      (click)="tangSoPhong()">+
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-
-              <!--              <div class="flex flex-col">-->
-              <!--                <label class="font-medium text-sm text-stone-600">Loại phòng</label>-->
-              <!--                &lt;!&ndash;                <label for="soPhong" class="font-medium text-sm text-stone-600">Số phòng</label>&ndash;&gt;-->
-              <!--                &lt;!&ndash;                <span (click)="changeSoPhong()" style="width: 200px;font-size: 17px" class="border rounded-md py-2 px-3"&ndash;&gt;-->
-              <!--                &lt;!&ndash;                >{{ soPhong }} phòng</span>&ndash;&gt;-->
-              <!--                <button id="loaiPhong" (click)="showLoaiPhong()"-->
-              <!--                        style="width: 400px;height: 40px;font-size: 19px;border-width: 1px; border-style: solid;border-radius: 3px;text-align: left;padding-left: 5px">-->
-              <!--                  Chọn loại phòng và số lượng-->
-              <!--                </button>-->
-              <!--                <div *ngIf="isVisibleLP" style="width: 400px" class="border">-->
-              <!--                  <div *ngFor="let lp of roomType">-->
-              <!--                    <div style="margin-top: 10px;margin-bottom: 10px" class="flex">-->
-              <!--                      <div style="width: 55%">-->
-              <!--                      <p style="font-size: 16px;padding: 5px">{{lp.tenLoaiPhong}}</p>-->
-              <!--                      </div>-->
-              <!--                      <div style="width: 45%">-->
-              <!--                        <div style="float: right;margin-right: 5px">-->
-              <!--                          <button-->
-              <!--                            style="width:35px;height: 35px;font-size: 23px;margin-left: 15px;border: 2px solid #5e2ced;border-radius: 2px"-->
-              <!--                            (click)="giamSoPhong(lp.id)">- -->
-              <!--                          </button>-->
-              <!--                          <input type="number" max="6" min="0"-->
-              <!--                                 style="font-size: 23px;width: 50px;height:40px;margin-left: 20px;text-align: center"-->
-              <!--                                 [id]="lp.id"-->
-              <!--                                 [ngModel]="1"-->
-              <!--                                 disabled>-->
-              <!--                          <button-->
-              <!--                            style="width:35px;height: 35px;font-size: 23px;margin-left: 15px;border: 2px solid #5e2ced;border-radius: 2px"-->
-              <!--                            (click)="tangSoPhong(lp.id)">+-->
-              <!--                          </button>-->
-              <!--                        </div>-->
-              <!--                      </div>-->
-              <!--                    </div>-->
-              <!--                  </div>-->
-              <!--                </div>-->
-              <!--              </div>-->
-
-            </div>
-            <div style="float: right">
-              <br>
-              <div>
-                <button style="width: 100px;"
-                        class="rounded-lg py-4 px-2 hover:bg-orange-500 bg-stone-700 font-bold text-white shadow-lg shadow-orange-200 transition ease-in-out duration-200 translate-10"
-                        (click)="testSearch(soPhong, soNguoi, 'top')"
-                >
-                  Tìm kiếm
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 </div>
 <div style="background-image: url('/assets/images/banner-image.png')">
 
@@ -133,26 +15,6 @@
       <a href="#"
          class="bg-lion font-barlow px-4 min-w-[158px] min-h-[48px] inline-flex items-center justify-center uppercase text-white transition duration-300 ease-in-out hover:bg-lion-dark mt-8 tracking-widest">KHÁM
         PHÁ NGAY</a>
-    </div>
-  </section>
-
-  <section class="py-16 px-3 bg-neutral-50">
-    <div class="container max-w-[1200px] mx-auto">
-      <h2 class="font-gilda font-normal text-3xl sm:text-[46px] tracking-[.04em] text-coyote text-center mb-3">Các phòng
-        đặt nhiều nhất</h2>
-      <div class="flex items-center justify-center">
-        <img src="../assets/images/decorated-pattern-2.svg" alt="">
-      </div>
-
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-[4px] mt-1">
-        <a *ngFor="let data of roomBooking" href="/room-detail/{{data.id}}"
-           class="object-cover relative after:absolute after:content-[''] after:top-0 after:left-0 after:w-full after:h-full after:bg-gradient-to-b from-black/25 to-black/75 hover:before  before:absolute before:content-[''] before:top-3 before:left-3 before:right-3 before:bottom-3 before:border-white before:border-2 before:border-solid before:z-10 before:opacity-0 hover:before:opacity-100 before:transition before:duration-300 before:ease-in-out">
-          <img src="../assets/images/room-1.png" class="w-full h-full object-cover" alt="">
-          <div
-            class="absolute bottom-0 left-2/4 -translate-x-2/4 text-white font-medium uppercase text-xl md:text-2xl font-barlow z-10 px-4 mb-14 text-center w-full tracking-widest">
-            Phòng {{data.ma}}</div>
-        </a>
-      </div>
     </div>
   </section>
 
@@ -481,25 +343,6 @@
       </div>
     </div>
   </section>
-  <nz-modal
-    [(nzVisible)]="isVisible"
-    nzTitle="DANH SÁCH LOẠI PHÒNG"
-    (nzOnCancel)="handleCancel()"
-    (nzOnOk)="handleOk()"
-    nzWidth="800px"
-  >
-    <ng-container *nzModalContent>
-      <div>
-        <div class="flex">
-          <div style="width: 200px;height: 100px;border: 2px solid #4b505e;border-radius: 3px;margin-left: 30px"
-               *ngFor="let data of listLoaiPhong">
-            <h3>{{data.tenLoaiPhong}}</h3>
-            <h3>{{data.soNguoi}}</h3>
-          </div>
-        </div>
-      </div>
-    </ng-container>
-  </nz-modal>
 </div>
 
 <script>

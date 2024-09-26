@@ -1,12 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {interval, Observable} from "rxjs";
+import {Observable} from "rxjs";
 import {AuthService} from "../../auth/services";
 import {NotificationsModel} from "../../models/notifications.model";
-import {environment} from "../../../environments/environment";
 import {ServiceService} from "./page/service/service.service";
 import {UserModel} from "../../auth/models/user.model";
-import {RoomService} from "../../modules/room/services/room.service";
-import {RoomModel} from "../../models/room.model";
 import {Router} from "@angular/router";
 
 @Component({
@@ -17,7 +14,6 @@ import {Router} from "@angular/router";
 export class IndexComponent implements OnInit {
   user$: Observable<any>;
   user: UserModel | undefined;
-  room: RoomModel[] = [];
   notificationCount = 200;
   showDropdown = false;
   notifications: NotificationsModel[] = [];
@@ -27,7 +23,7 @@ export class IndexComponent implements OnInit {
     this.showDropdown = !this.showDropdown;
   }
 
-  constructor(private authService: AuthService, private service: ServiceService, private roomService: RoomService,
+  constructor(private authService: AuthService, private service: ServiceService,
               private router: Router) {
     this.user$ = this.authService.currentUser$;
   }
@@ -43,20 +39,6 @@ export class IndexComponent implements OnInit {
       if (res && res.content) {
         this.notifications = res.content;
       }
-    })
-  }
-
-  getRoomsSearch(): void {
-    const inputElement = document.getElementById('searchInput') as HTMLInputElement;
-    this.searchInput = inputElement.value;
-    this.roomService.getRoomBySearch(1, 50, this.searchInput).subscribe(res => {
-      const queryParams = {
-        searchInput: this.searchInput
-      };
-      if (res && res.content) {
-        this.room = res.content;
-      }
-      this.router.navigate(['/room'], {queryParams});
     })
   }
 

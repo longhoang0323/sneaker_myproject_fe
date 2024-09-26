@@ -28,15 +28,11 @@ import {CurrencyFormatPipe} from "../../shared/pipes/CurrencyFormatPipe";
 import {NzTabsModule} from "ng-zorro-antd/tabs";
 import {PaymentModuleModule} from "../../modules/payment/payment.module.module";
 import {CommentModule} from "./comment/comment/comment.module";
-import {CaseModule} from "./case/case.module";
 import {NzCheckboxModule} from "ng-zorro-antd/checkbox";
 import { CartComponent } from './cart/cart.component';
-import {StepModule} from "./step/step.module";
-import {ListRoomOrderComponent} from "./page/list-room-order/list-room-order.component";
 import {NzCollapseModule} from "ng-zorro-antd/collapse";
 import {CustomDate} from "../../shared/pipes/custom-date";
 import {NzTagModule} from "ng-zorro-antd/tag";
-import { ListOrderNowComponent } from './page/list-order-now/list-order-now.component';
 import {RecaptchaModule} from "./recaptcha/recaptcha.module";
 import {NzSpinModule} from "ng-zorro-antd/spin";
 
@@ -47,11 +43,9 @@ import {NzSpinModule} from "ng-zorro-antd/spin";
     CurrencyFormatPipe,
     CartComponent,
     CustomDate,
-    ListOrderNowComponent,
   ],
   exports: [
     CurrencyFormatPipe,
-    ListRoomOrderComponent,
   ],
     imports: [
         CommonModule,
@@ -82,7 +76,6 @@ import {NzSpinModule} from "ng-zorro-antd/spin";
         NzTabsModule,
         PaymentModuleModule,
         CommentModule,
-        CaseModule,
         NzCheckboxModule,
         NzCollapseModule,
         NzTagModule,
