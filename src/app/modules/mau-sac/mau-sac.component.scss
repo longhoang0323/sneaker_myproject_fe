@@ -1,0 +1,56 @@
+.button-danger{
+  border-radius: 8px;
+  border: 1px solid red;
+  font-weight: bolder;
+  color: red;
+  width: 60px;
+  height: 35px
+}
+
+.button-danger:hover {
+  background-color: red;
+  color: white;
+}
+
+.button-update{
+  border-radius: 8px;
+  border: 1px solid deepskyblue;
+  font-weight: bolder;
+  color: dodgerblue;
+  width: 60px;
+  height: 35px
+}
+
+.button-update:hover {
+  background-color: deepskyblue;
+  color: white;
+}
+
+.button-green{
+  border-radius: 8px;
+  border: 1px solid green;
+  font-weight: bolder;
+  color: darkgreen;
+  width: 80px;
+  height: 35px
+}
+
+.button-green:hover {
+  background-color: green;
+  color: white;
+}
+
+.button-create{
+  border-radius: 8px;
+  border: 2px solid green;
+  font-weight: bolder;
+  color: darkgreen;
+  padding: 5px;
+  width: 150px;
+  height: 35px
+}
+
+.button-create:hover {
+  background-color: darkgreen;
+  color: white;
+}
