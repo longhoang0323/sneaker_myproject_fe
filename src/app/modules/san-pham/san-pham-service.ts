@@ -41,4 +41,9 @@ export class SanPhamService {
         const params = {id};
         return this.http.put(`${API_AU_URL}/update-status`, data, {params});
     }
+
+  updateImage(id: any, data: string): Observable<any> {
+    const params = {id};
+    return this.http.put(`${API_AU_URL}/update-image-default`, data, {params});
+  }
 }

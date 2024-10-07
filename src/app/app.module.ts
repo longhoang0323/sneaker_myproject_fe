@@ -14,6 +14,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {TokenInterceptor} from './interceptors/token.interceptor';
 import {HttpErrorInterceptor} from './interceptors/http-error.interceptor';
 import {NzMessageService} from 'ng-zorro-antd/message';
+import {BanHangComponent} from "./modules/ban-hang/ban-hang.component";
 
 
 registerLocaleData(en);
@@ -37,6 +38,8 @@ function appInitializer(authService: AuthService) {
     HttpClientModule,
     AppRoutingModule,
     LayoutModule,
+    BrowserModule,
+    HttpClientModule
   ],
   providers: [
     {

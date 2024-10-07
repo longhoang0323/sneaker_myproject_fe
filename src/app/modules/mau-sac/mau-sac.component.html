@@ -1,1 +1,122 @@
-<p>mau-sac works!</p>
+<nz-page-header
+  class="site-page-header"
+  nzBackIcon
+  nzTitle="Danh sách màu sắc"
+  nzSubtitle="Total {{mauSacList.length || 0}}"
+>
+  <nz-breadcrumb nz-page-header-breadcrumb>
+    <nz-breadcrumb-item>Quản lý sản phẩm</nz-breadcrumb-item>
+    <nz-breadcrumb-item>Danh sách màu sắc</nz-breadcrumb-item>
+  </nz-breadcrumb>
+</nz-page-header>
+
+<div class="page-content">
+  <div style="width: 100%;margin-bottom: 10px" class="flex">
+    <fieldset style="float: left" class="w-full space-y-1 dark:text-gray-100">
+      <label class="hidden">Search</label>
+      <div class="relative">
+        <span class="absolute inset-y-0 left-0 flex items-center pl-2">
+          <button type="button" title="search" class="p-1 focus:outline-none focus:ring">
+            <svg fill="currentColor" viewBox="0 0 512 512" class="w-4 h-4 dark:text-gray-100">
+              <path
+                d="M479.6,399.716l-81.084-81.084-62.368-25.767A175.014,175.014,0,0,0,368,192c0-97.047-78.953-176-176-176S16,94.953,16,192,94.953,368,192,368a175.034,175.034,0,0,0,101.619-32.377l25.7,62.2L400.4,478.911a56,56,0,1,0,79.2-79.195ZM48,192c0-79.4,64.6-144,144-144s144,64.6,144,144S271.4,336,192,336,48,271.4,48,192ZM456.971,456.284a24.028,24.028,0,0,1-33.942,0l-76.572-76.572-23.894-57.835L380.4,345.771l76.573,76.572A24.028,24.028,0,0,1,456.971,456.284Z"></path>
+            </svg>
+          </button>
+        </span>
+        <input type="search" name="Search" placeholder="Search..." id="searchInput"
+               class="w-32 py-2 pl-10 text-sm rounded-md sm:w-96 focus:outline-0 dark:bg-gray-800 dark:text-white
+                 focus:dark:bg-gray-900 focus:dark:border-violet-400 bg-gray-300"
+               [ngModel]="searchInput"
+               (ngModelChange)="getMauSacByString()"
+        >
+      </div>
+    </fieldset>
+    <div style="margin-left: 80%">
+      <button (click)="showModalCreaate()"
+              class="button-create">
+        Thêm mới
+      </button>
+    </div>
+  </div>
+  <div>
+    <nz-table #sortTable [nzData]="mauSacList" nzTableLayout="fixed">
+      <thead>
+      <tr>
+        <th style="width: 100px" nzLeft>STT</th>
+        <th class="items-center">Mã màu</th>
+        <th class="items-center">Tên màu</th>
+        <th style="width: 300px" class="items-center">Tác vụ</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of sortTable.data; let i = index">
+        <th style="width: 100px" nzLeft>{{ i + 1 }}</th>
+        <td class="items-center">{{ data.ma }}</td>
+        <td class="items-center">{{ data.ten }}</td>
+        <td nzLeft>
+          <div class="btn-info flex">
+            <!--          <span class="font-medium text-blue-600 dark:text-blue-500 hover:underline" (click)="showModal(data.id)" nz-icon nzType="edit" nzTheme="outline" style="font-size: 24px"></span>-->
+            <div>
+              <button (click)="showModalUpdate(data.id)"
+                      class="button-update">
+                Sửa
+              </button>
+            </div>
+            <div style="margin-left: 5px">
+              <button *ngIf="data.trangThai == 0" (click)="updateTrangThai(data.id, data.trangThai)"
+                      class="button-danger">
+                Ẩn
+              </button>
+              <button *ngIf="data.trangThai == 1" (click)="updateTrangThai(data.id, data.trangThai)"
+                      class="button-green">
+                Hiển thị
+              </button>
+            </div>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>
+<nz-modal
+  [(nzVisible)]="isVisibleCreate"
+  nzTitle="Thêm mới"
+  (nzOnCancel)="cancelCreate()"
+  (nzOnOk)="createMauSac()"
+>
+  <ng-container *nzModalContent>
+    <div class="create-form">
+      <nz-form-item>
+        <nz-form-label nzFor="ten" style="width: 150px">Nhập tên màu sắc</nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập tên">
+          <input nz-input type="text" id="ten" name="ten"/>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </ng-container>
+</nz-modal>
+
+<nz-modal
+  [(nzVisible)]="isVisibleUpdate"
+  nzTitle="Cập nhật màu"
+  (nzOnCancel)="cancelUpdate()"
+  (nzOnOk)="updateMauSac()"
+>
+  <ng-container *nzModalContent>
+    <div class="edit-form">
+      <nz-form-item>
+        <nz-form-label nzFor="ma" style="width: 100px">Mã:</nz-form-label>
+        <nz-form-control>
+          <input nz-input type="text" id="ma" name="ma" [ngModel]="mauSac.ma" disabled/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzFor="ten" style="width: 150px">Nhập tên màu sắc</nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập tên">
+          <input nz-input type="text" id="tenUpdate" name="ten" [ngModel]="mauSac.ten"/>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </ng-container>
+</nz-modal>

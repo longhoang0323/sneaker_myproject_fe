@@ -7,21 +7,31 @@
             [nzTrigger]="null">
     <div class="sidebar-logo">
       <!--      <a href="" target="_blank">-->
-      <a href="/admin/dashboard">
-        <img src="assets/logo-main.png" alt="logo">
-        <h1>Sneaker</h1>
+      <a style="justify-content: center" href="/admin/dashboard">
+        <img style="height: 120px;width: 100%"
+             src="https://lh3.googleusercontent.com/MoEJA49x9GnX98aHM0vBqkDDFLx2gDkQb6jaUcpF94Lxy7WyaBQAhbLpmBULhhnmS-myGljvhY82PeOS-FBqOlOOOz2CHy755w00yrfB1Wz_SH6nT4DQ6lXSNhtR_ckufnd_-7Xz"
+             alt="logo">
       </a>
     </div>
-    <ul nz-menu [nzTheme]="theme ? 'dark' : 'light'" nzMode="inline" [nzInlineCollapsed]="isCollapsed"
+    <ul nz-menu nzMode="inline" [nzInlineCollapsed]="isCollapsed"
         *ngIf="(user$ | async) as user">
-      <li nz-submenu nzTitle="Thống kê" nzIcon="dashboard" *ngIf="user.role === 'admin'">
+      <li class="li-style"
+        nz-menu-item
+        nzSelected
+        routerLink="/admin/ban-hang-tai-quay"
+        *ngIf="user.role === 'admin'"
+      >
+        <span nz-icon nzType="dashboard"></span>
+        <span>Bán hàng</span>
+      </li>
+      <li class="li-style" nz-submenu nzTitle="Thống kê" nzIcon="dashboard" *ngIf="user.role === 'admin'">
         <ul>
           <li nz-menu-item nzMatchRouter>
             <a routerLink="/admin/dashboard">Thống kê</a>
           </li>
         </ul>
       </li>
-      <li nz-submenu nzTitle="Quản lý tài khoản" nzIcon="user-switch" *ngIf="user.role === 'admin'">
+      <li class="li-style" nz-submenu nzTitle="Quản lý tài khoản" nzIcon="user-switch" *ngIf="user.role === 'admin'">
         <ul>
           <li nz-menu-item nzMatchRouter>
             <a routerLink="/admin/accounts">Tài khoản</a>
@@ -31,7 +41,7 @@
           </li>
         </ul>
       </li>
-      <li nz-submenu nzTitle="Quản lý hóa đơn" nzIcon="group">
+      <li class="li-style" nz-submenu nzTitle="Quản lý hóa đơn" nzIcon="group">
         <ul>
           <li nz-menu-item nzMatchRouter>
             <a routerLink="/admin/bill">Hóa đơn</a>
@@ -40,10 +50,13 @@
           </li>
         </ul>
       </li>
-      <li nz-submenu nzTitle="Quản lý sản phẩm" nzIcon="database" *ngIf="user.role === 'admin'">
+      <li class="li-style" nz-submenu nzTitle="Quản lý sản phẩm" nzIcon="database" *ngIf="user.role === 'admin'">
         <ul>
           <li nz-menu-item nzMatchRouter>
             <a routerLink="/admin/san-pham">Sản phẩm</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/admin/chi-tiet-san-pham">Biến thể</a>
           </li>
           <li nz-menu-item nzMatchRouter>
             <a routerLink="/admin/hang">Hãng</a>
@@ -59,7 +72,7 @@
           </li>
         </ul>
       </li>
-      <li nz-submenu nzTitle="Quản lý khách hàng" nzIcon="team">
+      <li class="li-style" nz-submenu nzTitle="Quản lý khách hàng" nzIcon="team">
         <ul>
           <li nz-menu-item nzMatchRouter>
             <a routerLink="/admin/customer">Khách hàng</a>

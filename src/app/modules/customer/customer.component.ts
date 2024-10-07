@@ -41,11 +41,6 @@ export class CustomerComponent implements OnInit{
       priority: 5
     },
     {
-      title: 'Số CCCD',
-      compare: (a: CustomerModel, b: CustomerModel) => a.cccd.localeCompare(b.cccd),
-      priority: 4
-    },
-    {
       title: 'Ngày sinh',
       compare: (a: CustomerModel, b: CustomerModel) => String(a.ngaySinh).localeCompare(String(b.ngaySinh)),
       priority: 3

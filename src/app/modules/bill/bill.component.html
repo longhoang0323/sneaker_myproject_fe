@@ -1,13 +1,57 @@
 <nz-page-header
   class="site-page-header"
   nzBackIcon
-  nzTitle="Danh sách hóa đơn"
-  nzSubtitle="Total {{bill.length || 0}}"
+  nzTitle="Chi tiết hóa đơn"
 >
   <nz-breadcrumb nz-page-header-breadcrumb>
     <nz-breadcrumb-item>Hóa đơn</nz-breadcrumb-item>
-    <nz-breadcrumb-item>Quản lý hóa đơn</nz-breadcrumb-item>
+    <nz-breadcrumb-item>Chi tiết hóa đơn</nz-breadcrumb-item>
   </nz-breadcrumb>
 </nz-page-header>
+<div>
+  <h3 style="padding:10px;font-size: 20px;font-weight: bolder" *ngIf="bill">HÓA ĐƠN {{bill.ma}}</h3>
+  <div>
+    <hr style="width: 95%;height: 2px;margin: 10px;background-color: #5e2ced"/>
+  </div>
+  <div>
+    <nz-table *ngIf="billDetails.length > 0" #sortTable [nzData]="billDetails" nzTableLayout="fixed">
+      <thead>
+      <tr>
+        <th style="width: 100px" nzLeft>STT</th>
+        <th class="items-center">Mã SP</th>
+        <th class="items-center">Tên SP</th>
+        <th class="items-center">Màu</th>
+        <th class="items-center">Kích thước</th>
+        <th class="items-center">Hãng</th>
+        <th class="items-center">Chất liệu</th>
+        <th class="items-center">Giá</th>
+        <th class="items-center">Số lượng</th>
+        <th class="items-center">Tổng tiền</th>
+        <th class="items-center">Hành động</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of sortTable.data; let i = index">
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      </tbody>
+    </nz-table>
+    <div *ngIf="billDetails.length == 0" style="width: 100%;text-align: center">
+      <h3 style="padding:10px;font-size: 16px;font-weight: bolder">Chưa có sản phẩm nào trong giỏ hàng</h3>
+      <button class="button-create">+ Thêm sản phẩm</button>
+    </div>
+  </div>
+</div>
+
 
 

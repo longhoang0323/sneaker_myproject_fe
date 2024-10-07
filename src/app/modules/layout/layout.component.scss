@@ -6,6 +6,7 @@
   }
 
   .app-layout {
+    background-color: yellow;
     height: 100vh;
   }
 
@@ -13,6 +14,8 @@
     position: relative;
     z-index: 10;
     min-height: 100vh;
+    background-color: yellow;
+    font-size: 15px;
     box-shadow: 2px 0 6px rgb(107, 107, 107);
   }
 
@@ -30,11 +33,10 @@
 
   .sidebar-logo {
     position: relative;
-    height: 64px;
-    padding-left: 24px;
+    height: 120px;
     overflow: hidden;
     line-height: 64px;
-    background: #001529;
+    background-color: yellow;
     transition: all .3s;
   }
 
@@ -77,4 +79,8 @@
     padding: 24px;
     background: #fff;
     height: 100%;
+  }
+
+  .li-style{
+    background-color: yellow;
   }

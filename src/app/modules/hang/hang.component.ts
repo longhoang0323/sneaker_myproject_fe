@@ -1,7 +1,6 @@
 import {Component, OnInit} from "@angular/core";
 import {HangModel} from "../../models/hang.model";
 import {HangService} from "./hang-service";
-import {create} from "qrcode";
 import {NzMessageService} from "ng-zorro-antd/message";
 
 @Component({
@@ -41,6 +40,11 @@ export class HangComponent implements OnInit{
     }
 
     createHang(){
+      if((document.getElementById('ten') as HTMLInputElement).value == '' ||
+        (document.getElementById('ten') as HTMLInputElement).value == null){
+        this.mess.error('Không được để trống!');
+        return;
+      }
         const data = {
             ten: (document.getElementById('ten') as HTMLInputElement).value
         }
@@ -67,6 +71,11 @@ export class HangComponent implements OnInit{
     }
 
     updateHang(){
+      if((document.getElementById('tenUpdate') as HTMLInputElement).value == '' ||
+        (document.getElementById('tenUpdate') as HTMLInputElement).value == null){
+        this.mess.error('Không được để trống!');
+        return;
+      }
         const data = {
             ten: (document.getElementById('tenUpdate') as HTMLInputElement).value
         }
@@ -98,6 +107,4 @@ export class HangComponent implements OnInit{
     ngOnInit(): void {
         this.getList();
     }
-
-    protected readonly create = create;
 }

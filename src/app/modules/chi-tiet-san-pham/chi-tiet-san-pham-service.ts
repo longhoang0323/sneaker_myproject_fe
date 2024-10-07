@@ -23,6 +23,16 @@ export class ChiTietSanPhamService {
         }));
     }
 
+  getListBySanPham(page: number, size: number, idSanPham: number): Observable<any> {
+    const params = {page, size, idSanPham};
+    return this.http.get<any>(`${API_AU_URL}/list-by-san-pham`, {params}).pipe(map(res => {
+      if (res.body && res.body) {
+        return res.body;
+      }
+      return null;
+    }));
+  }
+
     create(data: any): Observable<any> {
         return this.http.post(`${API_AU_URL}/create`, data);
     }
