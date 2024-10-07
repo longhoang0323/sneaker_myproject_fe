@@ -12,27 +12,29 @@ import {FirstCharPipe} from '../../shared/pipes/first-char.pipe';
 import {NzSwitchModule} from "ng-zorro-antd/switch";
 import {FormsModule} from "@angular/forms";
 import {NzBadgeModule} from "ng-zorro-antd/badge";
+import {NzToolTipModule} from "ng-zorro-antd/tooltip";
 
 
 @NgModule({
   declarations: [
     LayoutComponent
   ],
-    imports: [
-        CommonModule,
-        IconsProviderModule,
-        NzLayoutModule,
-        NzMenuModule,
-        RouterModule,
-        NzGridModule,
-        NzDropDownModule,
-        NzAvatarModule,
-        FirstCharPipe,
-        NzSwitchModule,
-        FormsModule,
-        NgOptimizedImage,
-        NzBadgeModule
-    ],
+  imports: [
+    CommonModule,
+    IconsProviderModule,
+    NzLayoutModule,
+    NzMenuModule,
+    RouterModule,
+    NzGridModule,
+    NzDropDownModule,
+    NzAvatarModule,
+    FirstCharPipe,
+    NzSwitchModule,
+    FormsModule,
+    NgOptimizedImage,
+    NzBadgeModule,
+    NzToolTipModule
+  ],
   exports: [LayoutComponent]
 })
 export class LayoutModule { }

@@ -37,7 +37,7 @@ const routes: Routes = [
         loadChildren: () => import('./modules/voucher/voucher.module').then(m => m.VoucherModule)
       },
       {
-        path: 'bill',
+        path: `ban-hang-tai-quay/bill/:id`,
         loadChildren: () => import('./modules/bill/bill.module').then(m => m.BillModule)
       },
       {
@@ -63,6 +63,10 @@ const routes: Routes = [
       {
         path: 'chi-tiet-san-pham',
         loadChildren: () => import('./modules/chi-tiet-san-pham/chi-tiet-san-pham.module').then(m => m.ChiTietSanPhamModule)
+      },
+      {
+        path: 'ban-hang-tai-quay',
+        loadChildren: () => import('./modules/ban-hang/ban-hang.module').then(m => m.BanHangModule)
       }
     ]
   },
