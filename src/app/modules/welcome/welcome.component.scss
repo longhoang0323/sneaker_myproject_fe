@@ -12,3 +12,18 @@ nz-divider {
   border-radius: 10px;
   color: #fff;
 }
+
+.button-create{
+  border-radius: 8px;
+  border: 2px solid green;
+  font-weight: bolder;
+  color: darkgreen;
+  padding: 5px;
+  width: 150px;
+  height: 35px
+}
+
+.button-create:hover {
+  background-color: darkgreen;
+  color: white;
+}

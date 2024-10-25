@@ -4,7 +4,7 @@ import {Observable} from "rxjs";
 import {map} from "rxjs/operators";
 import {environment} from "../../../../../environments/environment";
 
-const API_AU_URL = `${environment.apiUrl}/phong`;
+const API_AU_URL = `${environment.apiUrl}/san-pham`;
 
 @Injectable({
   providedIn: 'root'

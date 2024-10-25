@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CustomerModel } from './models/customer.model';
-import { CustomerService } from './services/customer.service';
+import { CustomerService } from '../../service/customer.service';
 import {NzMessageService} from "ng-zorro-antd/message";
-import {BillService} from "../bill/bill.service";
+import {BillService} from "../../service/bill.service";
 
 interface DataItem {
   name: string;

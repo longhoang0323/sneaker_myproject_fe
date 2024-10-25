@@ -8,5 +8,15 @@
     <nz-breadcrumb-item>Quản lý thống kê</nz-breadcrumb-item>
   </nz-breadcrumb>
 </nz-page-header>
+<div>
+  <button class="button-create" (click)="startScanning()">Quét mã SP</button>
+  <button class="button-create" (click)="stopScanning()">Kết thúc</button>
+</div>
+<div>
+  <video id="video" width="300" height="200"></video>
+  <div *ngIf="scannedCode">
+    <p>Scanned Code: {{ scannedCode }}</p>
+  </div>
+</div>
 
 

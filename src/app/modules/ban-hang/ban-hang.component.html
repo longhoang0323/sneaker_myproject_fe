@@ -1,13 +1,16 @@
-<div>
-  <div class="flex">
-  <h3 style="padding:10px;font-size: 20px;font-weight: bolder">DANH SÁCH ĐƠN HÀNG</h3>
-  <button style="margin-top: 7px;margin-left: 5px" class="button-create" (click)="createNewBill()">Tạo đơn hàng</button>
-  </div>
-  <div style="margin: 10px" class="flex">
-    <div style="float: left">
-      <fieldset style="margin-left: 10px" class="w-full space-y-1 dark:text-gray-100">
-        <label class="hidden">Nhập để tìm kiếm</label>
-        <div class="relative">
+<nz-tabset>
+  <nz-tab nzTitle="Đơn tại quầy">
+    <div>
+      <div class="flex">
+        <h3 style="padding:10px;font-size: 20px;font-weight: bolder">DANH SÁCH ĐƠN HÀNG</h3>
+        <button style="margin-top: 7px;margin-left: 5px" class="button-create" (click)="createNewBill()">Tạo đơn hàng
+        </button>
+      </div>
+      <div style="margin: 10px" class="flex">
+        <div style="float: left">
+          <fieldset style="margin-left: 10px" class="w-full space-y-1 dark:text-gray-100">
+            <label class="hidden">Nhập để tìm kiếm</label>
+            <div class="relative">
         <span class="absolute inset-y-0 left-0 flex items-center pl-2">
           <button type="button" title="search" class="p-1 focus:outline-none focus:ring">
             <svg fill="currentColor" viewBox="0 0 512 512" class="w-4 h-4 dark:text-gray-100">
@@ -16,126 +19,141 @@
             </svg>
           </button>
         </span>
-          <input type="search" name="Search" placeholder="Nhập để tìm kiếm" id="searchInput"
-                 class="w-32 py-2 pl-10 text-sm rounded-md sm:w-96 focus:outline-0 dark:bg-gray-800 dark:text-white
+              <input type="search" name="Search" placeholder="Nhập để tìm kiếm" id="searchInput"
+                     class="w-32 py-2 pl-10 text-sm rounded-md sm:w-96 focus:outline-0 dark:bg-gray-800 dark:text-white
                  focus:dark:bg-gray-900 focus:dark:border-violet-400 bg-gray-300"
-          >
+              >
+            </div>
+          </fieldset>
         </div>
-      </fieldset>
-    </div>
-    <div class="flex" style="font-size: 18px;margin-left: 30px;font-family: Arial;margin-top: 10px">
-      <label>Trạng thái thanh toán: </label>
-      <select id="trangThaiThanhToan" class="select-input"
-              style="width: 300px;height: 30px;font-size: 18px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px;margin-left: 10px"
-      >
-        <option class="option" value="">Tất cả</option>
-        <option class="option" value="0">Chờ thanh toán</option>
-        <option class="option" value="1">Đã thanh toán</option>
-        <option class="option" value="2">Đã hủy</option>
-      </select>
-    </div>
-    <div class="flex" style="font-size: 18px;margin-left: 30px;font-family: Arial;margin-top: 10px">
-      <label>Trạng thái giao hàng: </label>
-      <select id="trangThaiGiaoHang" class="select-input"
-              style="width: 300px;height: 30px;font-size: 18px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px;margin-left: 10px"
-      >
-        <option class="option" value="">Tất cả</option>
-        <option class="option" value="0">Chờ thanh toán</option>
-        <option class="option" value="1">Đã thanh toán</option>
-        <option class="option" value="2">Đã hủy</option>
-      </select>
-    </div>
-  </div>
-  <div style="margin: 10px" class="flex">
-    <div class="flex" style="font-size: 18px;margin-left: 10px;font-family: Arial;margin-top: 10px">
-      <label>Hình thức thanh toán: </label>
-      <select id="hinhThucThanhToan" class="select-input"
-              style="width: 200px;height: 30px;font-size: 18px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px;margin-left: 10px"
-      >
-        <option class="option" value="">Tất cả</option>
-        <option class="option" value="0">Tiền mặt</option>
-        <option class="option" value="1">Chuyển khoản</option>
-      </select>
-    </div>
-    <div class="flex" style="font-size: 18px;margin-left: 30px;font-family: Arial;margin-top: 10px">
-      <label>Hình thức giao hàng: </label>
-      <select id="hinhThucGiaoHang" class="select-input"
-              style="width: 300px;height: 30px;font-size: 18px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px;margin-left: 14px"
-      >
-        <option class="option" value="">Tất cả</option>
-        <option class="option" value="0">Trực tiếp</option>
-        <option class="option" value="1">Đặt Ship</option>
-      </select>
-    </div>
-    <div class="flex">
-      <div style="font-size: 18px;margin-left: 35px;font-family: Arial">
-        <label>Từ ngày: </label>
-        <input type="date" id="startDate"
-               style="width: 150px;height:30px;border-radius: 5px;border: 1px solid lightskyblue;margin-left: 10px;margin-top: 10px;padding: 5px">
+        <div class="flex" style="font-size: 18px;margin-left: 30px;font-family: Arial;margin-top: 10px">
+          <label>Trạng thái thanh toán: </label>
+          <select id="trangThaiThanhToan" class="select-input"
+                  style="width: 300px;height: 30px;font-size: 18px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px;margin-left: 10px"
+          >
+            <option class="option" value="">Tất cả</option>
+            <option class="option" value="0">Chờ thanh toán</option>
+            <option class="option" value="1">Đã thanh toán</option>
+            <option class="option" value="2">Đã hủy</option>
+          </select>
+        </div>
+        <div class="flex" style="font-size: 18px;margin-left: 30px;font-family: Arial;margin-top: 10px">
+          <label>Trạng thái giao hàng: </label>
+          <select id="trangThaiGiaoHang" class="select-input"
+                  style="width: 300px;height: 30px;font-size: 18px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px;margin-left: 10px"
+          >
+            <option class="option" value="">Tất cả</option>
+            <option class="option" value="0">Chờ thanh toán</option>
+            <option class="option" value="1">Đã thanh toán</option>
+            <option class="option" value="2">Đã hủy</option>
+          </select>
+        </div>
       </div>
-      <div style="font-size: 18px;margin-left: 10px;font-family: Arial">
-        <label>đến ngày</label>
-        <input type="date" id="endDate"
-               style="width: 150px;height:30px;border-radius: 5px;border: 1px solid lightskyblue;margin-left: 10px;margin-top: 10px;padding: 5px">
+      <div style="margin: 10px" class="flex">
+        <div class="flex" style="font-size: 18px;margin-left: 10px;font-family: Arial;margin-top: 10px">
+          <label>Hình thức thanh toán: </label>
+          <select id="hinhThucThanhToan" class="select-input"
+                  style="width: 200px;height: 30px;font-size: 18px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px;margin-left: 10px"
+          >
+            <option class="option" value="">Tất cả</option>
+            <option class="option" value="0">Tiền mặt</option>
+            <option class="option" value="1">Chuyển khoản</option>
+          </select>
+        </div>
+        <div class="flex" style="font-size: 18px;margin-left: 30px;font-family: Arial;margin-top: 10px">
+          <label>Hình thức giao hàng: </label>
+          <select id="hinhThucGiaoHang" class="select-input"
+                  style="width: 300px;height: 30px;font-size: 18px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px;margin-left: 14px"
+          >
+            <option class="option" value="">Tất cả</option>
+            <option class="option" value="0">Trực tiếp</option>
+            <option class="option" value="1">Đặt Ship</option>
+          </select>
+        </div>
+        <div class="flex">
+          <div style="font-size: 18px;margin-left: 35px;font-family: Arial">
+            <label>Từ ngày: </label>
+            <input type="date" id="startDate"
+                   style="width: 150px;height:30px;border-radius: 5px;border: 1px solid lightskyblue;margin-left: 10px;margin-top: 10px;padding: 5px">
+          </div>
+          <div style="font-size: 18px;margin-left: 10px;font-family: Arial">
+            <label>đến ngày</label>
+            <input type="date" id="endDate"
+                   style="width: 150px;height:30px;border-radius: 5px;border: 1px solid lightskyblue;margin-left: 10px;margin-top: 10px;padding: 5px">
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-  <div>
-    <nz-table #sortTable [nzData]="billList" nzTableLayout="fixed">
-      <thead>
-      <tr>
-        <th style="width: 100px" nzLeft>STT</th>
-        <th class="items-center">Mã HD</th>
-        <th class="items-center">Ngày tạo</th>
-        <th class="items-center">Ngày thanh toán</th>
-        <th class="items-center">Khách hàng</th>
-        <th class="items-center">Tổng tiền</th>
-        <th class="items-center">Trạng thái</th>
-        <th class="items-center">Tác vụ</th>
-      </tr>
-      </thead>
-      <tbody>
-            <tr *ngFor="let data of sortTable.data; let i = index">
-              <th style="width: 100px" nzLeft>{{ i + 1 }}</th>
-              <th>{{ data.ma }}</th>
-              <th>{{ data.ngayTao | date : 'dd-MM-yyyy hh:mm:ss'}}</th>
-              <th>{{ data.ngayThanhToan | date : 'dd-MM-yyyy hh:mm:ss'}}</th>
-              <th>{{ data.tenKhachHang }}</th>
-              <th>{{ data.tongTien??0 | currency:'VND': '':'1.0-0'}}</th>
-              <th>{{ data.trangThai == 0 ? 'Chờ thanh toán' : data.trangThai == 1 ? 'Đã thanh toán' : 'Đã hủy'}}</th>
-              <td nzLeft>
-                <div class="btn-info flex">
-                  <div style="margin-left: 5px">
-                    <button (click)="getBillDetailS(data.id)"
-                            class="button-blue">
-                      Chi tiết
-                    </button>
-                  </div>
+      <div>
+        <nz-table #sortTable [nzData]="billList" nzTableLayout="fixed">
+          <thead>
+          <tr>
+            <th style="width: 100px" nzLeft>STT</th>
+            <th class="items-center">Mã HD</th>
+            <th class="items-center">Ngày tạo</th>
+            <th class="items-center">Ngày thanh toán</th>
+            <th class="items-center">Khách hàng</th>
+            <th class="items-center">Tổng tiền</th>
+            <th class="items-center">Trạng thái</th>
+            <th class="items-center">Tác vụ</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let data of sortTable.data; let i = index">
+            <td style="width: 100px" nzLeft>{{ i + 1 }}</td>
+            <td>{{ data.ma }}</td>
+            <td>{{ data.ngayTao | date : 'dd-MM-yyyy hh:mm:ss aa'}}</td>
+            <td>{{ data.ngayThanhToan | date : 'dd-MM-yyyy hh:mm:ss aa'}}</td>
+            <td>{{ data.tenKhachHang }}</td>
+            <td>{{ data.tongTien ?? 0 | currency:'VND': '':'1.0-0'}}</td>
+            <td>
+              <div *ngIf="data.trangThai == 0" style="background-color: yellowgreen;padding: 5px;border-radius: 5px;margin: 5px;text-align: center;font-weight: bolder;color: white">
+                <p>Chờ thanh toán</p>
+              </div>
+              <div *ngIf="data.trangThai == 1" style="background-color: green;padding: 5px;border-radius: 5px;margin: 5px;text-align: center;font-weight: bolder;color: white">
+                <p>Đã thanh toán</p>
+              </div>
+              <div *ngIf="data.trangThai == 2" style="background-color: red;padding: 5px;border-radius: 5px;margin: 5px;text-align: center;font-weight: bolder;color: white">
+                <p>Đã hủy</p>
+              </div>
+            </td>
+            <td nzLeft>
+              <div class="btn-info flex">
+                <div style="margin-left: 5px">
+                  <button (click)="getBillDetailS(data.id)"
+                          class="button-blue">
+                    Chi tiết
+                  </button>
                 </div>
-              </td>
-            </tr>
-      </tbody>
-    </nz-table>
-  </div>
-</div>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </nz-table>
+      </div>
+    </div>
+  </nz-tab>
+  <nz-tab nzTitle="Đơn Online">
+
+  </nz-tab>
+</nz-tabset>
 <!--<div>-->
 <!--  <input type="number" [(ngModel)]="amount" (input)="generateQRCode()">-->
 <!--  <img style="width: 400px;height:500px" src="{{qrcodeValue}}">-->
 <!--</div>-->
 <div>
-<!--  qr-code MBBank-->
-<!--  <h2>QR Code Payment</h2>-->
-<!--    <input type="number" [(ngModel)]="amount">-->
-<!--  <button (click)="generateQRCode()">Generate QR Code</button>-->
-<!--  <div *ngIf="qrcodeValue">-->
-<!--    <h3>Scan this QR Code to pay:</h3>-->
-<!--    <img [src]="qrcodeValue" alt="QR Code" />-->
-<!--  </div>-->
+  <!--  qr-code MBBank-->
+  <!--  <h2>QR Code Payment</h2>-->
+  <!--    <input type="number" [(ngModel)]="amount">-->
+  <!--  <button (click)="generateQRCode()">Generate QR Code</button>-->
+  <!--  <div *ngIf="qrcodeValue">-->
+  <!--    <h3>Scan this QR Code to pay:</h3>-->
+  <!--    <img [src]="qrcodeValue" alt="QR Code" />-->
+  <!--  </div>-->
 
-<!--  vnpay-->
-<!--  <div>-->
-<!--    <input type="number" [(ngModel)]="amount">-->
-<!--    <button (click)="generateQRCode()">Generate QR Code</button>-->
-<!--    <button (click)="pay()">Thanh toán</button>-->
-<!--  </div>-->
+  <!--  vnpay-->
+    <div>
+      <input type="number" [(ngModel)]="amount">
+      <button (click)="generateQRCode()">Generate QR Code</button>
+      <button (click)="pay()">Thanh toán</button>
+    </div>
 </div>

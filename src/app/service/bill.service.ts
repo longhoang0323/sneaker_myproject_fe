@@ -1,4 +1,4 @@
-import {environment} from "../../../environments/environment";
+import {environment} from "../../environments/environment";
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
@@ -35,6 +35,11 @@ export class BillService{
 
   createNewBill(data: any): Observable<any> {
     return this.http.post(`${API_AU_URL}/create-new-bill`, data);
+  }
+
+  thanhToanTaiQuay(id: any, data: any): Observable<any> {
+    const params = {id};
+    return this.http.put(`${API_AU_URL}/thanh-toan-tai-quay`, data, {params});
   }
 
 }

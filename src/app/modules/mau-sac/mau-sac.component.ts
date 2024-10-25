@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {NzMessageService} from "ng-zorro-antd/message";
 import {MauSacModel} from "../../models/mau-sac.model";
-import {MauSacService} from "./mau-sac-service";
+import {MauSacService} from "../../service/mau-sac-service";
 
 @Component({
   selector: 'cons-mau-sac',

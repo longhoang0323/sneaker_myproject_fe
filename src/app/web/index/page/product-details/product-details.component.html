@@ -1,0 +1,200 @@
+<div>
+  <div class="flex"
+       style="width: 80%;margin: 20px;border: 1px solid darkgray;border-radius: 3px;margin-left: 10%;margin-top: 10%">
+    <div style="width: 45%">
+      <img src="{{sanPham.imageDefault}}" style="width: 95%;height: 600px;margin: 10px">
+    </div>
+    <div style="margin: 10px;width: 50%">
+      <div class="flex" style="padding: 30px;height: 55%">
+        <div style="width: 40%">
+          <h3 style="font-size: 40px;font-family: Times New Roman, serif;">Tên sản phẩm: </h3>
+          <h3 style="font-size: 30px;font-family: Times New Roman, serif;">Giá sản phẩm: </h3>
+          <h3 style="font-size: 30px;font-family: Times New Roman, serif;">Hãng: </h3>
+          <h3 style="font-size: 30px;font-family: Times New Roman, serif;">Chất liệu: </h3>
+          <br>
+          <h3 style="font-size: 30px;font-family: Times New Roman, serif;">Chọn màu: </h3>
+        </div>
+        <div>
+          <h3 style="font-size: 40px;font-weight: bolder;font-family: Times New Roman, serif;">{{sanPham.ten}}</h3>
+          <h3
+            style="font-size: 30px;font-weight: bolder;font-family: Times New Roman, serif;color: darkblue">{{sanPham.giaThapNhat | currency:'VND': '':'1.0-0'}}
+            <span
+              *ngIf="sanPham.giaThapNhat != sanPham.giaCaoNhat"> - {{sanPham.giaCaoNhat | currency:'VND': '':'1.0-0'}}</span>
+          </h3>
+          <h3 style="font-size: 30px;font-weight: bolder;font-family: Times New Roman, serif;">{{sanPham.tenHang}}</h3>
+          <h3
+            style="font-size: 30px;font-weight: bolder;font-family: Times New Roman, serif;">{{sanPham.tenChatLieu}}</h3>
+          <br>
+          <div class="flex">
+            <div id="mau{{data.id}}" *ngFor="let data of listBySanPham" class="choose-color"
+                 (click)="chooseColor(data.id, data.idMauSac)"
+                 style="background-color: {{data.maMauSac}};">
+            </div>
+            <p *ngIf="mauSac != ''" style="font-size: 30px">({{mauSac}})</p>
+          </div>
+        </div>
+      </div>
+      <div class="flex" style="padding: 30px">
+        <div style="width: 40%">
+          <h3 *ngIf="mauSac != '' && listBySanPhamAndColor.length > 0"
+              style="font-size: 30px;font-family: Times New Roman, serif;">Chọn size: </h3>
+        </div>
+        <div>
+          <div *ngIf="mauSac != '' && listBySanPhamAndColor.length > 0" class="flex">
+            <div id="sizeGiay{{data.id}}" *ngFor="let data of listBySanPhamAndColor" class="choose-size"
+                 (click)="chooseSize(data.id, data.idKichThuoc)">
+              {{data.tenKichThuoc}}
+            </div>
+            <div>
+              <h3 *ngIf="mauSac != '' && listBySanPhamAndColor.length > 0 && soLuong > 0"
+                  style="font-size: 20px;font-family: Times New Roman, serif;padding: 10px">(Số lượng: {{soLuong}})</h3>
+            </div>
+          </div>
+          <p *ngIf="mauSac != '' && checkListByColor"
+             style="font-size: 30px;font-weight: bolder;font-family: Times New Roman, serif;color: red">
+            Sản phẩm màu {{mauSac}} hiện đã hết hàng!
+          </p>
+        </div>
+      </div>
+      <div *ngIf="mauSac != '' && listBySanPhamAndColor.length > 0 && soLuong > 0" class="flex" style="margin: 30px">
+        <button class="button-green" style="margin: 20px;width: 50%">
+          Thêm vào giỏ hàng
+        </button>
+        <button class="button-blue" style="margin: 20px;width: 50%" (click)="nhapSoLuong()">
+          Mua ngay
+        </button>
+      </div>
+    </div>
+  </div>
+  <!--  điền thông tin mua hàng-->
+  <div *ngIf="isVisbleShowForm" style="border: 1px solid grey;border-radius: 4px;height: auto;width: 90%;margin: 5%">
+    <div style="text-align: center;margin: 10px">
+      <h3 style="font-weight: bolder;font-size: 25px;">Thông tin mua hàng</h3>
+    </div>
+    <div style="font-size: 18px">
+      <table style="height: 250px;width: 90%;margin: 5%">
+        <thead>
+        <tr>
+          <th style="width: 200px">Ảnh sản phẩm</th>
+          <th>Tên sản phẩm</th>
+          <th>Hãng</th>
+          <th>Chất liệu</th>
+          <th>Màu sắc</th>
+          <th>Size</th>
+          <th>Giá bán</th>
+          <th>Số lượng</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td style="width: 200px"><img src="{{imgSanPhamMua}}" width="100px" height="150px" style="margin: 10px" /></td>
+          <td style="text-align: center">{{sanPham.ten}}</td>
+          <td style="text-align: center">{{sanPham.tenHang}}</td>
+          <td style="text-align: center">{{sanPham.tenChatLieu}}</td>
+          <td style="text-align: center">{{mauSac}}</td>
+          <td style="text-align: center">{{sizeGiay}}</td>
+          <td style="text-align: center">{{chiTietSanPham.giaBan | currency:'VND': '':'1.0-0'}}</td>
+          <td style="text-align: center">{{soLuongMua}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <hr style="width: 95%;height: 2px;margin: 5px;background-color: #5e2ced"/>
+    </div>
+    <div class="flex">
+      <div style="width: 45%">
+        <div class="flex" style="font-size: 18px;font-family: Times New Roman, serif">
+          <div style="width: 200px">
+            <p style="margin: 25px">Tên người nhận: </p>
+          </div>
+          <input id="tenNguoiNhan"
+                 style="margin: 25px;border: 1px solid gray;border-radius: 3px;width: 350px;height: 30px"
+                 placeholder="Nhập tên người nhận"/>
+        </div>
+        <div class="flex" style="font-size: 18px;font-family: Times New Roman, serif">
+          <div style="width: 200px">
+            <p style="margin: 25px">SĐT người nhận: </p>
+          </div>
+          <input id="sdtNguoiNhan"
+                 style="margin: 25px;border: 1px solid gray;border-radius: 3px;width: 350px;height: 30px"
+                 placeholder="Nhập sđt người nhận"/>
+        </div>
+        <div class="flex" style="font-size: 18px;font-family: Times New Roman, serif">
+          <div style="width: 200px">
+            <p style="margin: 25px">Địa chỉ nhận hàng: </p>
+          </div>
+          <input id="diaChi" style="margin: 25px;border: 1px solid gray;border-radius: 3px;width: 350px;height: 30px"
+                 placeholder="Nhập địa chỉ nhận hàng"/>
+        </div>
+        <div class="flex" style="font-size: 18px;font-family: Times New Roman, serif">
+          <div style="width: 200px">
+            <p style="margin: 25px">Ghi chú: </p>
+          </div>
+          <input id="ghiChu" style="margin: 25px;border: 1px solid gray;border-radius: 3px;width: 350px;height: 30px"
+                 placeholder="Nhập ghi chú"/>
+        </div>
+      </div>
+      <div style="width: 50%;border-radius: 4px;border: 1px solid grey;margin: 10px">
+        <h3 style="text-align: center;font-weight: bolder;font-size: 20px;padding: 5px">Thông tin thanh toán</h3>
+        <div>
+          <hr style="width: 95%;height: 1px;margin: 5px;background-color: #5e2ced"/>
+        </div>
+        <div>
+          <div class="flex">
+            <p style="font-size:18px;font-weight: bolder;padding: 20px;width: 550px">Tổng tiền: </p>
+            <p style="font-size:18px;padding: 20px">{{(chiTietSanPham.giaBan*soLuongMua) | currency:'VND': '':'1.0-0'}}</p>
+          </div>
+          <div class="flex">
+            <p style="font-size:18px;font-weight: bolder;padding: 20px;width: 550px">Giảm giá: </p>
+            <p style="font-size:18px;padding: 20px">{{0 | currency:'VND': '':'1.0-0'}}</p>
+          </div>
+          <div class="flex">
+            <p style="font-size:18px;font-weight: bolder;padding: 20px;width: 550px">Tiền ship: </p>
+            <p style="font-size:18px;padding: 20px">{{30000 | currency:'VND': '':'1.0-0'}}</p>
+          </div>
+          <div class="flex">
+            <p style="font-size:18px;font-weight: bolder;padding: 20px;width: 550px">Tổng thanh toán: </p>
+            <p style="font-size:18px;padding: 20px">{{(chiTietSanPham.giaBan*soLuongMua + 30000) | currency:'VND': '':'1.0-0'}}</p>
+          </div>
+          <div class="flex">
+            <p style="font-size:18px;font-weight: bolder;padding: 20px;width: 550px">Mã giảm giá: </p>
+            <button style="margin: 15px" class="button-green-2">Chọn mã giảm giá</button>
+          </div>
+          <div class="flex">
+            <p style="font-size:18px;font-weight: bolder;padding: 20px;width: 310px">Phương thức thanh toán: </p>
+            <button id="thanhToanSau" style="margin: 15px" class="button-yellow" (click)="chonPhuongThucThanhToan(0)">Thanh toán khi nhận hàng</button>
+            <button id="thanhToanOnline" style="margin: 15px" class="button-blue-2" (click)="chonPhuongThucThanhToan(1)">Thanh toán online</button>
+          </div>
+          <div>
+            <button style="width: 300px;margin: 15px;margin-left: 410px"
+                    class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium
+      text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-yellow-500 group-hover:from-cyan-500
+      group-hover:to-yellow-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800">
+                <span style="width: 100%;"
+                      class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                Xác nhận đặt hàng
+                </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<nz-modal
+  [(nzVisible)]="isVisbleNhapSoLuong"
+  nzTitle="Nhập số lượng muốn mua"
+  (nzOnCancel)="cancelNhapSoLuong()"
+  (nzOnOk)="okSoLuong()"
+  nzWidth="400px"
+>
+  <ng-container *nzModalContent>
+    <div>
+      <input id="soLuongMua" type="number"
+             style="margin: 10px;border: 1px solid gray;border-radius: 3px;width: 300px;height: 40px;padding: 10px;font-size: 20px"
+             placeholder="Nhập số lượng"/>
+    </div>
+  </ng-container>
+</nz-modal>

@@ -14,6 +14,8 @@ export class BillModel {
   tienShip: number = 0;
   tienGiamGia: number = 0;
   tongThanhToan: number = 0;
+  tienMat: number = 0;
+  chuyenKhoan: number = 0;
   trangThai: number = 0;
   ghiChu: string = '';
   idKhachHang: number | undefined;

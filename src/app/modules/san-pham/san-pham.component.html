@@ -48,19 +48,24 @@
         <th class="items-center">Tên SP</th>
         <th class="items-center">Hãng</th>
         <th class="items-center">Chất liệu</th>
+        <th class="items-center">Mã QR</th>
         <th style="width: 300px" class="items-center">Tác vụ</th>
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let data of sortTable.data; let i = index">
         <th style="width: 100px" nzLeft>{{ i + 1 }}</th>
-        <td class="items-center"><img *ngIf="data.imageDefault != ''" style="width: 90px;height: 120px" src="{{ data.imageDefault }}" alt="{{data.ten}}">
+        <td class="items-center"><img *ngIf="data.imageDefault != ''" style="width: 90px;height: 120px"
+                                      src="{{ data.imageDefault }}" alt="{{data.ten}}">
           <p *ngIf="data.imageDefault == ''">Không có</p>
         </td>
         <td class="items-center">{{ data.ma }}</td>
         <td class="items-center">{{ data.ten }}</td>
         <td class="items-center">{{ data.tenHang }}</td>
         <td class="items-center">{{ data.tenChatLieu }}</td>
+        <td class="items-center">
+          <img [src]="qrCodeUrl" alt="QR Code"/>
+        </td>
         <td nzLeft>
           <div class="btn-info flex">
             <!--          <span class="font-medium text-blue-600 dark:text-blue-500 hover:underline" (click)="showModal(data.id)" nz-icon nzType="edit" nzTheme="outline" style="font-size: 24px"></span>-->
@@ -102,6 +107,12 @@
   <ng-container *nzModalContent>
     <div class="create-form">
       <nz-form-item>
+        <nz-form-label nzFor="ten" style="width: 150px">Mã sản phẩm</nz-form-label>
+        <nz-form-control>
+          <input nz-input type="text" id="maSP" name="maSP" value="{{maSanPhamMoi}}" readonly/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
         <nz-form-label nzFor="ten" style="width: 150px">Nhập tên sản phẩm</nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập tên">
           <input nz-input type="text" id="ten" name="ten"/>
@@ -119,6 +130,14 @@
           <option *ngFor="let data of chatLieuList" value="{{data.id}}">{{data.ten}}</option>
         </select>
       </nz-form-item>
+      <div class="flex" style="height: 100px;margin-left: 50%">
+        <div style="margin-left: 5px">
+          <button class="button-create" (click)="generateQRCode()">Tạo mã QR</button>
+        </div>
+        <div style="margin-left: 5px;margin-bottom: 5px" >
+          <img *ngIf="qrCodeUrl" [src]="qrCodeUrl" alt="{{maSanPhamMoi}}"/>
+        </div>
+      </div>
     </div>
   </ng-container>
 </nz-modal>
@@ -145,14 +164,18 @@
       </nz-form-item>
       <nz-form-item>
         <nz-form-label nzFor="ten" style="width: 150px">Hãng</nz-form-label>
-        <nz-select id="hangUpdate" nzAllowClear  style="width: 300px" [(ngModel)]="sanPham.idHang" nzPlaceHolder="{{sanPham.tenHang}}">
-          <nz-option *ngFor="let data of hangList" [nzLabel]="data.ten ? data.ten : 'Chọn hãng'" nzValue="{{ data.id }}"></nz-option>
+        <nz-select id="hangUpdate" nzAllowClear style="width: 300px" [(ngModel)]="sanPham.idHang"
+                   nzPlaceHolder="{{sanPham.tenHang}}">
+          <nz-option *ngFor="let data of hangList" [nzLabel]="data.ten ? data.ten : 'Chọn hãng'"
+                     nzValue="{{ data.id }}"></nz-option>
         </nz-select>
       </nz-form-item>
       <nz-form-item>
         <nz-form-label nzFor="ten" style="width: 150px">Chất liệu</nz-form-label>
-        <nz-select id="chatLieuUpdate" nzAllowClear  style="width: 300px" [(ngModel)]="sanPham.idChatLieu" nzPlaceHolder="{{sanPham.tenChatLieu}}">
-          <nz-option *ngFor="let data of chatLieuList" [nzLabel]="data.ten ? data.ten : 'Chọn chất liệu'" nzValue="{{ data.id }}"></nz-option>
+        <nz-select id="chatLieuUpdate" nzAllowClear style="width: 300px" [(ngModel)]="sanPham.idChatLieu"
+                   nzPlaceHolder="{{sanPham.tenChatLieu}}">
+          <nz-option *ngFor="let data of chatLieuList" [nzLabel]="data.ten ? data.ten : 'Chọn chất liệu'"
+                     nzValue="{{ data.id }}"></nz-option>
         </nz-select>
       </nz-form-item>
     </div>
@@ -188,7 +211,8 @@
         <tbody>
         <tr *ngFor="let data of sortTable2.data; let i = index">
           <th style="width: 100px" nzLeft>{{ i + 1 }}</th>
-          <td class="items-center"><img style="width: 100px;height: 120px" src="{{ data.image }}" alt="{{data.ma}}"></td>
+          <td class="items-center"><img style="width: 100px;height: 120px" src="{{ data.image }}" alt="{{data.ma}}">
+          </td>
           <td class="items-center">{{ data.ma }}</td>
           <td class="items-center">{{ data.tenSanPham }}</td>
           <td class="items-center">{{ data.tenMauSac }}</td>
@@ -212,3 +236,4 @@
     </div>
   </ng-container>
 </nz-modal>
+

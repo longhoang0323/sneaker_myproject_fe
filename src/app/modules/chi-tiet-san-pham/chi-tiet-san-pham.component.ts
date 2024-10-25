@@ -5,11 +5,11 @@ import {ChatLieuModel} from "../../models/chat-lieu.model";
 import {ChiTietSanPhamModel} from "../../models/chi-tiet-san-pham.model";
 import {MauSacModel} from "../../models/mau-sac.model";
 import {KichThuocModel} from "../../models/kich-thuoc.model";
-import {ChiTietSanPhamService} from "./chi-tiet-san-pham-service";
+import {ChiTietSanPhamService} from "../../service/chi-tiet-san-pham-service";
 import {NzMessageService} from "ng-zorro-antd/message";
-import {SanPhamService} from "../san-pham/san-pham-service";
-import {MauSacService} from "../mau-sac/mau-sac-service";
-import {KichThuocService} from "../kich-thuoc/kich-thuoc-service";
+import {SanPhamService} from "../../service/san-pham-service";
+import {MauSacService} from "../../service/mau-sac-service";
+import {KichThuocService} from "../../service/kich-thuoc-service";
 import {NzNotificationService} from "ng-zorro-antd/notification";
 
 @Component({

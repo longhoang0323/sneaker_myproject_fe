@@ -7,6 +7,8 @@ import {ProfileComponent} from "./page/profile/profile.component";
 import {BlogComponent} from "./page/blog/blog.component";
 import {CommingSoonComponent} from "./page/comming-soon/comming-soon.component";
 import {CartComponent} from "./cart/cart.component";
+import {ProductComponent} from "./page/product/product.component";
+import {ProductDetailsComponent} from "./page/product-details/product-details.component";
 
 const routes: Routes = [
   {
@@ -16,6 +18,14 @@ const routes: Routes = [
       {
         path: '',
         component: HomeComponent
+      },
+      {
+        path: 'product',
+        component: ProductComponent
+      },
+      {
+        path: 'product-details/:id',
+        component: ProductDetailsComponent
       },
       {
         path: 'about',

@@ -1,6 +1,6 @@
 import {Component, OnInit} from "@angular/core";
 import {HangModel} from "../../models/hang.model";
-import {HangService} from "./hang-service";
+import {HangService} from "../../service/hang-service";
 import {NzMessageService} from "ng-zorro-antd/message";
 
 @Component({

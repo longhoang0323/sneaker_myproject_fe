@@ -3,7 +3,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../../environments/environment";
 import {VoucherModel} from "../../../models/voucher.model";
-import {VoucherService} from "../services/voucher.service";
+import {VoucherService} from "../../../service/voucher.service";
 
 @Component({
   selector: 'cons-voucher-details',

@@ -8,7 +8,7 @@ import {MustMatch} from "../../../../shared/utils";
 import {UserModel} from "../../../../auth/models/user.model";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {CustomerModel} from "../../../../modules/customer/models/customer.model";
-import {CustomerService} from "../../../../modules/customer/services/customer.service";
+import {CustomerService} from "../../../../service/customer.service";
 
 @Component({
   selector: 'cons-profile',
