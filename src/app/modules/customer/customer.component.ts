@@ -57,7 +57,7 @@ export class CustomerComponent implements OnInit{
     },
     {
       title: 'Tích điểm',
-      compare: (a: CustomerModel, b: CustomerModel) => Number.parseInt(a.ghiChu) - Number.parseInt(b.ghiChu),
+      compare: (a: CustomerModel, b: CustomerModel) => a.tichDiem - b.tichDiem,
       priority: 1
     }
   ]
