@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {NzMessageService} from "ng-zorro-antd/message";
 import {KichThuocModel} from "../../models/kich-thuoc.model";
-import {KichThuocService} from "./kich-thuoc-service";
+import {KichThuocService} from "../../service/kich-thuoc-service";
 
 @Component({
   selector: 'cons-kich-thuoc',

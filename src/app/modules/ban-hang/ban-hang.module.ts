@@ -14,10 +14,11 @@ import {NzSelectModule} from "ng-zorro-antd/select";
 import {BanHangComponent} from "./ban-hang.component";
 import {BanHangRoutingModule} from "./ban-hang-routing.module";
 import {NzQRCodeModule} from "ng-zorro-antd/qr-code";
+import {NzTabsModule} from "ng-zorro-antd/tabs";
 
 @NgModule({
-  imports: [BanHangRoutingModule, NzBreadCrumbModule, DatePipe, NgForOf, NgIf, NzPageHeaderModule, NzSwitchModule, NzTableModule, NzIconModule, FormsModule, NzFormModule, NzGridModule,
-    NzInputModule, NzModalModule, NzSelectModule, CurrencyPipe, NzQRCodeModule],
+    imports: [BanHangRoutingModule, NzBreadCrumbModule, DatePipe, NgForOf, NgIf, NzPageHeaderModule, NzSwitchModule, NzTableModule, NzIconModule, FormsModule, NzFormModule, NzGridModule,
+        NzInputModule, NzModalModule, NzSelectModule, CurrencyPipe, NzQRCodeModule, NzTabsModule],
   declarations: [BanHangComponent],
   exports: [BanHangComponent]
 })

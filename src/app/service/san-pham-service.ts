@@ -1,15 +1,15 @@
-import {environment} from "../../../environments/environment";
+import {environment} from "../../environments/environment";
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {map} from "rxjs/operators";
 
-const API_AU_URL = `${environment.apiUrl}/kich-thuoc`;
+const API_AU_URL = `${environment.apiUrl}/san-pham`;
 
 @Injectable({
     providedIn: 'root'
 })
-export class KichThuocService {
+export class SanPhamService {
     constructor(private http: HttpClient) {
     }
 
@@ -41,4 +41,9 @@ export class KichThuocService {
         const params = {id};
         return this.http.put(`${API_AU_URL}/update-status`, data, {params});
     }
+
+  updateImage(id: any, data: string): Observable<any> {
+    const params = {id};
+    return this.http.put(`${API_AU_URL}/update-image-default`, data, {params});
+  }
 }

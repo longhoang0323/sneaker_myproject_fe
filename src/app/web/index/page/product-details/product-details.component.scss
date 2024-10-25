@@ -1,0 +1,110 @@
+.choose-color{
+  border-radius: 4px;
+  padding: 5px;
+  margin: 10px;
+  width: 30px;
+  height: 30px;
+  border: 1px solid black
+}
+
+.choose-color:hover {
+  width: 35px;
+  height: 35px;
+  border: 3px solid greenyellow;
+}
+
+.choose-size{
+  border-radius: 4px;
+  padding: 10px;
+  margin-left: 10px;
+  width: 45px;
+  height: 45px;
+  border: 1px solid black;
+  font-size: 18px;
+  font-family: Times New Roman, serif;
+}
+
+.choose-size:hover {
+  color: white;
+  background-color: black;
+}
+
+.button-green{
+  border-radius: 8px;
+  border: 1px solid green;
+  font-weight: bolder;
+  color: darkgreen;
+  width: auto;
+  padding: 5px;
+  height: 60px;
+  font-size: 22px;
+}
+
+.button-green:hover {
+  background-color: darkgreen;
+  color: white;
+}
+
+.button-blue{
+  border-radius: 8px;
+  border: 1px solid blue;
+  font-weight: bolder;
+  color: dodgerblue;
+  width: auto;
+  padding: 5px;
+  height: 60px;
+  font-size: 22px;
+}
+
+.button-blue:hover {
+  background-color: dodgerblue;
+  color: white;
+}
+
+.button-green-2{
+  border-radius: 8px;
+  border: 1px solid green;
+  font-weight: bolder;
+  color: darkgreen;
+  width: auto;
+  padding: 5px;
+  height: 35px;
+  font-size: 16px;
+}
+
+.button-green-2:hover {
+  background-color: darkgreen;
+  color: white;
+}
+
+.button-blue-2{
+  border-radius: 8px;
+  border: 1px solid dodgerblue;
+  font-weight: bolder;
+  color: dodgerblue;
+  width: auto;
+  padding: 5px;
+  height: 35px;
+  font-size: 16px;
+}
+
+.button-blue-2:hover {
+  background-color: dodgerblue;
+  color: white;
+}
+
+.button-yellow{
+  border-radius: 8px;
+  border: 1px solid yellowgreen;
+  font-weight: bolder;
+  color: yellowgreen;
+  width: auto;
+  padding: 5px;
+  height: 35px;
+  font-size: 16px;
+}
+
+.button-yellow:hover {
+  background-color: yellowgreen;
+  color: white;
+}

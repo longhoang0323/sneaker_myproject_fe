@@ -1,0 +1,38 @@
+<div>
+  <div style="height: 50px">
+
+  </div>
+  <div style="margin-top: 30px;width: 100%;">
+    <div style="margin: 5px;width: 100%" class="flex">
+      <div style="width: 20%;margin: 10px">
+
+      </div>
+      <div style="width: 75%;margin-left: 20px">
+        <div style="justify-content: center;width: 100%;text-align: center;">
+          <hr style="width: 100%;height: 2px;background-color: red;margin: 10px;">
+          <h3 style="font-weight: bolder;font-size: 25px;color: red">DANH SÁCH SẢN PHẨM</h3>
+          <hr style="width: 100%;height: 2px;background-color: red;margin: 10px;">
+        </div>
+        <div style="width: 23%;margin: 15px;float: left;margin-left: 10px" *ngFor="let data of listSanPham" class="single-product">
+          <div class="product-f-image">
+            <img src="{{data.imageDefault}}" style="height: 400px" alt="">
+            <div class="product-hover">
+              <a href="#" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</a>
+              <a href="product-details/{{data.id}}" class="view-details-link"><i class="fa fa-link"></i> Xem chi tiết</a>
+            </div>
+          </div>
+
+          <h2 style="font-size: 22px;font-weight: bolder"><a href="">{{data.ten}}</a></h2>
+
+          <div class="flex" style="font-weight: bolder;font-size: 20px;color: darkgreen">
+            <ins>{{data.giaThapNhat | currency:'VND': '':'1.0-0'}}
+              <ins *ngIf="data.giaCaoNhat != data.giaThapNhat"> - {{data.giaCaoNhat | currency:'VND': '':'1.0-0'}}</ins>
+            </ins>
+            <!--          <ins *ngIf="data.giaCaoNhat != data.giaThapNhat"> - {{data.giaCaoNhat | currency:'VND': '':'1.0-0'}}</ins>-->
+            <!--          <del>{{data.giaCaoNhat | currency:'VND': '':'1.0-0'}}</del>-->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

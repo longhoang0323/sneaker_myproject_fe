@@ -1,15 +1,15 @@
-import {environment} from "../../../environments/environment";
+import {environment} from "../../environments/environment";
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {map} from "rxjs/operators";
 
-const API_AU_URL = `${environment.apiUrl}/mau-sac`;
+const API_AU_URL = `${environment.apiUrl}/kich-thuoc`;
 
 @Injectable({
     providedIn: 'root'
 })
-export class MauSacService {
+export class KichThuocService {
     constructor(private http: HttpClient) {
     }
 

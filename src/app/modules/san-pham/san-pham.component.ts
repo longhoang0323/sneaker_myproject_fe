@@ -1,13 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {NzMessageService} from "ng-zorro-antd/message";
 import {SanPhamModel} from "../../models/san-pham.model";
-import {SanPhamService} from "./san-pham-service";
-import {HangService} from "../hang/hang-service";
-import {ChatLieuService} from "../chat-lieu/chat-lieu-service";
+import {SanPhamService} from "../../service/san-pham-service";
+import {HangService} from "../../service/hang-service";
+import {ChatLieuService} from "../../service/chat-lieu-service";
 import {HangModel} from "../../models/hang.model";
 import {ChatLieuModel} from "../../models/chat-lieu.model";
-import {ChiTietSanPhamService} from "../chi-tiet-san-pham/chi-tiet-san-pham-service";
+import {ChiTietSanPhamService} from "../../service/chi-tiet-san-pham-service";
 import {ChiTietSanPhamModel} from "../../models/chi-tiet-san-pham.model";
+import * as QRCode from 'qrcode';
 
 @Component({
   selector: 'cons-san-pham',
@@ -25,6 +26,8 @@ export class SanPhamComponent implements OnInit {
   ctspList: ChiTietSanPhamModel[] = [];
   isVisibleCTSP = false;
   idSanPham: number | undefined;
+  maSanPhamMoi: string = '';
+  qrCodeUrl: string = '';
 
   constructor(private sanPhamService: SanPhamService,
               private ctspService: ChiTietSanPhamService,
@@ -62,6 +65,7 @@ export class SanPhamComponent implements OnInit {
   }
 
   showModalCreaate() {
+    this.maSanPhamMoi = 'SP0' +  String(Number.parseInt(this.sanPhamList[0].ma.charAt(3)) + 1);
     this.isVisibleCreate = true;
   }
 
@@ -79,8 +83,13 @@ export class SanPhamComponent implements OnInit {
       ten: (document.getElementById('ten') as HTMLInputElement).value,
       idHang: (document.getElementById('hang') as HTMLInputElement).value,
       idChatLieu: (document.getElementById('chatLieu') as HTMLInputElement).value,
-      imageDefault: ''
+      imageDefault: '',
+      qrCode: ''
     }
+    const reader = new FileReader();
+    reader.onloadend = () => {
+        data.qrCode = reader.result as string; // Thêm trường base64Image vào payload
+    };
     this.sanPhamService.create(data).subscribe(res => {
       if (res) {
         console.log(res);
@@ -162,6 +171,16 @@ export class SanPhamComponent implements OnInit {
   cancelCTSP(){
     this.isVisibleCTSP = false;
   }
+  generateQRCode(): void {
+    QRCode.toDataURL(this.maSanPhamMoi)
+      .then((url: string) => {
+        this.qrCodeUrl = url;
+      })
+      .catch((err: any) => {
+        console.error('Error generating QR Code', err);
+      });
+  }
+
 
   ngOnInit(): void {
     this.getListHang();

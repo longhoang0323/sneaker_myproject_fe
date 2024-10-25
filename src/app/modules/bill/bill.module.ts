@@ -17,31 +17,33 @@ import {NzDropDownModule} from "ng-zorro-antd/dropdown";
 import {NzWaveModule} from "ng-zorro-antd/core/wave";
 import {NzToolTipModule} from "ng-zorro-antd/tooltip";
 import {NzCheckboxModule} from "ng-zorro-antd/checkbox";
+import {NzCardModule} from "ng-zorro-antd/card";
 
 
 
 @NgModule({
   declarations: [BillComponent],
-  imports: [
-    BillRoutingModule,
-    CommonModule,
-    NzBreadCrumbModule,
-    NzFormModule,
-    NzGridModule,
-    NzIconModule,
-    NzInputModule,
-    NzModalModule,
-    NzPageHeaderModule,
-    NzSelectModule,
-    NzTableModule,
-    ReactiveFormsModule,
-    NzButtonModule,
-    NzDropDownModule,
-    NzWaveModule,
-    FormsModule,
-    NzToolTipModule,
-    NzCheckboxModule
-  ],
+    imports: [
+        BillRoutingModule,
+        CommonModule,
+        NzBreadCrumbModule,
+        NzFormModule,
+        NzGridModule,
+        NzIconModule,
+        NzInputModule,
+        NzModalModule,
+        NzPageHeaderModule,
+        NzSelectModule,
+        NzTableModule,
+        ReactiveFormsModule,
+        NzButtonModule,
+        NzDropDownModule,
+        NzWaveModule,
+        FormsModule,
+        NzToolTipModule,
+        NzCheckboxModule,
+        NzCardModule
+    ],
   exports: [
     BillComponent
   ]

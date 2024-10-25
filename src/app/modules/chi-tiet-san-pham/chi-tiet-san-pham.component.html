@@ -59,7 +59,7 @@
         <td class="items-center">{{ data.ma }}</td>
         <td class="items-center">{{ data.tenSanPham }} {{ data.tenMauSac }}</td>
         <td class="items-center">{{ data.tenKichThuoc }}</td>
-        <td class="items-center">{{ data.donGia }}</td>
+        <td class="items-center">{{ data.donGia | currency:'VND': '':'1.0-0'}}</td>
         <td class="items-center">{{ data.soLuong }}</td>
         <td nzLeft>
           <div class="btn-info flex">

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ChatLieuService} from "./chat-lieu-service";
+import {ChatLieuService} from "../../service/chat-lieu-service";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {ChatLieuModel} from "../../models/chat-lieu.model";
 

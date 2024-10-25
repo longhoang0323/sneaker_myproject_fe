@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {BillModel} from "../../models/bill.model";
-import {VNPAYService} from "./VNPAY-service";
-import {BillService} from "../bill/bill.service";
+import {VNPAYService} from "../../service/VNPAY-service";
+import {BillService} from "../../service/bill.service";
 import {NzNotificationService} from "ng-zorro-antd/notification";
 import {AuthService} from "../../auth/services";
 import {Observable} from "rxjs";
 import {UserModel} from "../../auth/models/user.model";
-import {PaymentService} from "./payment-service";
+import {PaymentService} from "../../service/payment-service";
 import {Router} from "@angular/router";
 
 @Component({
@@ -20,6 +20,7 @@ export class BanHangComponent implements OnInit {
   billList: BillModel[] = [];
   user$: Observable<any>;
   user: UserModel | undefined;
+
 
   constructor(private vnpayService: VNPAYService,
               private paymentService: PaymentService,

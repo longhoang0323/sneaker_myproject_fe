@@ -21,6 +21,36 @@
   color: white;
 }
 
+.button-green{
+  border-radius: 8px;
+  border: 1px solid green;
+  font-weight: bolder;
+  color: darkgreen;
+  width: auto;
+  padding: 5px;
+  height: 35px
+}
+
+.button-green:hover {
+  background-color: darkgreen;
+  color: white;
+}
+
+.button-red{
+  border-radius: 8px;
+  border: 1px solid red;
+  font-weight: bolder;
+  color: red;
+  width: auto;
+  padding: 5px;
+  height: 35px
+}
+
+.button-red:hover {
+  background-color: red;
+  color: white;
+}
+
 .button-create{
   border-radius: 8px;
   border: 2px solid green;

@@ -8,4 +8,7 @@ export class SanPhamModel{
   tenChatLieu: string = '';
   trangThai: number = 0;
   imageDefault: string = '';
+  qrCode: string = '';
+  giaThapNhat: number = 0;
+  giaCaoNhat: number = 0;
 }

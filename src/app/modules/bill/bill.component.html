@@ -1,13 +1,3 @@
-<nz-page-header
-  class="site-page-header"
-  nzBackIcon
-  nzTitle="Chi tiết hóa đơn"
->
-  <nz-breadcrumb nz-page-header-breadcrumb>
-    <nz-breadcrumb-item>Hóa đơn</nz-breadcrumb-item>
-    <nz-breadcrumb-item>Chi tiết hóa đơn</nz-breadcrumb-item>
-  </nz-breadcrumb>
-</nz-page-header>
 <div>
   <h3 style="padding:10px;font-size: 20px;font-weight: bolder" *ngIf="bill">HÓA ĐƠN {{bill.ma}}</h3>
   <div>
@@ -17,41 +7,368 @@
     <nz-table *ngIf="billDetails.length > 0" #sortTable [nzData]="billDetails" nzTableLayout="fixed">
       <thead>
       <tr>
-        <th style="width: 100px" nzLeft>STT</th>
+        <th class="items-center">Ảnh SP</th>
         <th class="items-center">Mã SP</th>
         <th class="items-center">Tên SP</th>
-        <th class="items-center">Màu</th>
-        <th class="items-center">Kích thước</th>
+        <th class="items-center">Size</th>
         <th class="items-center">Hãng</th>
         <th class="items-center">Chất liệu</th>
         <th class="items-center">Giá</th>
         <th class="items-center">Số lượng</th>
         <th class="items-center">Tổng tiền</th>
-        <th class="items-center">Hành động</th>
+        <!--        <th class="items-center">Hành động</th>-->
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let data of sortTable.data; let i = index">
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td><img style="width: 100px;height: 130px" src="{{data.imageCTSP}}" alt="{{data.maSanPham}}"></td>
+        <td>{{data.maSanPham}}</td>
+        <td>{{data.tenSanPham + ' '}}{{data.tenMauSac}}</td>
+        <td>{{data.tenKichThuoc}}</td>
+        <td>{{data.tenHang}}</td>
+        <td>{{data.tenChatLieu}}</td>
+        <td>{{data.giaBan ?? 0 | currency:'VND': '':'1.0-0'}}</td>
+        <td>{{data.soLuong}}</td>
+        <td>{{(data.soLuong * data.giaBan) ?? 0 | currency:'VND': '':'1.0-0'}}</td>
+        <!--        <td></td>-->
       </tr>
       </tbody>
     </nz-table>
     <div *ngIf="billDetails.length == 0" style="width: 100%;text-align: center">
       <h3 style="padding:10px;font-size: 16px;font-weight: bolder">Chưa có sản phẩm nào trong giỏ hàng</h3>
-      <button class="button-create">+ Thêm sản phẩm</button>
+    </div>
+    <div *ngIf="bill.trangThai == 0" style="width: 100%;text-align: center">
+      <button class="button-create" (click)="showListSP()">+ Thêm sản phẩm</button>
+    </div>
+  </div>
+  <div>
+    <hr style="width: 95%;height: 2px;margin: 10px;background-color: #5e2ced"/>
+  </div>
+  <div class="flex" style="width: 100%">
+    <div style="width: 60%;float: left;margin-left: 10px">
+      <div style="width:100%;border: 1px solid darkgreen;border-radius: 5px">
+        <h3 style="text-align: left;font-weight: bolder;font-size: 20px;padding: 5px">Thông tin khách hàng</h3>
+        <div>
+          <hr style="width: 95%;height: 1px;margin: 5px;background-color: #5e2ced"/>
+        </div>
+        <div *ngIf="bill.trangThai == 0" style="font-size: 18px;font-weight: bolder;" class="flex">
+          <div style="width: 25%;float: left">
+            <p style="padding: 10px">Khách hàng: </p>
+            <p style="padding: 10px">Hình thức giao hàng: </p>
+            <p *ngIf="hinhThucGH == 1" style="padding: 10px">Tên người nhận: </p>
+            <p *ngIf="hinhThucGH == 1" style="padding: 10px">SĐT người nhận: </p>
+            <p *ngIf="hinhThucGH == 1" style="padding: 10px">Tên người ship: </p>
+            <p *ngIf="hinhThucGH == 1" style="padding: 10px">SĐT người ship: </p>
+            <p *ngIf="hinhThucGH == 1" style="padding: 10px">Địa chỉ: </p>
+          </div>
+          <div>
+            <div class="flex">
+              <button id="btnKhachLe" (click)="chonKhachBanLe()"
+                      style="border: 1px solid green;border-radius: 4px;background-color: {{backGroundColorKhachLe}};color: {{colorFontKhachLe}};padding: 5px;margin: 5px;font-size: 15px">
+                Khách bán lẻ
+              </button>
+              <button id="btnKhachHang" (click)="chonKhachHang()"
+                      style="border: 1px solid green;border-radius: 4px;background-color: {{backGroundColorKhachHang}};color: {{colorFontKhachHang}};padding: 5px;margin: 5px;font-size: 15px">
+                Khách hàng đã lưu
+              </button>
+            </div>
+            <div>
+              <select id="hinhThucGiaoHang" class="select-input" (change)="chonHinhThucGiaoHang()"
+                      style="width: 250px;height: 30px;font-size: 18px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px;margin: 10px"
+              >
+                <option class="option" value="0">Trực tiếp</option>
+                <option class="option" value="1">Nhờ vận chuyển</option>
+              </select>
+            </div>
+            <div>
+              <input *ngIf="hinhThucGH == 1" type="text" id="tenNguoiNhan"
+                     style="width: 250px;border: 1px solid deepskyblue;border-radius: 3px;margin: 10px"/>
+            </div>
+            <div>
+              <input *ngIf="hinhThucGH == 1" type="text" id="sdtNguoiNhan"
+                     style="width: 250px;border: 1px solid deepskyblue;border-radius: 3px;margin: 10px"/>
+            </div>
+            <div>
+              <input *ngIf="hinhThucGH == 1" type="text" id="tenNguoiShip"
+                     style="width: 250px;border: 1px solid deepskyblue;border-radius: 3px;margin: 10px"/>
+            </div>
+            <div>
+              <input *ngIf="hinhThucGH == 1" type="text" id="sdtNguoiShip"
+                     style="width: 250px;border: 1px solid deepskyblue;border-radius: 3px;margin: 10px"/>
+            </div>
+            <div>
+              <input *ngIf="hinhThucGH == 1" type="text" id="diaChi"
+                     style="width: 250px;border: 1px solid deepskyblue;border-radius: 3px;margin: 10px"/>
+            </div>          </div>
+        </div>
+<!--        Thông tin khách hàng hóa đơn đã thanh toán-->
+        <div *ngIf="bill.trangThai == 1" style="font-size: 18px;font-weight: bolder;" class="flex">
+          <div style="width: 25%;float: left">
+            <p style="padding: 10px">Khách hàng: </p>
+            <p style="padding: 10px">Hình thức giao hàng: </p>
+            <p style="padding: 10px">Tên người nhận: </p>
+            <p style="padding: 10px">SĐT người nhận: </p>
+            <p style="padding: 10px">Tên người ship: </p>
+            <p style="padding: 10px">SĐT người ship: </p>
+            <p style="padding: 10px">Địa chỉ giao hàng: </p>
+          </div>
+          <div>
+            <p style="padding: 10px">{{bill.tenKhachHang??'Khách bán lẻ'}}</p>
+            <p style="padding: 10px">{{bill.hinhThucGiaoHang == 0 ? 'Tại quầy' : 'Nhờ đơn vị vận chuyển'}}</p>
+            <p style="padding: 10px">{{bill.tenNguoiNhan != '' ? bill.tenNguoiNhan : '(Khách bán lẻ)'}}</p>
+            <p style="padding: 10px">{{bill.sdtNguoiNhan != '' ? bill.sdtNguoiNhan : '(Không có)'}}</p>
+            <p style="padding: 10px">{{bill.tenNguoiShip != '' ? bill.tenNguoiShip : '(Không có)'}}</p>
+            <p style="padding: 10px">{{bill.sdtNguoiShip != '' ? bill.sdtNguoiShip : '(Không có)'}}</p>
+            <p style="padding: 10px">{{bill.diaChi != '' ? bill.diaChi : 'Tại quầy'}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--    Thông tin thanh toán-->
+    <div style="width: 35%;float: right;margin-left: 20px">
+      <div style="width:95%;border: 1px solid darkgreen;border-radius: 5px">
+        <h3 style="text-align: center;font-weight: bolder;font-size: 20px;padding: 5px">Thông tin thanh toán</h3>
+        <div>
+          <hr style="width: 95%;height: 1px;margin: 5px;background-color: #5e2ced"/>
+        </div>
+        <div style="font-size: 18px;font-weight: bolder;" class="flex">
+          <div style="width: 50%;float: left">
+            <p style="padding: 10px">Mã hóa đơn: </p>
+            <p style="padding: 10px">Trạng thái: </p>
+            <p style="padding: 10px">Thời gian tạo: </p>
+            <p *ngIf="bill.ngayThanhToan" style="padding: 10px">Thời gian thanh toán: </p>
+            <p style="padding: 10px">Tiền hàng: </p>
+            <p style="padding: 10px">Giảm giá: </p>
+            <p style="padding: 10px">Tổng thanh toán: </p>
+            <p style="padding: 10px">Hình thức thanh toán: </p>
+            <p *ngIf="hinhThucTT != 1 && bill.trangThai == 0" style="padding: 10px">Nhập số tiền: </p>
+            <p *ngIf="bill.trangThai == 1" style="padding: 10px">Tiền mặt: </p>
+            <p *ngIf="bill.trangThai == 1" style="padding: 10px">Chuyển khoản: </p>
+            <p *ngIf="hinhThucTT != 1" style="padding: 10px;padding-top: 15px">Tiền thừa: </p>
+          </div>
+          <div style="width: 45%">
+            <p style="padding: 10px">{{bill.ma}}</p>
+            <p style="padding: 10px">{{bill.trangThai == 0 ? 'Chờ thanh toán' : bill.trangThai == 1 ? 'Đã thanh toán' : 'Đã hủy'}}</p>
+            <p style="padding: 10px">{{bill.ngayTao | date : 'dd/mm/yyyy hh:mm aa'}}</p>
+            <p *ngIf="bill.ngayThanhToan"
+               style="padding: 10px">{{bill.ngayThanhToan | date : 'dd/mm/yyyy hh:mm aa'}}</p>
+            <p style="padding: 10px">{{bill.tongTien ?? 0 | currency:'VND': '':'1.0-0'}}</p>
+            <p style="padding: 10px">{{bill.tienGiamGia ?? 0 | currency:'VND': '':'1.0-0'}}</p>
+            <p
+              style="padding: 10px">{{((bill.tongTien ?? 0) - (bill.tienGiamGia ?? 0)) ?? 0 | currency:'VND': '':'1.0-0'}}</p>
+            <select *ngIf="bill.trangThai == 0" id="hinhThucThanhToan" class="select-input" (change)="chonHinhThucThanhToan()"
+                    style="width: 95%;height: 30px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px;margin: 10px"
+            >
+              <option class="option" value="0">Tiền mặt</option>
+              <option class="option" value="1">Chuyển khoản</option>
+              <option class="option" value="2">Tiền mặt&Chuyển khoản</option>
+            </select>
+            <p *ngIf="bill.trangThai == 1" style="padding: 10px">{{bill.hinhThucThanhToan == 0 ? 'Tiền mặt' : bill.hinhThucThanhToan == 1 ? 'Chuyển khoản' : 'Tiền mặt&Chuyển khoản'}}</p>
+            <input *ngIf="hinhThucTT != 1 && bill.trangThai == 0" type="number" min="1" id="tienMat"
+                   style="width: 95%;border: 2px solid green;border-radius: 3px;margin: 10px" [ngModel]="tienMat"
+                   (ngModelChange)="tinhTienThua()"/>
+            <p *ngIf="bill.trangThai == 1" style="padding: 10px">{{bill.tienMat??0 | currency:'VND': '':'1.0-0'}}</p>
+            <p *ngIf="bill.trangThai == 1" style="padding: 10px">{{bill.chuyenKhoan??0 | currency:'VND': '':'1.0-0'}}</p>
+            <p *ngIf="hinhThucTT != 1" style="padding: 10px">{{tienThua | currency:'VND': '':'1.0-0'}}</p>
+          </div>
+        </div>
+        <div *ngIf="hinhThucTT != 0" style="margin: 20px">
+          <img style="width: 400px;height:450px" src="{{qrcodeValue}}">
+        </div>
+        <div *ngIf="this.bill.trangThai == 0">
+          <button style="width: 95%;margin: 12px;" (click)="thanhToanTaiQuay()"
+                  class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium
+      text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-yellow-500 group-hover:from-cyan-500
+      group-hover:to-yellow-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800">
+                <span style="width: 100%;"
+                      class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                Hoàn tất thanh toán
+                </span>
+          </button>
+        </div>
+        <div *ngIf="this.bill.trangThai == 1">
+          <hr style="width: 95%;height: 2px;margin: 10px;background-color: green"/>
+          <div style="text-align: center">
+            <p style="font-weight: bolder;color: darkgreen;font-size: 20px;padding: 10px">(Đã thanh toán)</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
+
+
+<!--Show list sản phẩm-->
+<nz-modal
+  [(nzVisible)]="isVisibleListSP"
+  nzTitle="Chọn sản phẩm"
+  (nzOnCancel)="cancelListSP()"
+  nzWidth="80%"
+  nzFooter=" "
+>
+  <ng-container *nzModalContent>
+    <div style="margin: 10px" class="flex">
+      <div style="float: left">
+        <fieldset style="margin-left: 10px" class="w-full space-y-1 dark:text-gray-100">
+          <label class="hidden">Nhập để tìm kiếm</label>
+          <div class="relative">
+        <span class="absolute inset-y-0 left-0 flex items-center pl-2">
+          <button type="button" title="search" class="p-1 focus:outline-none focus:ring">
+            <svg fill="currentColor" viewBox="0 0 512 512" class="w-4 h-4 dark:text-gray-100">
+              <path
+                d="M479.6,399.716l-81.084-81.084-62.368-25.767A175.014,175.014,0,0,0,368,192c0-97.047-78.953-176-176-176S16,94.953,16,192,94.953,368,192,368a175.034,175.034,0,0,0,101.619-32.377l25.7,62.2L400.4,478.911a56,56,0,1,0,79.2-79.195ZM48,192c0-79.4,64.6-144,144-144s144,64.6,144,144S271.4,336,192,336,48,271.4,48,192ZM456.971,456.284a24.028,24.028,0,0,1-33.942,0l-76.572-76.572-23.894-57.835L380.4,345.771l76.573,76.572A24.028,24.028,0,0,1,456.971,456.284Z"></path>
+            </svg>
+          </button>
+        </span>
+            <input type="search" name="Search" placeholder="Nhập để tìm kiếm" id="searchInput"
+                   class="w-32 py-2 pl-10 text-sm rounded-md sm:w-96 focus:outline-0 dark:bg-gray-800 dark:text-white
+                 focus:dark:bg-gray-900 focus:dark:border-violet-400 bg-gray-300"
+            >
+          </div>
+        </fieldset>
+      </div>
+      <div class="flex" style="font-size: 18px;margin-left: 30px;font-family: Arial;margin-top: 10px">
+        <label>Hãng: </label>
+        <select id="hang" class="select-input"
+                style="width: 300px;height: 30px;font-size: 18px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px;margin-left: 10px"
+        >
+          <option *ngFor="let data of hangList" class="option" value="{{data.id}}">{{data.ten}}</option>
+        </select>
+      </div>
+      <div class="flex" style="font-size: 18px;margin-left: 30px;font-family: Arial;margin-top: 10px">
+        <label>Chất liệu: </label>
+        <select id="chatLieu" class="select-input"
+                style="width: 300px;height: 30px;font-size: 18px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px;margin-left: 10px"
+        >
+          <option *ngFor="let data of chatLieuList" class="option" value="{{data.id}}">{{data.ten}}</option>
+        </select>
+      </div>
+      <div style="margin-left: 20px;margin-top: 5px">
+        <button class="button-green">
+          Tìm kiếm
+        </button>
+      </div>
+      <div style="margin-left: 20px;margin-top: 5px">
+        <button class="button-red">
+          Làm mới
+        </button>
+      </div>
+    </div>
+    <div>
+      <nz-table #sortTable [nzData]="sanPhamList" nzTableLayout="fixed">
+        <thead>
+        <tr>
+          <th style="width: 100px" nzLeft>STT</th>
+          <th class="items-center">Ảnh mặc định</th>
+          <th class="items-center">Mã SP</th>
+          <th class="items-center">Tên SP</th>
+          <th class="items-center">Hãng</th>
+          <th class="items-center">Chất liệu</th>
+          <th style="width: 300px" class="items-center">Tác vụ</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let data of sortTable.data; let i = index">
+          <th style="width: 100px" nzLeft>{{ i + 1 }}</th>
+          <td class="items-center"><img *ngIf="data.imageDefault != ''" style="width: 90px;height: 120px"
+                                        src="{{ data.imageDefault }}" alt="{{data.ten}}">
+            <p *ngIf="data.imageDefault == ''">Không có</p>
+          </td>
+          <td class="items-center">{{ data.ma }}</td>
+          <td class="items-center">{{ data.ten }}</td>
+          <td class="items-center">{{ data.tenHang }}</td>
+          <td class="items-center">{{ data.tenChatLieu }}</td>
+          <td nzLeft>
+            <div>
+              <button (click)="showModalEditCTSP(data.id)"
+                      class="button-blue">
+                Chọn
+              </button>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </ng-container>
+</nz-modal>
+
+<nz-modal
+  [(nzVisible)]="isVisibleShowCTSP"
+  nzTitle="Chọn thuộc tính"
+  (nzOnCancel)="cancelCTSP()"
+  nzWidth="50%"
+  nzFooter=" "
+>
+  <ng-container *nzModalContent>
+    <div class="flex">
+      <div style="width: 50%;float: left">
+        <div>
+          <img style="width: 90%;height: 440px;margin: 5px;border: 1px solid gray;border-radius: 3px"
+               src="{{imgDefault}}" alt="Ảnh sản phẩm">
+        </div>
+      </div>
+      <div style="width: 45%">
+        <div style="margin: 10px;">
+          <p style="font-size: 25px;padding: 5px">Tên sản phẩm: {{sanPham.ten}}</p>
+          <div class="flex" style="font-size: 20px;padding: 5px">
+            <p style="width: 100px;">Hãng: </p>
+            <p>{{sanPham.tenHang}}</p>
+          </div>
+          <div class="flex" style="font-size: 20px;padding: 5px">
+            <p style="width: 100px;">Chất liệu:</p>
+            <p>{{sanPham.tenChatLieu}}</p>
+          </div>
+          <div class="flex" style="font-size: 20px;font-family: Arial;">
+            <label style="padding: 5px;width: 100px">Màu sắc: </label>
+            <select id="mauSac" class="select-input" (change)="getCTSPByColorAndSize()"
+                    style="width: 150px;height: 30px;font-size: 18px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px;margin-left: 5px"
+            >
+              <option class="option" value="">Chọn màu</option>
+              <option *ngFor="let data of mauSacList" class="option" value="{{data.id}}">{{data.ten}}</option>
+            </select>
+          </div>
+          <div class="flex" style="font-size: 20px;font-family: Arial;margin-top: 10px">
+            <label style="padding: 5px;width: 100px">Size: </label>
+            <select id="kichThuoc" class="select-input" (change)="getCTSPByColorAndSize()"
+                    style="width: 150px;height: 30px;font-size: 18px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px;margin-left: 5px"
+            >
+              <option class="option" value="">Chọn size</option>
+              <option *ngFor="let data of kichThuocList" class="option" value="{{data.id}}">{{data.ten}}</option>
+            </select>
+          </div>
+          <div class="flex" style="font-size: 25px;padding: 5px">
+            <p style="width: 120px">Trong kho: </p>
+            <p *ngIf="chiTietSanPham">{{chiTietSanPham.soLuong ?? 0}}</p>
+            <p *ngIf="!chiTietSanPham">-------</p>
+          </div>
+          <div class="flex" style="font-size: 25px;padding: 5px">
+            <p style="width: 120px">Giá: </p>
+            <p *ngIf="chiTietSanPham"
+               style="font-weight: bolder">{{chiTietSanPham.donGia ?? 0 | currency:'VND': '':'1.0-0'}}</p>
+            <p *ngIf="!chiTietSanPham" style="font-weight: bolder">..................</p>
+          </div>
+          <div class="flex" style="font-size: 20px;padding: 5px">
+            <p style="width: 150px">Nhập số lượng: </p>
+            <input type="number" min="1" id="soLuong" style="width: 100px;border: 2px solid green;border-radius: 3px"/>
+          </div>
+          <div *ngIf="this.bill.trangThai == 0">
+            <button (click)="createBillDetail()" style="width: 98%;margin: 5px;"
+                    class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium
+      text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-yellow-500 group-hover:from-cyan-500
+      group-hover:to-yellow-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800">
+                <span style="width: 100%;"
+                      class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                Thêm vào giỏ hàng
+                </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</nz-modal>
 
 
 
