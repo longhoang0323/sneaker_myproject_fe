@@ -21,8 +21,36 @@
   color: #f8ad23;
   cursor: pointer;
 }
-nz-date-picker{
-  border-radius: 40px !important;
-  background-color: #39ac31;
+
+.moTa {
+  width: 300px; /* Điều chỉnh độ rộng theo ý muốn */
+  height: 45px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.moTa:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px #007bff;
+}
+
+.timKiem {
+  width: 500px; /* Điều chỉnh độ rộng theo ý muốn */
+  height: 45px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.timKiem:focus {
+  outline: none;
+  border-color: greenyellow;
+  box-shadow: 0 0 5px greenyellow;
 }
 

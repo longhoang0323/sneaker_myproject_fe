@@ -34,15 +34,6 @@
           </li>
         </ul>
       </li>
-      <li class="li-style" nz-submenu nzTitle="Quản lý hóa đơn" nzIcon="group">
-        <ul>
-          <li nz-menu-item nzMatchRouter>
-            <a routerLink="/admin/bill">Hóa đơn</a>
-            <nz-badge style="float: right;margin: 3px" [nzCount]="countBill">
-            </nz-badge>
-          </li>
-        </ul>
-      </li>
       <li class="li-style" nz-submenu nzTitle="Quản lý sản phẩm" nzIcon="database" *ngIf="user.role === 'admin'">
         <ul>
           <li nz-menu-item nzMatchRouter>
@@ -62,6 +53,18 @@
           </li>
           <li nz-menu-item nzMatchRouter>
             <a routerLink="/admin/size">Size</a>
+          </li>
+        </ul>
+      </li>2
+      <li class="li-style" nz-submenu nzTitle="Quản lý khuyến mãi" nzIcon="gift">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/admin/voucher">Voucher</a>
+<!--            <nz-badge style="float: right;margin: 3px" [nzCount]="countBill">-->
+<!--            </nz-badge>-->
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/admin/dot-giam-gia">Đợt giảm giá</a>
           </li>
         </ul>
       </li>

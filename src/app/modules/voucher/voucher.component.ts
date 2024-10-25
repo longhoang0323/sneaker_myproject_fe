@@ -6,6 +6,8 @@ import {environment} from "../../../environments/environment";
 import {VoucherModel} from "../../models/voucher.model";
 import {VoucherService} from "../../service/voucher.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {CustomerService} from "../../service/customer.service";
+import {CustomerModel} from "../customer/models/customer.model";
 
 @Component({
   selector: 'cons-voucher',
@@ -20,6 +22,14 @@ export class VoucherComponent implements OnInit{
   isOkLoading = false;
   id: number | undefined;
   form: FormGroup;
+  customerList: CustomerModel[] = [];
+
+
+  isVisibleTaoMoi = false;
+  checked = false;
+  indeterminate = false;
+  setOfCheckedId = new Set<number>();
+  listOfCurrentPageData: readonly CustomerModel[] = [];
 
   showModal(id: any): void {
     this.isVisible = true;
@@ -45,8 +55,11 @@ export class VoucherComponent implements OnInit{
   handleCancel(): void {
     this.isVisible = false;
   }
-  constructor(private voucherService: VoucherService, private router: Router,
-              private route: ActivatedRoute, private http : HttpClient, private messageNoti: NzMessageService,
+  constructor(private voucherService: VoucherService,
+              private customerService: CustomerService,
+              private router: Router,
+              private route: ActivatedRoute,
+              private messageNoti: NzMessageService,
               private formBuilder: FormBuilder
               ) {
     this.form = this.formBuilder.group({
@@ -73,6 +86,24 @@ export class VoucherComponent implements OnInit{
     this.voucherService.getVoucherListSearch(1, 50, this.searchInput).subscribe(res => {
       if (res && res.content) {
         this.voucher= res.content;
+      }
+    })
+  }
+
+  getListKHByString(): void {
+    const inputElement = document.getElementById('searchKH') as HTMLInputElement;
+    this.searchInput = inputElement.value;
+    this.customerService.getListKHBySearch(1, 50, this.searchInput).subscribe(res => {
+      if (res && res.content) {
+        this.customerList = res.content;
+      }
+    })
+  }
+
+  getCustomers(): void {
+    this.customerService.getCustomerList(1, 50).subscribe(res => {
+      if (res && res.content) {
+        this.customerList= res.content;
       }
     })
   }
@@ -109,12 +140,46 @@ export class VoucherComponent implements OnInit{
       });
   }
 
+  showModalTaoMoi(){
+    this.getCustomers();
+    this.isVisibleTaoMoi = true;
+  }
+
+  handleCancelTaoMoi(){
+    this.isVisibleTaoMoi = false;
+  }
 
   ngOnInit() {
     this.getVouchers();
-    this.http.get<any>(`${environment.apiUrl}/phong/single-list-voucher-type`).subscribe((data2)  => {
-
-    });
   }
+
+  updateCheckedSet(id: number, checked: boolean): void {
+    if (checked) {
+      this.setOfCheckedId.add(id);
+    } else {
+      this.setOfCheckedId.delete(id);
+    }
+  }
+
+  onItemChecked(id: number, checked: boolean): void {
+    this.updateCheckedSet(id, checked);
+    this.refreshCheckedStatus();
+  }
+
+  onAllChecked(value: boolean): void {
+    this.listOfCurrentPageData.forEach(item => this.updateCheckedSet(item.id, value));
+    this.refreshCheckedStatus();
+  }
+
+  onCurrentPageDataChange($event: readonly CustomerModel[]): void {
+    this.listOfCurrentPageData = $event;
+    this.refreshCheckedStatus();
+  }
+
+  refreshCheckedStatus(): void {
+    this.checked = this.listOfCurrentPageData.every(item => this.setOfCheckedId.has(item.id));
+    this.indeterminate = this.listOfCurrentPageData.some(item => this.setOfCheckedId.has(item.id)) && !this.checked;
+  }
+
 
 }

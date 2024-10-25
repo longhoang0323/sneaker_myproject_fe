@@ -5,8 +5,8 @@
   nzSubtitle="Total {{voucher.length || 0}}"
 >
   <nz-breadcrumb nz-page-header-breadcrumb>
-    <nz-breadcrumb-item>Phòng</nz-breadcrumb-item>
-    <nz-breadcrumb-item>Quản lý phòng</nz-breadcrumb-item>
+    <nz-breadcrumb-item>Khuyến mãi</nz-breadcrumb-item>
+    <nz-breadcrumb-item>Quản lý voucher</nz-breadcrumb-item>
   </nz-breadcrumb>
 </nz-page-header>
 
@@ -15,13 +15,13 @@
     <div style="float: right">
       <button
         class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium
-      text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500
+      text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-orange-500 group-hover:from-cyan-500
       group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800"
-        routerLink="/admin/voucher/voucher-create"
+        (click)="showModalTaoMoi()"
       >
       <span
         class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-          Thêm mới
+          Tạo mới mã giảm giá
       </span>
       </button>
     </div>
@@ -37,7 +37,7 @@
             </svg>
           </button>
         </span>
-          <input type="search" name="Search" placeholder="Search..." id="searchInput"
+          <input type="search" name="Search" placeholder="Tìm kiếm phiếu giảm giá" id="searchInput"
                  class="w-32 py-2 pl-10 text-sm rounded-md sm:w-96 focus:outline-0 dark:bg-gray-800 dark:text-white
                  focus:dark:bg-gray-900 focus:dark:border-violet-400 bg-gray-300"
                  [ngModel]="searchInput"
@@ -50,15 +50,8 @@
   <nz-table class="w-full text-sm text-left text-gray-500 dark:text-gray-400" #tableData [nzData]="voucher">
     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
     <tr>
-      <th scope="col" class="p-4">
-        <div class="flex items-center">
-          <input id="checkbox-all-search" type="checkbox"
-                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-          <label for="checkbox-all-search" class="sr-only">checkbox</label>
-        </div>
-      </th>
       <th scope="col" class="px-6 py-3">
-        Id
+        STT
       </th>
       <th scope="col" class="px-6 py-3">
         Mã
@@ -91,13 +84,6 @@
     <tbody>
     <tr class="w-full bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
         *ngFor="let data of tableData.data; let i = index">
-      <td class="w-4 p-4">
-        <div class="flex items-center">
-          <input id="checkbox-table-search-1" type="checkbox"
-                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-          <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
-        </div>
-      </td>
       <td class="px-6 py-4">
         {{ data.id }}
       </td>
@@ -152,6 +138,118 @@
 </div>
 
 <nz-modal
+  [(nzVisible)]="isVisibleTaoMoi"
+  (nzOnCancel)="handleCancelTaoMoi()"
+  nzWidth="full"
+  nzFooter=" "
+>
+  <ng-container *nzModalContent>
+    <div style="padding: 5px;font-weight: bolder;font-size: 22px">
+      <h3>TẠO MỚI VOUCHER</h3>
+      <hr style="width: 95%;height: 2px;background-color: #007DB6;margin: 5px">
+    </div>
+    <div class="flex" style="margin: 10px">
+      <div style="width: 300px">
+        <div>
+          <p style="width:200px;margin: 5px" for="moTaMoi">Mã giảm giá:</p>
+          <input style="margin: 5px" type="text" id="maGiamGia" class="moTa" placeholder="Nhập mã giảm giá">
+        </div>
+        <div>
+          <p style="width:200px;margin: 5px" for="moTaMoi">Mô tả:</p>
+          <input style="margin: 5px" type="text" id="moTaMoi" class="moTa" placeholder="Nhập mô tả">
+        </div>
+        <div>
+          <p style="width:200px;margin: 5px" for="giamGiaMoi">Mức giảm giá:</p>
+          <input style="margin: 5px" type="number" id="giamGiaMoi" class="moTa" placeholder="Nhập mức giảm giá">
+        </div>
+        <div>
+          <p style="width:200px;margin: 5px" for="moTaMoi">Điều kiện giảm giá:</p>
+          <input style="margin: 5px" type="number" id="dieuKienMoi" class="moTa" placeholder="Nhập điều kiện giảm giá">
+        </div>
+      </div>
+      <div style="width: 300px;margin-left: 20px">
+        <div>
+          <p style="width:200px;margin: 5px" for="soLuongMoi">Số lượng:</p>
+          <input style="margin: 5px" type="number" id="soLuongMoi" class="moTa" placeholder="Nhập số lượng">
+        </div>
+        <div>
+          <p style="width:200px;margin: 5px" for="ngayBatDauMoi">Ngày bắt đầu:</p>
+          <nz-date-picker style="margin: 5px" id="ngayBatDauMoi" class="moTa"
+                          nzPlaceHolder="Chọn ngày bắt đầu"></nz-date-picker>
+        </div>
+        <div>
+          <p style="width:200px;margin: 5px" for="ngayKetThucMoi">Ngày kết thúc:</p>
+          <nz-date-picker style="margin: 5px" id="ngayKetThucMoi" class="moTa"
+                          nzPlaceHolder="Chọn ngày ngày kết thúc"></nz-date-picker>
+        </div>
+        <div>
+          <p style="width:200px;margin: 5px" for="loaiGiamGia">Loại giảm giá:</p>
+          <select style="margin: 5px" id="loaiGiamGia" class="moTa">
+            <option class="moTa">Theo giá tiền</option>
+            <option class="moTa">Theo %</option>
+          </select>
+        </div>
+      </div>
+      <div style="width: 1100px;margin-left: 20px">
+        <div style="border: 1px solid gray;border-radius: 5px">
+          <div class="flex">
+          <h3 style="padding-left: 10px;padding-top: 20px;font-weight: bolder;font-size: 20px;">Chọn khách hàng nhận ưu đãi</h3>
+          <input class="timKiem" style="margin-left: 150px;margin-top: 10px" type="text" id="searchKH"  placeholder="Nhập thông tin tìm kiếm">
+            <button style="margin-left: 20px;margin-top: 10px" (click)="getListKHByString()"
+              class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium
+      text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-orange-500 group-hover:from-cyan-500
+      group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800"
+            >
+      <span
+        class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+          Tìm kiếm
+      </span>
+            </button>
+          </div>
+          <hr style="width: 1070px;height: 2px;background-color: #007DB6;margin: 10px">
+        </div>
+        <div>
+          <nz-table
+            #rowSelectionTable
+            nzShowSizeChanger
+            [nzData]="customerList"
+            (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
+            [nzPageSize]="5"
+          >
+            <thead>
+            <tr>
+              <th
+                [(nzChecked)]="checked"
+                [nzIndeterminate]="indeterminate"
+                (nzCheckedChange)="onAllChecked($event)"
+              ></th>
+              <th>Họ tên</th>
+              <th>Số điện thoại</th>
+              <th>Email</th>
+              <th>Ngày sinh</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let data of rowSelectionTable.data; let i = index">
+              <td [nzChecked]="setOfCheckedId.has(data.id)" (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
+              <td>{{ data.hoTen }}</td>
+            <td>{{ data.sdt }}</td>
+            <td>{{ data.diaChi }}</td>
+            <td>{{ data.ngaySinh }}</td>
+          </tr>
+            </tbody>
+          </nz-table>
+        </div>
+        <div>
+          <hr style="width: 1070px;height: 2px;background-color: #007DB6;margin: 10px">
+        </div>
+      </div>
+
+    </div>
+  </ng-container>
+</nz-modal>
+
+<nz-modal
   [(nzVisible)]="isVisible"
   nzTitle="Cập nhật Voucher"
   (nzOnCancel)="handleCancel()"
@@ -162,44 +260,49 @@
   <ng-container *nzModalContent>
     <div *ngIf="currentVoucher" [formGroup]="form" class="edit-form">
       <nz-form-item>
-        <nz-form-label nzFor="ma">Mã Voucher </nz-form-label>
+        <nz-form-label nzFor="ma">Mã Voucher</nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập mã">
           <input nz-input type="text" value="{{currentVoucher.ma}}" readonly/>
         </nz-form-control>
       </nz-form-item>
 
       <nz-form-item>
-        <nz-form-label nzFor="moTa">Mô Tả </nz-form-label>
+        <nz-form-label nzFor="moTa">Mô Tả</nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập mã">
-          <input nz-input type="text" formControlName="moTa" id="moTa" name="moTa" [(ngModel)]="currentVoucher.moTa" required/>
+          <input nz-input type="text" formControlName="moTa" id="moTa" name="moTa" [(ngModel)]="currentVoucher.moTa"
+                 required/>
         </nz-form-control>
       </nz-form-item>
 
       <nz-form-item>
-        <nz-form-label nzFor="giaPhong">Giá giảm </nz-form-label>
+        <nz-form-label nzFor="giaPhong">Giá giảm</nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập giá">
-          <input nz-input type="number" formControlName="giamGia" min="0" id="giamGia" name="giamGia" [(ngModel)]="currentVoucher.giamGia" required/>
+          <input nz-input type="number" formControlName="giamGia" min="0" id="giamGia" name="giamGia"
+                 [(ngModel)]="currentVoucher.giamGia" required/>
         </nz-form-control>
       </nz-form-item>
 
       <nz-form-item>
-        <nz-form-label nzFor="ngayBatDau">Ngày bắt đầu </nz-form-label>
+        <nz-form-label nzFor="ngayBatDau">Ngày bắt đầu</nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập ngày bắt đầu">
-          <input nz-input type="date" id="ngayBatDau" formControlName="ngayBatDau" name="ngayBatDau" [(ngModel)]="currentVoucher.ngayBatDau" required/>
+          <input nz-input type="date" id="ngayBatDau" formControlName="ngayBatDau" name="ngayBatDau"
+                 [(ngModel)]="currentVoucher.ngayBatDau" required/>
         </nz-form-control>
       </nz-form-item>
 
       <nz-form-item>
-        <nz-form-label nzFor="ngayKetThuc">Ngày kết thúc </nz-form-label>
+        <nz-form-label nzFor="ngayKetThuc">Ngày kết thúc</nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập ngày kết thúc">
-          <input nz-input type="date" id="ngayKetThuc" formControlName="ngayKetThuc" name="ngayKetThuc" [(ngModel)]="currentVoucher.ngayKetThuc" required/>
+          <input nz-input type="date" id="ngayKetThuc" formControlName="ngayKetThuc" name="ngayKetThuc"
+                 [(ngModel)]="currentVoucher.ngayKetThuc" required/>
         </nz-form-control>
       </nz-form-item>
 
       <nz-form-item>
-        <nz-form-label nzFor="soLuong">Số lượng </nz-form-label>
+        <nz-form-label nzFor="soLuong">Số lượng</nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập số lượng">
-          <input nz-input type="number" id="soLuong" formControlName="soLuong" name="soLuong" [(ngModel)]="currentVoucher.soLuong" required/>
+          <input nz-input type="number" id="soLuong" formControlName="soLuong" name="soLuong"
+                 [(ngModel)]="currentVoucher.soLuong" required/>
         </nz-form-control>
       </nz-form-item>
     </div>

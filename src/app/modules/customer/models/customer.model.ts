@@ -1,13 +1,11 @@
-export interface CustomerModel{
-  id: string;
-  ma: string;
-  hoTen: string;
-  ngaySinh: Date;
-  gioiTinh: boolean;
-  diaChi: string;
-  sdt: string;
-  cccd: string;
-  ghiChu: string;
-  rank: string;
-  giamGia: number;
+export class CustomerModel{
+  id: number = 0;
+  ma: string = '';
+  hoTen: string = '';
+  ngaySinh: string = '';
+  gioiTinh: boolean = false;
+  diaChi: string = '';
+  sdt: string = '';
+  tichDiem: number = 0;
+  thoiHan: string = '';
 }
