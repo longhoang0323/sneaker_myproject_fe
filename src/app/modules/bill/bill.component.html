@@ -117,8 +117,8 @@
             <p style="padding: 10px">{{bill.hinhThucGiaoHang == 0 ? 'Tại quầy' : 'Nhờ đơn vị vận chuyển'}}</p>
             <p style="padding: 10px">{{bill.tenNguoiNhan != '' ? bill.tenNguoiNhan : '(Khách bán lẻ)'}}</p>
             <p style="padding: 10px">{{bill.sdtNguoiNhan != '' ? bill.sdtNguoiNhan : '(Không có)'}}</p>
-            <p style="padding: 10px">{{bill.tenNguoiShip != '' ? bill.tenNguoiShip : '(Không có)'}}</p>
-            <p style="padding: 10px">{{bill.sdtNguoiShip != '' ? bill.sdtNguoiShip : '(Không có)'}}</p>
+            <p style="padding: 10px">{{bill.tenNguoiShip != null ? bill.tenNguoiShip : '(Không có)'}}</p>
+            <p style="padding: 10px">{{bill.sdtNguoiShip != null ? bill.sdtNguoiShip : '(Không có)'}}</p>
             <p style="padding: 10px">{{bill.diaChi != '' ? bill.diaChi : 'Tại quầy'}}</p>
           </div>
         </div>
@@ -250,8 +250,8 @@
         </button>
       </div>
       <div style="margin-left: 20px;margin-top: 5px">
-        <button class="button-red">
-          Làm mới
+        <button class="button-red" (click)="startScanning()">
+          Quét QR
         </button>
       </div>
     </div>
@@ -369,6 +369,82 @@
     </div>
   </ng-container>
 </nz-modal>
+
+<nz-modal
+  [(nzVisible)]="checkCamera"
+  nzTitle="Quét mã sản phẩm"
+  (nzOnCancel)="cancelQuetQR()"
+  nzWidth="350px"
+  nzFooter=" "
+>
+  <ng-container *nzModalContent>
+    <div style="margin: 10px;">
+      <video id="video" width="300" height="200"></video>
+      <div *ngIf="scannedCode">
+        <p>Scanned Code: {{ scannedCode }}</p>
+      </div>
+    </div>
+  </ng-container>
+</nz-modal>
+
+<nz-modal
+  [(nzVisible)]="isVisbleCTSPByQR"
+  nzTitle="Thông tin sản phẩm"
+  (nzOnCancel)="cancelShowCTSPByQR()"
+  nzWidth="50%"
+  nzFooter=" "
+>
+  <ng-container *nzModalContent>
+    <div class="flex">
+      <div style="width: 50%;float: left">
+        <div>
+          <img style="width: 90%;height: 440px;margin: 5px;border: 1px solid gray;border-radius: 3px"
+               src="{{chiTietSanPham.image}}" alt="Ảnh sản phẩm">
+        </div>
+      </div>
+      <div style="width: 45%">
+        <div style="margin: 10px;">
+          <p style="font-size: 25px;padding: 5px">Tên sản phẩm: {{chiTietSanPham.tenSanPham}}</p>
+          <div class="flex" style="font-size: 20px;padding: 5px">
+            <p style="width: 100px;">Màu sắc: </p>
+            <p>{{chiTietSanPham.tenMauSac}}</p>
+          </div>
+          <div class="flex" style="font-size: 20px;padding: 5px">
+            <p style="width: 100px;">Chất liệu:</p>
+            <p>{{chiTietSanPham.tenKichThuoc}}</p>
+          </div>
+          <div class="flex" style="font-size: 25px;padding: 5px">
+            <p style="width: 120px">Số lượng: </p>
+            <p *ngIf="chiTietSanPham">{{chiTietSanPham.soLuong ?? 0}}</p>
+          </div>
+          <div class="flex" style="font-size: 25px;padding: 5px">
+            <p style="width: 120px">Giá: </p>
+            <p *ngIf="chiTietSanPham"
+               style="font-weight: bolder">{{chiTietSanPham.donGia ?? 0 | currency:'VND': '':'1.0-0'}}</p>
+            <p *ngIf="!chiTietSanPham" style="font-weight: bolder">..................</p>
+          </div>
+          <div class="flex" style="font-size: 20px;padding: 5px">
+            <p style="width: 150px">Nhập số lượng: </p>
+            <input type="number" min="1" id="soLuong2" style="width: 100px;border: 2px solid green;border-radius: 3px"/>
+          </div>
+          <div *ngIf="this.bill.trangThai == 0">
+            <button (click)="createBillDetail()" style="width: 98%;margin: 5px;"
+                    class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium
+      text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-yellow-500 group-hover:from-cyan-500
+      group-hover:to-yellow-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800">
+                <span style="width: 100%;"
+                      class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                Thêm vào giỏ hàng
+                </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</nz-modal>
+
+
 
 
 

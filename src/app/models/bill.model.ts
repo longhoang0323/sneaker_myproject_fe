@@ -18,6 +18,8 @@ export class BillModel {
   chuyenKhoan: number = 0;
   trangThai: number = 0;
   ghiChu: string = '';
+  loaiHoaDon: number = 0;
+  trangThaiGiaoHang: number = 0;
   idKhachHang: number | undefined;
   tenKhachHang: string = '';
   idUser: number | undefined;

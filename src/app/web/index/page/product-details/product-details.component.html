@@ -2,7 +2,7 @@
   <div class="flex"
        style="width: 80%;margin: 20px;border: 1px solid darkgray;border-radius: 3px;margin-left: 10%;margin-top: 10%">
     <div style="width: 45%">
-      <img src="{{sanPham.imageDefault}}" style="width: 95%;height: 600px;margin: 10px">
+      <img nz-image nzSrc="{{sanPham.imageDefault}}" style="width: 95%;height: 600px;margin: 10px">
     </div>
     <div style="margin: 10px;width: 50%">
       <div class="flex" style="padding: 30px;height: 55%">
@@ -147,19 +147,27 @@
           </div>
           <div class="flex">
             <p style="font-size:18px;font-weight: bolder;padding: 20px;width: 550px">Giảm giá: </p>
-            <p style="font-size:18px;padding: 20px">{{0 | currency:'VND': '':'1.0-0'}}</p>
+            <p style="font-size:18px;padding: 20px">{{giamGia | currency:'VND': '':'1.0-0'}}<span *ngIf="loaiGiamGia == 1">%</span></p>
           </div>
           <div class="flex">
             <p style="font-size:18px;font-weight: bolder;padding: 20px;width: 550px">Tiền ship: </p>
-            <p style="font-size:18px;padding: 20px">{{30000 | currency:'VND': '':'1.0-0'}}</p>
+            <p style="font-size:18px;padding: 20px">{{(30000 + (soLuongMua - 1)*2500) | currency:'VND': '':'1.0-0'}}</p>
           </div>
           <div class="flex">
             <p style="font-size:18px;font-weight: bolder;padding: 20px;width: 550px">Tổng thanh toán: </p>
-            <p style="font-size:18px;padding: 20px">{{(chiTietSanPham.giaBan*soLuongMua + 30000) | currency:'VND': '':'1.0-0'}}</p>
+            <p *ngIf="loaiGiamGia == 0" style="font-size:18px;padding: 20px">{{(chiTietSanPham.giaBan*soLuongMua + 30000 + (soLuongMua - 1)*2500 - giamGia) | currency:'VND': '':'1.0-0'}}</p>
+            <p *ngIf="loaiGiamGia == 1" style="font-size:18px;padding: 20px">{{(chiTietSanPham.giaBan*soLuongMua + 30000 + (soLuongMua - 1)*2500 - giamGia*chiTietSanPham.giaBan*soLuongMua/100) | currency:'VND': '':'1.0-0'}}</p>
           </div>
-          <div class="flex">
+          <div *ngIf="!idVoucher" class="flex">
             <p style="font-size:18px;font-weight: bolder;padding: 20px;width: 550px">Mã giảm giá: </p>
-            <button style="margin: 15px" class="button-green-2">Chọn mã giảm giá</button>
+            <button  style="margin: 15px" class="button-green-2" (click)="showModelChonMaGiamGia()">Chọn mã giảm giá</button>
+          </div>
+          <div *ngIf="idVoucher" class="flex">
+            <p style="font-size:18px;font-weight: bolder;padding: 20px;width: 30%">Mã giảm giá: </p>
+            <div class="flex" style="width: 58%;text-align: right;justify-content: right;">
+            <p *ngIf="idVoucher" style="font-size:18px;padding: 20px">{{maGiamGia}}</p>
+            <button  style="margin: 15px" class="button-green-2" (click)="showModelChonMaGiamGia()">Chọn lại</button>
+            </div>
           </div>
           <div class="flex">
             <p style="font-size:18px;font-weight: bolder;padding: 20px;width: 310px">Phương thức thanh toán: </p>
@@ -167,7 +175,7 @@
             <button id="thanhToanOnline" style="margin: 15px" class="button-blue-2" (click)="chonPhuongThucThanhToan(1)">Thanh toán online</button>
           </div>
           <div>
-            <button style="width: 300px;margin: 15px;margin-left: 410px"
+            <button style="width: 300px;margin: 15px;margin-left: 410px" (click)="xacNhanDatHang()"
                     class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium
       text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-yellow-500 group-hover:from-cyan-500
       group-hover:to-yellow-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800">
@@ -182,6 +190,88 @@
     </div>
   </div>
 </div>
+
+<nz-modal
+  [(nzVisible)]="isVisbleMaGiamGia"
+  nzTitle="Chọn mã giảm giá"
+  (nzOnCancel)="cancelShowMaGiamGia()"
+  (nzOnOk)="cancelShowMaGiamGia()"
+  nzWidth="1200px"
+  nzFooter=" "
+>
+  <ng-container *nzModalContent>
+    <div>
+      <nz-table class="w-full text-sm text-left text-gray-500 dark:text-gray-400" #tableData [nzData]="listMaGiamGia">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <tr>
+          <th scope="col" class="px-6 py-3">
+            Mã
+          </th>
+          <th scope="col" class="px-6 py-3">
+            Mô tả
+          </th>
+          <th scope="col" class="px-6 py-3">
+            Giảm giá
+          </th>
+          <th scope="col" class="px-6 py-3">
+            Ngày bắt đầu
+          </th>
+          <th scope="col" class="px-6 py-3">
+            Ngày kết thúc
+          </th>
+          <th scope="col" class="px-12 py-3">
+            Trạng thái
+          </th>
+          <th scope="col" class="px-12 py-3">
+            Hành động
+          </th>
+          <!--      <th scope="col" class="px-6 py-3">-->
+          <!--      </th>-->
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="w-full bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+            *ngFor="let data of tableData.data; let i = index">
+          <td class="px-6 py-4">
+            {{ data.maVoucher }}
+          </td>
+          <td class="px-6 py-4">
+            {{ data.moTaVoucher }}
+          </td>
+          <td class="px-6 py-4">
+            <div class="flex">
+              <p>{{ data.giaTriVoucher | currency:'VND': '':'1.0-0' }}</p>
+              <p *ngIf="data.loaiGiamGia == 1">%</p>
+            </div>
+          </td>
+          <td class="px-6 py-4">
+            {{ data.ngayBatDau }}
+          </td>
+          <td class="px-6 py-4">
+            {{ data.ngayKetThuc }}
+          </td>
+          <td class="px-6 py-4">
+            <div *ngIf="data.trangThai == 0" style="background-color: orangered;padding: 5px;border-radius: 5px;margin: 5px;text-align: center;font-weight: bolder;color: white">
+              <p>Đã kết thúc</p>
+            </div>
+            <div *ngIf="data.trangThai == 1" style="background-color: darkgreen;padding: 5px;border-radius: 5px;margin: 5px;text-align: center;font-weight: bolder;color: white">
+              <p>Đang diễn ra</p>
+            </div>
+          </td>
+          <td class="px-12 py-4" style="display: flex">
+              <div>
+                <button (click)="chonMaGiamGia(data.idVoucher, data.maVoucher, data.giaTriVoucher, data.loaiGiamGia)"
+                        class="button-detail">
+                  Sử dụng ngay
+                </button>
+              </div>
+          </td>
+        </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </ng-container>
+</nz-modal>
 
 <nz-modal
   [(nzVisible)]="isVisbleNhapSoLuong"

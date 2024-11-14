@@ -13,6 +13,21 @@
   color: white;
 }
 
+.button-vio{
+  border-radius: 8px;
+  border: 1px solid blueviolet;
+  font-weight: bolder;
+  color: blueviolet;
+  width: auto;
+  padding: 5px;
+  height: 35px
+}
+
+.button-vio:hover {
+  background-color: blueviolet;
+  color: white;
+}
+
 .button-create{
   border-radius: 8px;
   border: 2px solid green;
@@ -26,4 +41,20 @@
 .button-create:hover {
   background-color: darkgreen;
   color: white;
+}
+
+.moTa {
+  width: 350px; /* Điều chỉnh độ rộng theo ý muốn */
+  height: 45px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.moTa:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px #007bff;
 }

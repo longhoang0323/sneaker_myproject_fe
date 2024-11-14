@@ -37,4 +37,16 @@ export class WelcomeComponent implements OnInit {
     this.codeReader.reset();
   }
 
+  showModal: boolean = false;
+
+  isVisible: boolean = false;
+
+  openModal() {
+    this.isVisible = true;
+  }
+
+  closeModal() {
+    this.isVisible = false;
+  }
+
 }
