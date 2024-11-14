@@ -11,11 +11,21 @@
 <div>
   <button class="button-create" (click)="startScanning()">Quét mã SP</button>
   <button class="button-create" (click)="stopScanning()">Kết thúc</button>
+  <button class="button-create" (click)="openModal()">Show modal</button>
 </div>
 <div>
   <video id="video" width="300" height="200"></video>
   <div *ngIf="scannedCode">
     <p>Scanned Code: {{ scannedCode }}</p>
+  </div>
+</div>
+
+<div class="modal" *ngIf="isVisible" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <span class="close" (click)="closeModal()">&times;</span>
+    <h2>Đây là Modal</h2>
+    <p>Nội dung modal có thể đặt ở đây.</p>
+    <button (click)="closeModal()">Đóng</button>
   </div>
 </div>
 

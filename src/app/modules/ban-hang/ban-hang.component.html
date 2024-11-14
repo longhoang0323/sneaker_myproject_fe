@@ -132,28 +132,232 @@
       </div>
     </div>
   </nz-tab>
-  <nz-tab nzTitle="Đơn Online">
 
+
+  <nz-tab nzTitle="Đơn Online" (nzClick)="getListOnLine()">
+    <div>
+      <div class="flex">
+        <h3 style="padding:10px;font-size: 20px;font-weight: bolder">DANH SÁCH ĐƠN HÀNG</h3>
+      </div>
+      <div style="margin: 10px" class="flex">
+        <div style="float: left">
+          <fieldset style="margin-left: 10px" class="w-full space-y-1 dark:text-gray-100">
+            <label class="hidden">Nhập để tìm kiếm</label>
+            <div class="relative">
+        <span class="absolute inset-y-0 left-0 flex items-center pl-2">
+          <button type="button" title="search" class="p-1 focus:outline-none focus:ring">
+            <svg fill="currentColor" viewBox="0 0 512 512" class="w-4 h-4 dark:text-gray-100">
+              <path
+                d="M479.6,399.716l-81.084-81.084-62.368-25.767A175.014,175.014,0,0,0,368,192c0-97.047-78.953-176-176-176S16,94.953,16,192,94.953,368,192,368a175.034,175.034,0,0,0,101.619-32.377l25.7,62.2L400.4,478.911a56,56,0,1,0,79.2-79.195ZM48,192c0-79.4,64.6-144,144-144s144,64.6,144,144S271.4,336,192,336,48,271.4,48,192ZM456.971,456.284a24.028,24.028,0,0,1-33.942,0l-76.572-76.572-23.894-57.835L380.4,345.771l76.573,76.572A24.028,24.028,0,0,1,456.971,456.284Z"></path>
+            </svg>
+          </button>
+        </span>
+              <input type="search" name="Search" placeholder="Nhập để tìm kiếm" id="searchInput"
+                     class="w-32 py-2 pl-10 text-sm rounded-md sm:w-96 focus:outline-0 dark:bg-gray-800 dark:text-white
+                 focus:dark:bg-gray-900 focus:dark:border-violet-400 bg-gray-300"
+              >
+            </div>
+          </fieldset>
+        </div>
+        <div class="flex" style="font-size: 18px;margin-left: 30px;font-family: Arial;margin-top: 10px">
+          <label>Trạng thái thanh toán: </label>
+          <select id="trangThaiThanhToan2" class="select-input"
+                  style="width: 300px;height: 30px;font-size: 18px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px;margin-left: 10px"
+          >
+            <option class="option" value="">Tất cả</option>
+            <option class="option" value="0">Chờ thanh toán</option>
+            <option class="option" value="1">Đã thanh toán</option>
+            <option class="option" value="2">Đã hủy</option>
+          </select>
+        </div>
+        <div class="flex" style="font-size: 18px;margin-left: 30px;font-family: Arial;margin-top: 10px">
+          <label>Trạng thái giao hàng: </label>
+          <select id="trangThaiGiaoHang2" class="select-input"
+                  style="width: 300px;height: 30px;font-size: 18px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px;margin-left: 10px"
+          >
+            <option class="option" value="">Tất cả</option>
+            <option class="option" value="0">Chờ thanh toán</option>
+            <option class="option" value="1">Đã thanh toán</option>
+            <option class="option" value="2">Đã hủy</option>
+          </select>
+        </div>
+      </div>
+      <div style="margin: 10px" class="flex">
+        <div class="flex" style="font-size: 18px;margin-left: 10px;font-family: Arial;margin-top: 10px">
+          <label>Hình thức thanh toán: </label>
+          <select id="hinhThucThanhToan2" class="select-input"
+                  style="width: 200px;height: 30px;font-size: 18px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px;margin-left: 10px"
+          >
+            <option class="option" value="">Tất cả</option>
+            <option class="option" value="0">Tiền mặt</option>
+            <option class="option" value="1">Chuyển khoản</option>
+          </select>
+        </div>
+        <div class="flex" style="font-size: 18px;margin-left: 30px;font-family: Arial;margin-top: 10px">
+          <label>Hình thức giao hàng: </label>
+          <select id="hinhThucGiaoHang2" class="select-input"
+                  style="width: 300px;height: 30px;font-size: 18px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px;margin-left: 14px"
+          >
+            <option class="option" value="">Tất cả</option>
+            <option class="option" value="0">Trực tiếp</option>
+            <option class="option" value="1">Đặt Ship</option>
+          </select>
+        </div>
+        <div class="flex">
+          <div style="font-size: 18px;margin-left: 35px;font-family: Arial">
+            <label>Từ ngày: </label>
+            <input type="date" id="startDate2"
+                   style="width: 150px;height:30px;border-radius: 5px;border: 1px solid lightskyblue;margin-left: 10px;margin-top: 10px;padding: 5px">
+          </div>
+          <div style="font-size: 18px;margin-left: 10px;font-family: Arial">
+            <label>đến ngày</label>
+            <input type="date" id="endDate2"
+                   style="width: 150px;height:30px;border-radius: 5px;border: 1px solid lightskyblue;margin-left: 10px;margin-top: 10px;padding: 5px">
+          </div>
+        </div>
+      </div>
+      <div>
+        <nz-table #sortTable2 [nzData]="billListOnline" nzTableLayout="fixed">
+          <thead>
+          <tr>
+            <th style="width: 100px" nzLeft>STT</th>
+            <th class="items-center">Mã HD</th>
+            <th class="items-center">Ngày tạo</th>
+            <th class="items-center">Ngày thanh toán</th>
+            <th class="items-center">Khách hàng</th>
+            <th class="items-center">Trạng thái thanh toán</th>
+            <th class="items-center">Trạng thái giao hàng</th>
+            <th class="items-center">Tác vụ</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let data of sortTable2.data; let i = index">
+            <td style="width: 100px" nzLeft>{{ i + 1 }}</td>
+            <td>{{ data.ma }}</td>
+            <td>{{ data.ngayTao | date : 'dd-MM-yyyy hh:mm:ss aa'}}</td>
+            <td>{{ data.ngayThanhToan | date : 'dd-MM-yyyy hh:mm:ss aa'}}</td>
+            <td>{{ data.tenKhachHang }}</td>
+            <td>
+              <div *ngIf="data.trangThai == 0" style="background-color: yellowgreen;padding: 5px;border-radius: 5px;margin: 5px;text-align: center;font-weight: bolder;color: white">
+                <p>Chờ thanh toán</p>
+              </div>
+              <div *ngIf="data.trangThai == 1" style="background-color: green;padding: 5px;border-radius: 5px;margin: 5px;text-align: center;font-weight: bolder;color: white">
+                <p>Đã thanh toán</p>
+              </div>
+              <div *ngIf="data.trangThai == 2" style="background-color: red;padding: 5px;border-radius: 5px;margin: 5px;text-align: center;font-weight: bolder;color: white">
+                <p>Đã hủy</p>
+              </div>
+            </td>
+            <td>
+              <div *ngIf="data.trangThaiGiaoHang == 0" style="background-color: deepskyblue;padding: 5px;border-radius: 5px;margin: 5px;text-align: center;font-weight: bolder;color: white">
+                <p>Chờ giao hàng</p>
+              </div>
+              <div *ngIf="data.trangThaiGiaoHang == 2" style="background-color: blueviolet;padding: 5px;border-radius: 5px;margin: 5px;text-align: center;font-weight: bolder;color: white">
+                <p>Đang giao hàng</p>
+              </div>
+              <div *ngIf="data.trangThaiGiaoHang == 1" style="background-color: dodgerblue;padding: 5px;border-radius: 5px;margin: 5px;text-align: center;font-weight: bolder;color: white">
+                <p>Đã giao hàng</p>
+              </div>
+            </td>
+            <td nzLeft>
+              <div class="btn-info flex">
+                <div style="margin-left: 5px">
+                  <button (click)="getBillOnlineDetailS(data.id)"
+                          class="button-blue">
+                    Chi tiết
+                  </button>
+                </div>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </nz-table>
+      </div>
+    </div>
   </nz-tab>
 </nz-tabset>
-<!--<div>-->
-<!--  <input type="number" [(ngModel)]="amount" (input)="generateQRCode()">-->
-<!--  <img style="width: 400px;height:500px" src="{{qrcodeValue}}">-->
-<!--</div>-->
-<div>
-  <!--  qr-code MBBank-->
-  <!--  <h2>QR Code Payment</h2>-->
-  <!--    <input type="number" [(ngModel)]="amount">-->
-  <!--  <button (click)="generateQRCode()">Generate QR Code</button>-->
-  <!--  <div *ngIf="qrcodeValue">-->
-  <!--    <h3>Scan this QR Code to pay:</h3>-->
-  <!--    <img [src]="qrcodeValue" alt="QR Code" />-->
-  <!--  </div>-->
 
-  <!--  vnpay-->
-    <div>
-      <input type="number" [(ngModel)]="amount">
-      <button (click)="generateQRCode()">Generate QR Code</button>
-      <button (click)="pay()">Thanh toán</button>
+<nz-modal
+  [(nzVisible)]="isVisbleBillOnlineDetails"
+  (nzOnCancel)="cancelBillOnlineDetails()"
+  nzWidth="80%"
+  nzFooter=" "
+>
+  <ng-container *nzModalContent>
+    <div style="margin-top: 30px" class="flex">
+      <div style="width: 90%" class="flex">
+        <p style="padding: 5px;padding-left: 20px;font-weight: bolder;font-size: 18px"> Đơn hàng: {{billOnlineModel.ma}}</p>
+        <p style="padding: 5px;padding-left: 10px;font-weight: bolder;font-size: 16px;">|</p>
+        <p style="padding: 5px;padding-left: 20px;font-weight: bolder;font-size: 16px;color: red"> Tổng tiền: {{billOnlineModel.tongTien | currency:'VND': '':'1.0-0'}}</p>
+        <p style="padding: 5px;padding-left: 10px;font-weight: bolder;font-size: 16px;">|</p>
+        <p style="padding: 5px;padding-left: 20px;font-weight: bolder;font-size: 16px;color: red"> Giảm giá: {{billOnlineModel.tienGiamGia | currency:'VND': '':'1.0-0'}}</p>
+        <p style="padding: 5px;padding-left: 10px;font-weight: bolder;font-size: 16px;">|</p>
+        <p style="padding: 5px;padding-left: 20px;font-weight: bolder;font-size: 16px;color: red"> Tổng thanh toán: {{billOnlineModel.tongThanhToan | currency:'VND': '':'1.0-0'}}</p>
+        <p style="padding: 5px;padding-left: 10px;font-weight: bolder;font-size: 16px;">|</p>
+        <p style="padding: 5px;padding-left: 20px;font-weight: bolder;font-size: 16px;color: red"> Trạng thái giao hàng: {{billOnlineModel.trangThaiGiaoHang == 0 ? 'Chờ giao hàng' : billOnlineModel.trangThaiGiaoHang == 1 ? 'Đã giao hàng' : 'Đang giao hàng'}}</p>
+      </div>
+      <button *ngIf="billOnlineModel.trangThaiGiaoHang == 0" style="margin: 5px;margin-left: 20px" class="button-blue" (click)="showFormGiaoHang(idBillOnline)">Giao hàng</button>
+      <button *ngIf="billOnlineModel.trangThaiGiaoHang == 2" style="margin: 5px;margin-left: 20px" class="button-vio" (click)="hoanTatGiaoHang()">Đã giao hàng</button>
     </div>
-</div>
+    <div style="margin: 10px">
+      <nz-table *ngIf="billDetailsList.length > 0" #sortTable [nzData]="billDetailsList" nzTableLayout="fixed">
+        <thead>
+        <tr>
+          <th class="items-center">Ảnh SP</th>
+          <th class="items-center">Mã SP</th>
+          <th class="items-center">Tên SP</th>
+          <th class="items-center">Size</th>
+          <th class="items-center">Hãng</th>
+          <th class="items-center">Chất liệu</th>
+          <th class="items-center">Giá</th>
+          <th class="items-center">Số lượng</th>
+          <th class="items-center">Tổng tiền</th>
+          <!--        <th class="items-center">Hành động</th>-->
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let data of sortTable.data; let i = index">
+          <td><img style="width: 100px;height: 130px" src="{{data.imageCTSP}}" alt="{{data.maSanPham}}"></td>
+          <td>{{data.maSanPham}}</td>
+          <td>{{data.tenSanPham + ' '}}{{data.tenMauSac}}</td>
+          <td>{{data.tenKichThuoc}}</td>
+          <td>{{data.tenHang}}</td>
+          <td>{{data.tenChatLieu}}</td>
+          <td>{{data.giaBan ?? 0 | currency:'VND': '':'1.0-0'}}</td>
+          <td>{{data.soLuong}}</td>
+          <td>{{(data.soLuong * data.giaBan) ?? 0 | currency:'VND': '':'1.0-0'}}</td>
+          <!--        <td></td>-->
+        </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </ng-container>
+</nz-modal>
+
+<nz-modal
+  [(nzVisible)]="isVisbleShowFormGiaoHang"
+  nzCentered
+  nzTitle="Nhập thông tin giao hàng"
+  (nzOnCancel)="cancelFormGiaoHang()"
+  nzWidth="35%"
+  nzFooter=" "
+>
+  <ng-container *nzModalContent>
+    <div style="margin: 5px">
+      <div style="10px" class="flex">
+        <p style="width:200px;margin: 5px;font-size: 18px;padding: 5px" for="moTaMoi">SĐT Người ship:</p>
+        <input style="margin: 5px" type="text" id="sdtNguoiShip" class="moTa" placeholder="Nhập số điện thoại">
+      </div>
+      <div style="10px" class="flex">
+        <p style="width:200px;margin: 5px;font-size: 18px;padding: 5px" for="moTaMoi">Tên người ship:</p>
+        <input style="margin: 5px" type="text" id="tenNguoiShip" class="moTa" placeholder="Nhập họ tên">
+      </div>
+    </div>
+    <div class="flex" style="margin: 5px">
+      <div style="width: 90%">
+
+      </div>
+      <button (click)="okFormGiaoHang()" style="margin: 5px" class="button-create">Xác nhận</button>
+    </div>
+  </ng-container>
+</nz-modal>

@@ -5,6 +5,7 @@ import {BlogComponent} from "./blog/blog.component";
 import {CommingSoonComponent} from "./comming-soon/comming-soon.component";
 import {ProductComponent} from "./product/product.component";
 import {ProductDetailsComponent} from "./product-details/product-details.component";
+import {ResultPaymentSuccessComponent} from "./result-payment-success/result-payment-success.component";
 
 
 export const pages: any[] = [
@@ -14,7 +15,8 @@ export const pages: any[] = [
   AboutComponent,
   ProfileComponent,
   BlogComponent,
-  CommingSoonComponent
+  CommingSoonComponent,
+  ResultPaymentSuccessComponent
 ];
 
 export * from './home/home.component';

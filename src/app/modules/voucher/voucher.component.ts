@@ -8,6 +8,7 @@ import {VoucherService} from "../../service/voucher.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {CustomerService} from "../../service/customer.service";
 import {CustomerModel} from "../customer/models/customer.model";
+import {KhachHangKhuyenMaiService} from "../../service/khach-hang-khuyen-mai-service";
 
 @Component({
   selector: 'cons-voucher',
@@ -23,6 +24,8 @@ export class VoucherComponent implements OnInit{
   id: number | undefined;
   form: FormGroup;
   customerList: CustomerModel[] = [];
+  ngayBatDau: Date | null = null;
+  ngayKetThuc: Date | null = null;
 
 
   isVisibleTaoMoi = false;
@@ -57,6 +60,7 @@ export class VoucherComponent implements OnInit{
   }
   constructor(private voucherService: VoucherService,
               private customerService: CustomerService,
+              private khachHangKhuyenMaiService: KhachHangKhuyenMaiService,
               private router: Router,
               private route: ActivatedRoute,
               private messageNoti: NzMessageService,
@@ -149,10 +153,37 @@ export class VoucherComponent implements OnInit{
     this.isVisibleTaoMoi = false;
   }
 
+  createNewVoucher(){
+    const dataCreate = {
+      ma: (document.getElementById('maGiamGia') as HTMLInputElement).value,
+      moTa: (document.getElementById('moTaMoi') as HTMLInputElement).value,
+      giamGia: (document.getElementById('giamGiaMoi') as HTMLInputElement).value,
+      dieuKien: (document.getElementById('dieuKienMoi') as HTMLInputElement).value,
+      soLuong: (document.getElementById('soLuongMoi') as HTMLInputElement).value,
+      ngayBatDau: this.ngayBatDau,
+      ngayKetThuc: this.ngayKetThuc,
+      loaiGiamGia: Number.parseInt((document.getElementById('loaiGiamGia') as HTMLInputElement).value),
+      trangThai: 1
+    }
+    this.voucherService.create(dataCreate).subscribe(res => {
+      if(res){
+        console.log(res);
+        this.khachHangKhuyenMaiService.create(res.id, this.listOfCurrentPageData).subscribe(res2 => {
+          if (res2.code == "200"){
+            this.messageNoti.success('Tạo mã giảm giá thành công!');
+            this.isVisibleTaoMoi = false;
+            console.log(res2.body);
+          }
+        })
+      }
+    })
+  }
+
   ngOnInit() {
     this.getVouchers();
   }
 
+  // table khach hang
   updateCheckedSet(id: number, checked: boolean): void {
     if (checked) {
       this.setOfCheckedId.add(id);
@@ -164,15 +195,18 @@ export class VoucherComponent implements OnInit{
   onItemChecked(id: number, checked: boolean): void {
     this.updateCheckedSet(id, checked);
     this.refreshCheckedStatus();
+    console.log(this.listOfCurrentPageData);
   }
 
   onAllChecked(value: boolean): void {
     this.listOfCurrentPageData.forEach(item => this.updateCheckedSet(item.id, value));
+    console.log(this.listOfCurrentPageData);
     this.refreshCheckedStatus();
   }
 
   onCurrentPageDataChange($event: readonly CustomerModel[]): void {
     this.listOfCurrentPageData = $event;
+    console.log(this.listOfCurrentPageData);
     this.refreshCheckedStatus();
   }
 

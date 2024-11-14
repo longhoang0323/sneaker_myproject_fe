@@ -17,6 +17,7 @@ import {ChiTietSanPhamModel} from "../../models/chi-tiet-san-pham.model";
 import {ChiTietSanPhamService} from "../../service/chi-tiet-san-pham-service";
 import {NzNotificationService} from "ng-zorro-antd/notification";
 import {BillDetailService} from "../../service/bill-detail-service";
+import {BrowserMultiFormatReader, NotFoundException} from "@zxing/library";
 
 @Component({
   selector: 'cons-bill',
@@ -45,6 +46,7 @@ export class BillComponent implements OnInit {
   // isVisible
   isVisibleListSP = false;
   isVisibleShowCTSP = false;
+  isVisbleCTSPByQR = false;
   imgDefault: string = '';
 
   // check
@@ -64,6 +66,11 @@ export class BillComponent implements OnInit {
   colorFontKhachHang: string = 'green';
   backGroundColorKhachHang: string = 'white';
 
+  // qr code san pham
+  codeReader: BrowserMultiFormatReader;
+  public scannedCode: string | null = null;
+  checkCamera = false;
+
   constructor(private route: ActivatedRoute,
               private billService: BillService,
               private billDetailService: BillDetailService,
@@ -74,7 +81,7 @@ export class BillComponent implements OnInit {
               private sanPhamService: SanPhamService,
               private chiTietSanPhamService: ChiTietSanPhamService,
               private notification: NzNotificationService) {
-
+    this.codeReader = new BrowserMultiFormatReader();
   }
 
   ngOnInit(): void {
@@ -290,5 +297,35 @@ export class BillComponent implements OnInit {
     this.billDetailService.getListByBill(1, 50, this.idBill).subscribe(res => {
       this.billDetails = res.content;
     })
+  }
+
+  startScanning(): void {
+    this.checkCamera = true;
+    this.codeReader.decodeFromVideoDevice(null, 'video', (result, err) => {
+      if (result) {
+        // @ts-ignore
+        this.scannedCode = result.text;
+        this.chiTietSanPhamService.getOneByMa(this.scannedCode).subscribe(res => {
+          if (res){
+            this.chiTietSanPham = res;
+            console.log('Scanned code:', this.scannedCode);
+            this.isVisbleCTSPByQR = true;
+            this.cancelQuetQR();
+          }
+        })
+      }
+      if (err && !(err instanceof NotFoundException)) {
+        console.error(err);
+      }
+    });
+  }
+
+  cancelQuetQR(){
+    this.codeReader.reset();
+    this.checkCamera = false;
+  }
+
+  cancelShowCTSPByQR(){
+    this.isVisbleCTSPByQR = false;
   }
 }

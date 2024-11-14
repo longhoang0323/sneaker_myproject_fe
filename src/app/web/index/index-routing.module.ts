@@ -9,6 +9,7 @@ import {CommingSoonComponent} from "./page/comming-soon/comming-soon.component";
 import {CartComponent} from "./cart/cart.component";
 import {ProductComponent} from "./page/product/product.component";
 import {ProductDetailsComponent} from "./page/product-details/product-details.component";
+import {ResultPaymentSuccessComponent} from "./page/result-payment-success/result-payment-success.component";
 
 const routes: Routes = [
   {
@@ -47,6 +48,10 @@ const routes: Routes = [
         path: 'me/cart',
         component: CartComponent
       },
+      {
+        path: 'pay-ment-success',
+        component: ResultPaymentSuccessComponent
+      }
       // {
       //   path: 'me/step',
       //   children: [

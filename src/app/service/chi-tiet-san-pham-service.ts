@@ -7,21 +7,21 @@ import {map} from "rxjs/operators";
 const API_AU_URL = `${environment.apiUrl}/chi-tiet-san-pham`;
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class ChiTietSanPhamService {
-    constructor(private http: HttpClient) {
-    }
+  constructor(private http: HttpClient) {
+  }
 
-    getList(page: number, size: number): Observable<any> {
-        const params = {page, size};
-        return this.http.get<any>(`${API_AU_URL}/list`, {params}).pipe(map(res => {
-            if (res.body && res.body) {
-                return res.body;
-            }
-            return null;
-        }));
-    }
+  getList(page: number, size: number): Observable<any> {
+    const params = {page, size};
+    return this.http.get<any>(`${API_AU_URL}/list`, {params}).pipe(map(res => {
+      if (res.body && res.body) {
+        return res.body;
+      }
+      return null;
+    }));
+  }
 
   getListBySanPham(page: number, size: number, idSanPham: number): Observable<any> {
     const params = {page, size, idSanPham};
@@ -43,24 +43,30 @@ export class ChiTietSanPhamService {
     }));
   }
 
-    create(data: any): Observable<any> {
-        return this.http.post(`${API_AU_URL}/create`, data);
-    }
+  create(data: any): Observable<any> {
+    return this.http.post(`${API_AU_URL}/create`, data);
+  }
 
-    detail(id: any): Observable<any> {
-        const params = {id};
-        return this.http.get(`${API_AU_URL}/detail`, {params});
-    }
+  detail(id: any): Observable<any> {
+    const params = {id};
+    return this.http.get(`${API_AU_URL}/detail`, {params});
+  }
 
-    update(id: any, data: any): Observable<any> {
-        const params = {id};
-        return this.http.put(`${API_AU_URL}/update`, data, {params});
-    }
+  getOneByMa(ma: any): Observable<any> {
+    const params = {ma};
+    return this.http.get(`${API_AU_URL}/get-one-by-ma`, {params});
+  }
 
-    updateStatus(id: any, data: any): Observable<any> {
-        const params = {id};
-        return this.http.put(`${API_AU_URL}/update-status`, data, {params});
-    }
+
+  update(id: any, data: any): Observable<any> {
+    const params = {id};
+    return this.http.put(`${API_AU_URL}/update`, data, {params});
+  }
+
+  updateStatus(id: any, data: any): Observable<any> {
+    const params = {id};
+    return this.http.put(`${API_AU_URL}/update-status`, data, {params});
+  }
 
   getOneByColorAndSize(idMauSac: any, idKichThuoc: any, idSanPham: any): Observable<any> {
     const params = {idMauSac, idKichThuoc, idSanPham};

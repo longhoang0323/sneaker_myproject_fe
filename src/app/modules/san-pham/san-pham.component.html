@@ -48,7 +48,6 @@
         <th class="items-center">Tên SP</th>
         <th class="items-center">Hãng</th>
         <th class="items-center">Chất liệu</th>
-        <th class="items-center">Mã QR</th>
         <th style="width: 300px" class="items-center">Tác vụ</th>
       </tr>
       </thead>
@@ -63,9 +62,6 @@
         <td class="items-center">{{ data.ten }}</td>
         <td class="items-center">{{ data.tenHang }}</td>
         <td class="items-center">{{ data.tenChatLieu }}</td>
-        <td class="items-center">
-          <img [src]="qrCodeUrl" alt="QR Code"/>
-        </td>
         <td nzLeft>
           <div class="btn-info flex">
             <!--          <span class="font-medium text-blue-600 dark:text-blue-500 hover:underline" (click)="showModal(data.id)" nz-icon nzType="edit" nzTheme="outline" style="font-size: 24px"></span>-->

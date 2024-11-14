@@ -135,6 +135,14 @@
         <img *ngIf="image != ''" style="width: 200px;height: 140px;margin-left: 5px" src="{{image}}" alt="Ảnh sản phẩm">
         </div>
       </nz-form-item>
+      <div class="flex" style="height: 100px;margin-left: 50%">
+        <div style="margin-left: 5px">
+          <button class="button-create" (click)="generateQRCode()">Tạo mã QR</button>
+        </div>
+        <div style="margin-left: 5px;margin-bottom: 5px" >
+          <img *ngIf="qrCodeUrl" [src]="qrCodeUrl" alt="{{maCTSPMoi}}"/>
+        </div>
+      </div>
     </div>
   </ng-container>
 </nz-modal>

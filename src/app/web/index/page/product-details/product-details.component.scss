@@ -108,3 +108,18 @@
   background-color: yellowgreen;
   color: white;
 }
+
+.button-detail{
+  border-radius: 8px;
+  border: 1px solid deepskyblue;
+  font-weight: bolder;
+  color: dodgerblue;
+  width: auto;
+  padding: 5px;
+  height: 35px
+}
+
+.button-detail:hover {
+  background-color: deepskyblue;
+  color: white;
+}

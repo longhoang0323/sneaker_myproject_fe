@@ -35,6 +35,8 @@ import {CustomDate} from "../../shared/pipes/custom-date";
 import {NzTagModule} from "ng-zorro-antd/tag";
 import {RecaptchaModule} from "./recaptcha/recaptcha.module";
 import {NzSpinModule} from "ng-zorro-antd/spin";
+import {NzResultModule} from "ng-zorro-antd/result";
+import {NzPaginationModule} from "ng-zorro-antd/pagination";
 
 @NgModule({
   declarations: [
@@ -81,6 +83,8 @@ import {NzSpinModule} from "ng-zorro-antd/spin";
         NzTagModule,
         RecaptchaModule,
         NzSpinModule,
+        NzResultModule,
+        NzPaginationModule,
     ]
 })
 export class IndexModule {

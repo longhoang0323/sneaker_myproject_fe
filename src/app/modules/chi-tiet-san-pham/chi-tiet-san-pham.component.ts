@@ -11,6 +11,7 @@ import {SanPhamService} from "../../service/san-pham-service";
 import {MauSacService} from "../../service/mau-sac-service";
 import {KichThuocService} from "../../service/kich-thuoc-service";
 import {NzNotificationService} from "ng-zorro-antd/notification";
+import * as QRCode from "qrcode";
 
 @Component({
   selector: 'cons-chi-tiet-san-pham',
@@ -28,6 +29,8 @@ export class ChiTietSanPhamComponent implements OnInit {
   ctsp!: ChiTietSanPhamModel;
   image: string = '';
   imageUpdate: string = '';
+  maCTSPMoi: string = '';
+  qrCodeUrl: string='';
 
 
   constructor(private ctspService: ChiTietSanPhamService,
@@ -82,6 +85,7 @@ export class ChiTietSanPhamComponent implements OnInit {
   }
 
   showModalCreaate() {
+    this.maCTSPMoi = 'CT' +  String(parseInt(this.ctspList[0].ma.replace(/\D/g, ''), 10) + 1);
     this.isVisibleCreate = true;
   }
 
@@ -239,6 +243,16 @@ export class ChiTietSanPhamComponent implements OnInit {
       reader.readAsDataURL(file);
       this.mess.success(reader.result as string);
     }
+  }
+
+  generateQRCode(): void {
+    QRCode.toDataURL(this.maCTSPMoi)
+      .then((url: string) => {
+        this.qrCodeUrl = url;
+      })
+      .catch((err: any) => {
+        console.error('Error generating QR Code', err);
+      });
   }
 
 }

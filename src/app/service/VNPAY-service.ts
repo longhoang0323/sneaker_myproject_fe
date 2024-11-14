@@ -13,8 +13,13 @@ export class VNPAYService {
 
   constructor(private http: HttpClient) { }
 
-  createPayment(amount: any, bankCode: string): Observable<any> {
-    const params = {amount, bankCode};
+  createPayment(amount: any, bankCode: string, maHD: string): Observable<any> {
+    const params = {amount, bankCode, maHD};
     return this.http.get<any>(`${API_AU_URL}/vn-pay`, {params});
+  }
+
+  payCallbackHandler(vnp_ResponseCode: any, id: any): Observable<any> {
+    const params = {vnp_ResponseCode, id};
+    return this.http.get<any>(`${API_AU_URL}/vn-pay-callback`, {params});
   }
 }
