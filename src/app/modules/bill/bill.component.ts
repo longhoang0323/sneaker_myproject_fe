@@ -18,6 +18,8 @@ import {ChiTietSanPhamService} from "../../service/chi-tiet-san-pham-service";
 import {NzNotificationService} from "ng-zorro-antd/notification";
 import {BillDetailService} from "../../service/bill-detail-service";
 import {BrowserMultiFormatReader, NotFoundException} from "@zxing/library";
+import {CustomerService} from "../../service/customer.service";
+import {CustomerModel} from "../customer/models/customer.model";
 
 @Component({
   selector: 'cons-bill',
@@ -34,6 +36,8 @@ export class BillComponent implements OnInit {
   bill!: BillModel;
   sanPham!: SanPhamModel;
   chiTietSanPham!: ChiTietSanPhamModel;
+  customerModel!: CustomerModel;
+  khachBanLe!: CustomerModel;
 
   // list
   billDetails: BillDetailModel[] = [];
@@ -42,17 +46,21 @@ export class BillComponent implements OnInit {
   chatLieuList: ChatLieuModel[] = [];
   mauSacList: MauSacModel[] = [];
   kichThuocList: KichThuocModel[] = [];
+  customerList: CustomerModel[] = [];
 
   // isVisible
   isVisibleListSP = false;
   isVisibleShowCTSP = false;
   isVisbleCTSPByQR = false;
+  isVisbleShowChonKH = false;
+  isVisbleShowModalChonKH = false;
   imgDefault: string = '';
 
   // check
   checkSelectColor = true;
   checkSelectSize = true;
   checkSelectKhachHang = 0;
+  checkShowInforCustomer = false;
 
   // biến
   tienMat: number = 0;
@@ -65,6 +73,7 @@ export class BillComponent implements OnInit {
   backGroundColorKhachLe: string = 'green';
   colorFontKhachHang: string = 'green';
   backGroundColorKhachHang: string = 'white';
+  searchInputKH: string = '';
 
   // qr code san pham
   codeReader: BrowserMultiFormatReader;
@@ -80,12 +89,18 @@ export class BillComponent implements OnInit {
               private kichThuocService: KichThuocService,
               private sanPhamService: SanPhamService,
               private chiTietSanPhamService: ChiTietSanPhamService,
+              private customerService: CustomerService,
               private notification: NzNotificationService) {
     this.codeReader = new BrowserMultiFormatReader();
   }
 
   ngOnInit(): void {
     this.idBill = this.route.snapshot.params['id'];
+    this.customerService.getKhachBanLe(0).subscribe(res => {
+      if(res){
+        this.khachBanLe = res;
+      }
+    })
     this.getBillAndListByBill();
   }
 
@@ -159,8 +174,11 @@ export class BillComponent implements OnInit {
 
   createBillDetail() {
     if (this.chiTietSanPham) {
-
-
+      if(Number.parseInt((document.getElementById('soLuong') as HTMLInputElement).value) > this.chiTietSanPham.soLuong){
+        this.notification.error('Số lượng trong kho không đủ', '');
+        return;
+      }
+      const soLuongMua = Number.parseInt((document.getElementById('soLuong') as HTMLInputElement).value);
       const data = {
         idHoaDon: this.idBill,
         idChiTietSanPham: this.chiTietSanPham.id,
@@ -171,6 +189,9 @@ export class BillComponent implements OnInit {
       }
       this.billDetailService.addBillDetail(data).subscribe(res => {
         if (res) {
+          this.chiTietSanPhamService.updateSoLuong(this.chiTietSanPham.id, soLuongMua).subscribe(res2 => {
+            console.log(res2);
+          })
           this.isVisibleShowCTSP = false;
           this.isVisibleListSP = false;
           this.checkSelectColor = true;
@@ -214,18 +235,49 @@ export class BillComponent implements OnInit {
 
   chonKhachBanLe() {
     this.checkSelectKhachHang = 0;
+    this.isVisbleShowChonKH = false;
     this.backGroundColorKhachLe = 'green';
     this.colorFontKhachLe = 'white';
     this.backGroundColorKhachHang = 'white';
     this.colorFontKhachHang = 'green';
+    this.checkShowInforCustomer = false;
   }
 
   chonKhachHang() {
     this.checkSelectKhachHang = 1;
+    this.isVisbleShowChonKH = true;
     this.backGroundColorKhachLe = 'white';
     this.colorFontKhachLe = 'green';
     this.backGroundColorKhachHang = 'green';
     this.colorFontKhachHang = 'white';
+    this.checkShowInforCustomer = true;
+  }
+
+  showModalChonKH(){
+    this.isVisbleShowModalChonKH = true;
+    this.customerService.getCustomerList(1, 50).subscribe(res => {
+      if(res){
+        this.customerList = res.content;
+      }
+    })
+  }
+
+  cancelModalChonKH(){
+    this.isVisbleShowModalChonKH = false;
+  }
+
+  okChonKH(id: any){
+    this.customerService.get(id).subscribe(res => {
+      if(res){
+        this.customerModel = res;
+        this.checkShowInforCustomer = true;
+        this.isVisbleShowModalChonKH = false;
+      }
+    })
+  }
+
+  getListKhBySearch(){
+
   }
 
   // thanh toán tại quầy
@@ -243,6 +295,7 @@ export class BillComponent implements OnInit {
       tienMat: 0,
       chuyenKhoan: 0,
       diaChi: '',
+      idKhachHang: 0,
       trangThai: 1
     }
     if (this.hinhThucGH == 1 && this.checkSelectKhachHang == 0) {
@@ -251,25 +304,32 @@ export class BillComponent implements OnInit {
       data.tenNguoiShip = (document.getElementById('tenNguoiShip') as HTMLInputElement).value;
       data.sdtNguoiShip = (document.getElementById('sdtNguoiShip') as HTMLInputElement).value;
       data.diaChi = (document.getElementById('diaChi') as HTMLInputElement).value;
+      data.idKhachHang = this.khachBanLe.id;
       data.tienShip = 30000;
       data.tongThanhToan = this.bill.tongTien - (this.bill.tienGiamGia ?? 0) + 30000
     }
-    // if (this.hinhThucGH == 1 && this.checkSelectKhachHang == 1) {
-    //   data.tenNguoiNhan = '';
-    //   data.sdtNguoiNhan = '';
-    //   data.tienShip = 30000;
-    //   data.tongThanhToan = this.bill.tongTien - (this.bill.tienGiamGia ?? 0) + 30000
-    // }
+    if (this.hinhThucGH == 1 && this.checkSelectKhachHang == 1) {
+      data.tenNguoiNhan = (document.getElementById('tenNguoiNhan') as HTMLInputElement).value;
+      data.sdtNguoiNhan = (document.getElementById('sdtNguoiNhan') as HTMLInputElement).value;
+      data.tenNguoiShip = (document.getElementById('tenNguoiShip') as HTMLInputElement).value;
+      data.sdtNguoiShip = (document.getElementById('sdtNguoiShip') as HTMLInputElement).value;
+      data.diaChi = (document.getElementById('diaChi') as HTMLInputElement).value;
+      data.idKhachHang = this.customerModel.id;
+      data.tienShip = 30000;
+      data.tongThanhToan = this.bill.tongTien - (this.bill.tienGiamGia ?? 0) + 30000
+    }
     if (this.hinhThucGH == 0 && this.checkSelectKhachHang == 0) {
+      data.idKhachHang = this.khachBanLe.id;
       data.tenNguoiNhan = 'Khách bán lẻ';
       data.tienShip = 0;
       data.tongThanhToan = this.bill.tongTien - (this.bill.tienGiamGia ?? 0)
     }
-    // if (this.hinhThucGH == 0 && this.checkSelectKhachHang == 1) {
-    //   data.tenNguoiNhan = 'Khách bán lẻ';
-    //   data.tienShip = 0;
-    //   data.tongThanhToan = this.bill.tongTien - (this.bill.tienGiamGia ?? 0)
-    // }
+    if (this.hinhThucGH == 0 && this.checkSelectKhachHang == 1) {
+      data.tenNguoiNhan = 'Khách bán lẻ';
+      data.idKhachHang = this.customerModel.id;
+      data.tienShip = 0;
+      data.tongThanhToan = this.bill.tongTien - (this.bill.tienGiamGia ?? 0)
+    }
     if (this.hinhThucTT == 0) {
       data.tienMat = Number.parseInt((document.getElementById('tienMat') as HTMLInputElement).value);
       data.chuyenKhoan = 0;

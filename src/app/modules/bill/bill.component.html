@@ -55,6 +55,8 @@
           <div style="width: 25%;float: left">
             <p style="padding: 10px">Khách hàng: </p>
             <p style="padding: 10px">Hình thức giao hàng: </p>
+            <p *ngIf="checkShowInforCustomer && customerModel" style="padding: 10px">Tên khách hàng: </p>
+            <p *ngIf="checkShowInforCustomer && customerModel" style="padding: 10px">Số điện thoại: </p>
             <p *ngIf="hinhThucGH == 1" style="padding: 10px">Tên người nhận: </p>
             <p *ngIf="hinhThucGH == 1" style="padding: 10px">SĐT người nhận: </p>
             <p *ngIf="hinhThucGH == 1" style="padding: 10px">Tên người ship: </p>
@@ -71,6 +73,10 @@
                       style="border: 1px solid green;border-radius: 4px;background-color: {{backGroundColorKhachHang}};color: {{colorFontKhachHang}};padding: 5px;margin: 5px;font-size: 15px">
                 Khách hàng đã lưu
               </button>
+              <button *ngIf="isVisbleShowChonKH" id="btnChonKhachHang" (click)="showModalChonKH()"
+                      style="border: 1px solid green;border-radius: 4px;background-color: {{backGroundColorKhachHang}};color: {{colorFontKhachHang}};padding: 5px;margin: 5px;font-size: 15px">
+                Chọn khách hàng
+              </button>
             </div>
             <div>
               <select id="hinhThucGiaoHang" class="select-input" (change)="chonHinhThucGiaoHang()"
@@ -80,6 +86,8 @@
                 <option class="option" value="1">Nhờ vận chuyển</option>
               </select>
             </div>
+            <p *ngIf="checkShowInforCustomer && customerModel" style="padding: 10px">{{customerModel.hoTen}}</p>
+            <p *ngIf="checkShowInforCustomer && customerModel" style="padding: 10px">{{customerModel.sdt}}</p>
             <div>
               <input *ngIf="hinhThucGH == 1" type="text" id="tenNguoiNhan"
                      style="width: 250px;border: 1px solid deepskyblue;border-radius: 3px;margin: 10px"/>
@@ -117,8 +125,8 @@
             <p style="padding: 10px">{{bill.hinhThucGiaoHang == 0 ? 'Tại quầy' : 'Nhờ đơn vị vận chuyển'}}</p>
             <p style="padding: 10px">{{bill.tenNguoiNhan != '' ? bill.tenNguoiNhan : '(Khách bán lẻ)'}}</p>
             <p style="padding: 10px">{{bill.sdtNguoiNhan != '' ? bill.sdtNguoiNhan : '(Không có)'}}</p>
-            <p style="padding: 10px">{{bill.tenNguoiShip != null ? bill.tenNguoiShip : '(Không có)'}}</p>
-            <p style="padding: 10px">{{bill.sdtNguoiShip != null ? bill.sdtNguoiShip : '(Không có)'}}</p>
+            <p style="padding: 10px">{{(bill.tenNguoiShip != null && bill.tenNguoiShip != '') ? bill.tenNguoiShip : '(Không có)'}}</p>
+            <p style="padding: 10px">{{(bill.sdtNguoiShip != null && bill.sdtNguoiShip != '') ? bill.sdtNguoiShip : '(Không có)'}}</p>
             <p style="padding: 10px">{{bill.diaChi != '' ? bill.diaChi : 'Tại quầy'}}</p>
           </div>
         </div>
@@ -440,6 +448,62 @@
           </div>
         </div>
       </div>
+    </div>
+  </ng-container>
+</nz-modal>
+
+<nz-modal
+  [(nzVisible)]="isVisbleShowModalChonKH"
+  nzTitle="Chọn khách hàng"
+  (nzOnCancel)="cancelModalChonKH()"
+  nzWidth="80%"
+  nzFooter=" "
+>
+  <ng-container *nzModalContent>
+    <div style="margin: 10px" class="flex">
+      <div style="float: left">
+        <div style="margin: 10px">
+          <nz-input-group style="border: 1px solid grey;border-radius: 3px;width: 400px" [nzSuffix]="suffixIconSearch">
+            <input [ngModel]="searchInputKH" id="searchInputKH"
+                   (ngModelChange)="getListKhBySearch()"
+                   style="border: none;font-size: 16px" type="text" nz-input placeholder="Tìm kiếm khách hàng" />
+          </nz-input-group>
+          <ng-template #suffixIconSearch>
+            <span style="font-size: 18px" nz-icon nzType="search"></span>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+    <div>
+      <nz-table #sortTable [nzData]="customerList" nzTableLayout="fixed">
+        <thead>
+        <tr>
+          <th style="text-align: center;width: 100px" nzLeft>STT</th>
+          <th class="items-center">Mã KH</th>
+          <th class="items-center">Họ tên</th>
+          <th class="items-center">Số điện thoại</th>
+          <th class="items-center">Ngày sinh</th>
+          <th style="width: 150px" class="items-center">Tác vụ</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let data of sortTable.data; let i = index">
+          <th style="text-align: center;width: 100px" nzLeft>{{ i + 1 }}</th>
+          <td class="items-center">{{ data.ma }}</td>
+          <td class="items-center">{{ data.hoTen }}</td>
+          <td class="items-center">{{ data.sdt }}</td>
+          <td class="items-center">{{ data.ngaySinh }}</td>
+          <td nzLeft>
+            <div>
+              <button (click)="okChonKH(data.id)"
+                      class="button-blue">
+                Chọn
+              </button>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </nz-table>
     </div>
   </ng-container>
 </nz-modal>

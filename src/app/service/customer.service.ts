@@ -28,6 +28,11 @@ export class CustomerService{
     return this.http.get<any>(`${API_AU_URL}/detail`, {params});
   }
 
+  getKhachBanLe(trangThai: any): Observable<any> {
+    const params = {trangThai};
+    return this.http.get<any>(`${API_AU_URL}/khach-ban-le`, {params});
+  }
+
   update(id: any, data: any): Observable<any> {
     const params = {id};
     return this.http.put(`${API_AU_URL}/update`, data, {params});

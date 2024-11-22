@@ -8,4 +8,5 @@ export class CustomerModel{
   sdt: string = '';
   tichDiem: number = 0;
   thoiHan: string = '';
+  trangThai: number = 0;
 }

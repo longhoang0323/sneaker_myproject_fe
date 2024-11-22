@@ -72,4 +72,9 @@ export class ChiTietSanPhamService {
     const params = {idMauSac, idKichThuoc, idSanPham};
     return this.http.get(`${API_AU_URL}/get-one-by-color-and-size`, {params});
   }
+
+  updateSoLuong(id: any, data: any): Observable<any> {
+    const params = {id};
+    return this.http.put(`${API_AU_URL}/update-so-luong`, data, {params});
+  }
 }

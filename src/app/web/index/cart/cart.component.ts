@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../../../auth/services";
 import {UserModel} from "../../../auth/models/user.model";
+import {GioHangChiTietModel} from "../../../models/gio-hang-chi-tiet.model";
+import {GioHangService} from "../../../service/gio-hang-service";
 
 @Component({
   selector: 'cons-cart',
@@ -9,8 +11,10 @@ import {UserModel} from "../../../auth/models/user.model";
 })
 export class CartComponent implements OnInit {
   user: UserModel | undefined;
+  gioHangList: GioHangChiTietModel[] = [];
 
-  constructor(private authService: AuthService ) {
+  constructor(private authService: AuthService,
+              private gioHangService: GioHangService) {
   }
 
   private cartStorageKey = 'cartItems';
@@ -18,6 +22,7 @@ export class CartComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = this.authService.currentUserValue;
+    this.getListByUser();
     this.loadCartItems(this.user?.id);
     this.subtotal();
   }
@@ -33,13 +38,29 @@ export class CartComponent implements OnInit {
   }
 
 
-  removeFromCart(index: number): void {
-    this.cartItems.splice(index, 1);
-    localStorage.setItem(`${this.cartStorageKey}_${this.user?.id}`, JSON.stringify(this.cartItems));
-  }
+  // removeFromCart(index: number): void {
+  //   this.cartItems.splice(index, 1);
+  //   localStorage.setItem(`${this.cartStorageKey}_${this.user?.id}`, JSON.stringify(this.cartItems));
+  // }
 
   subtotal(): number {
     return this.cartItems.reduce((acc, item) => acc + item.amount, 0);
+  }
+
+  getListByUser(){
+    this.gioHangService.getListByUser(1, 50, this.authService.currentUserValue?.id).subscribe(res => {
+      if (res) {
+        this.gioHangList = res.content;
+      }
+    })
+  }
+
+  editData(id: any){
+
+  }
+
+  removeFromCart(id: any){
+
   }
 
 }

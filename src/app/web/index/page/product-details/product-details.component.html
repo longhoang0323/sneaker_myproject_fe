@@ -57,7 +57,7 @@
         </div>
       </div>
       <div *ngIf="mauSac != '' && listBySanPhamAndColor.length > 0 && soLuong > 0" class="flex" style="margin: 30px">
-        <button class="button-green" style="margin: 20px;width: 50%">
+        <button (click)="addToCart()" class="button-green" style="margin: 20px;width: 50%">
           Thêm vào giỏ hàng
         </button>
         <button class="button-blue" style="margin: 20px;width: 50%" (click)="nhapSoLuong()">
@@ -251,16 +251,16 @@
             {{ data.ngayKetThuc }}
           </td>
           <td class="px-6 py-4">
-            <div *ngIf="data.trangThai == 0" style="background-color: orangered;padding: 5px;border-radius: 5px;margin: 5px;text-align: center;font-weight: bolder;color: white">
+            <div *ngIf="data.trangThaiVoucher == 0" style="background-color: orangered;padding: 5px;border-radius: 5px;margin: 5px;text-align: center;font-weight: bolder;color: white">
               <p>Đã kết thúc</p>
             </div>
-            <div *ngIf="data.trangThai == 1" style="background-color: darkgreen;padding: 5px;border-radius: 5px;margin: 5px;text-align: center;font-weight: bolder;color: white">
+            <div *ngIf="data.trangThaiVoucher == 1" style="background-color: darkgreen;padding: 5px;border-radius: 5px;margin: 5px;text-align: center;font-weight: bolder;color: white">
               <p>Đang diễn ra</p>
             </div>
           </td>
           <td class="px-12 py-4" style="display: flex">
               <div>
-                <button (click)="chonMaGiamGia(data.idVoucher, data.maVoucher, data.giaTriVoucher, data.loaiGiamGia)"
+                <button (click)="chonMaGiamGia(data.idVoucher, data.maVoucher, data.giaTriVoucher, data.loaiGiamGia, data.trangThaiVoucher)"
                         class="button-detail">
                   Sử dụng ngay
                 </button>

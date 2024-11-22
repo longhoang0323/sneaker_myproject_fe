@@ -55,11 +55,11 @@ export class CustomerComponent implements OnInit{
       compare: (a: CustomerModel, b: CustomerModel) => a.diaChi.localeCompare(b.diaChi),
       priority: 7
     },
-    {
-      title: 'Tích điểm',
-      compare: (a: CustomerModel, b: CustomerModel) => a.tichDiem - b.tichDiem,
-      priority: 1
-    }
+    // {
+    //   title: 'Tích điểm',
+    //   compare: (a: CustomerModel, b: CustomerModel) => a.tichDiem - b.tichDiem,
+    //   priority: 1
+    // }
   ]
 
 
