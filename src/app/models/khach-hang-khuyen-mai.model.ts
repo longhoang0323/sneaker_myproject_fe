@@ -11,4 +11,5 @@ export class KhachHangKhuyenMaiModel{
   ngayKetThuc: string| undefined;
   loaiGiamGia: number = 0;
   trangThai: number = 0;
+  trangThaiVoucher: number = 0;
 }

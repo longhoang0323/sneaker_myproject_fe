@@ -114,6 +114,7 @@ export class BanHangComponent implements OnInit {
       if(res){
         this.isVisbleShowFormGiaoHang = false;
         this.notification.success('Giao hàng thành công', '');
+        this.getListOnLine();
         this.billService.get(this.idBillOnline).subscribe(res2 => {
           if(res2){
             this.billOnlineModel = res2;
@@ -133,6 +134,7 @@ export class BanHangComponent implements OnInit {
       if(res){
         this.isVisbleShowFormGiaoHang = false;
         this.notification.success('Hoàn tất giao hàng!', '');
+        this.getListOnLine();
         this.billService.get(this.idBillOnline).subscribe(res2 => {
           if(res2){
             this.billOnlineModel = res2;

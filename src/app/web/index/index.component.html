@@ -30,7 +30,16 @@
             </div>
             <!--         giỏ hàng-->
             <div style="margin-left: 10px">
-              <span nz-icon nzType="shopping-cart" nzTheme="outline" style="width: 30px;height: 30px"></span>
+              <nz-badge [nzCount]="countCart" *ngIf="user">
+                <a routerLink="/me/cart">
+                  <img src="assets/images/icons/shopping-cart-icon-free-vector.jpg" class="head-example">
+                </a>
+              </nz-badge>
+                <nz-badge [nzCount]="0" *ngIf="!user">
+                  <a routerLink="/me/cart">
+                    <img src="assets/images/icons/shopping-cart-icon-free-vector.jpg" class="head-example">
+                  </a>
+                </nz-badge>
             </div>
             <!-- Profile dropdown -->
             <div class="relative ml-3">

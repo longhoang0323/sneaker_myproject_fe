@@ -5,6 +5,8 @@ import {NotificationsModel} from "../../models/notifications.model";
 import {ServiceService} from "./page/service/service.service";
 import {UserModel} from "../../auth/models/user.model";
 import {Router} from "@angular/router";
+import {SanPhamService} from "../../service/san-pham-service";
+import {GioHangService} from "../../service/gio-hang-service";
 
 @Component({
   selector: 'cons-index',
@@ -18,20 +20,31 @@ export class IndexComponent implements OnInit {
   showDropdown = false;
   notifications: NotificationsModel[] = [];
   searchInput: string = '';
-
+  countCart: number = 0;
   toggleDropdown() {
     this.showDropdown = !this.showDropdown;
   }
 
   constructor(private authService: AuthService, private service: ServiceService,
+              private sanPhamService: SanPhamService,
+              private gioHangService: GioHangService,
               private router: Router) {
     this.user$ = this.authService.currentUser$;
+  }
+
+  public getCountCart(){
+    this.gioHangService.getCountCartByUser(this.authService.currentUserValue?.id).subscribe(res => {
+      if(res){
+        this.countCart = res;
+      }
+    })
   }
 
   ngOnInit(): void {
     this.user = this.authService.currentUserValue;
     this.getNoti();
     this.loadCartItems();
+    this.getCountCart();
   }
 
   getNoti(): void {

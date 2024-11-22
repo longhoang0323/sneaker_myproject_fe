@@ -7,31 +7,50 @@
       <div style="width: 20%;margin: 10px;border: 2px solid darkgray;border-radius: 5px">
         <div style="margin: 10px">
         <nz-input-group style="border: 1px solid deepskyblue" [nzSuffix]="suffixIconSearch">
-          <input style="border: none;font-size: 18px" type="text" nz-input placeholder="Tìm kiếm sản phẩm" />
+          <input [ngModel]="searchInput" id="searchInput"
+                 (ngModelChange)="getListSanPhamBySearch(idHang, idChatLieu, searchInput, tenHang, tenChatLieu)"
+            style="border: none;font-size: 18px" type="text" nz-input placeholder="Tìm kiếm sản phẩm" />
         </nz-input-group>
         <ng-template #suffixIconSearch>
           <span style="font-size: 20px" nz-icon nzType="search"></span>
         </ng-template>
         </div>
-        <div style="margin: 10px;text-align: center;">
+        <div style="margin: 10px;">
           <hr style="width: 100%;height: 1px;background-color: dodgerblue;margin: 5px;">
-          <h3 style="font-weight: bolder;font-size: 22px;color: deepskyblue;padding-top: 5px">HÃNG GIÀY</h3>
-          <hr style="width: 100%;height: 1px;background-color: dodgerblue;margin: 5px;">
+          <div class="flex">
+          <h3 style="font-weight: bolder;font-size: 22px;color: deepskyblue;padding-top: 5px;padding-left: 35%">HÃNG GIÀY</h3>
+          <h3 style="font-weight: bolder;font-size: 20px;padding-top: 5px;padding-left: 10px">({{tenHang}})</h3>
+          </div>
+          <hr style="width: 100%;height: 1px;background-color: dodgerblue;margin-left: 5px;margin-right: 5px">
         </div>
         <div>
-          <div (click)="getListSanPhamBySearch(data.id, idChatLieu, searchInput)" class="hang-giay" *ngFor="let data of listHang" style="text-align: center;width: 100%;border: 1px solid lightskyblue">
+          <div id="hang{{data.id}}" (click)="getListSanPhamBySearch(data.id, idChatLieu, searchInput, data.ten, tenChatLieu)" class="hang-giay" *ngFor="let data of listHang" style="text-align: center;width: 100%;border: 1px solid lightskyblue">
             <h3 style="font-size: 20px;padding-top: 10px;color: mediumblue">{{data.ten}}</h3>
           </div>
         </div>
         <div style="margin: 10px;text-align: center;">
           <hr style="width: 100%;height: 1px;background-color: green;margin: 5px;">
-          <h3 style="font-weight: bolder;font-size: 22px;color: darkgreen;padding-top: 5px">CHẤT LIỆU</h3>
-          <hr style="width: 100%;height: 1px;background-color: green;margin: 5px;">
+          <div class="flex" style="text-align: center;">
+          <h3 style="font-weight: bolder;font-size: 22px;color: darkgreen;padding-top: 5px;padding-left: 35%">CHẤT LIỆU</h3>
+          <h3 style="font-weight: bolder;font-size: 20px;padding-top: 5px;padding-left: 10px">({{tenChatLieu}})</h3>
+          </div>
+          <hr style="width: 100%;height: 1px;background-color: green;margin-left: 5px;margin-right: 5px">
         </div>
         <div>
-          <div (click)="getListSanPhamBySearch(idHang, data.id, searchInput)" class="chat-lieu" *ngFor="let data of listChatLieu" style="text-align: center;width: 100%;border: 1px solid lightgreen">
+          <div id="chatLieu{{data.id}}" (click)="getListSanPhamBySearch(idHang, data.id, searchInput, tenHang, data.ten)" class="chat-lieu" *ngFor="let data of listChatLieu" style="text-align: center;width: 100%;border: 1px solid lightgreen">
             <h3 style="font-size: 20px;padding-top: 10px;color: green">{{data.ten}}</h3>
           </div>
+        </div>
+        <div style="margin: 5px;margin-top: 20px">
+          <button style="width: 100%" (click)="getListSanPham()"
+                  class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium
+      text-gray-900 rounded-lg group bg-gradient-to-br from-yellow-500 to-red-500 group-hover:from-yellow-500
+      group-hover:to-red-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800">
+                <span style="width: 100%;"
+                      class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                Làm mới
+                </span>
+          </button>
         </div>
       </div>
       <div style="width: 75%;margin-left: 20px">
@@ -45,7 +64,7 @@
             <div class="product-f-image">
               <img src="{{data.imageDefault}}" style="height: 400px" alt="">
               <div class="product-hover">
-                <a href="#" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</a>
+<!--                <a href="#" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</a>-->
                 <a href="product-details/{{data.id}}" class="view-details-link"><i class="fa fa-link"></i> Xem chi tiết</a>
               </div>
             </div>

@@ -15,6 +15,8 @@ import {CustomerService} from "../../../../service/customer.service";
 import {KhachHangKhuyenMaiModel} from "../../../../models/khach-hang-khuyen-mai.model";
 import {BillService} from "../../../../service/bill.service";
 import {BillDetailService} from "../../../../service/bill-detail-service";
+import {GioHangService} from "../../../../service/gio-hang-service";
+import {IndexComponent} from "../../index.component";
 
 @Component({
   selector: 'cons-product-details',
@@ -65,7 +67,9 @@ export class ProductDetailsComponent implements OnInit {
               private route: ActivatedRoute,
               private messs: NzMessageService,
               private vnpayService: VNPAYService,
-              private customerService: CustomerService) {
+              private customerService: CustomerService,
+              private gioHangService: GioHangService,
+              private indexComponent: IndexComponent) {
     this.user$ = this.authService.currentUser$;
   }
 
@@ -120,6 +124,12 @@ export class ProductDetailsComponent implements OnInit {
         (document.getElementById('sizeGiay' + this.listBySanPhamAndColor[x].id) as HTMLInputElement).style.color = 'black';
       }
     }
+    this.chiTietSanPhamService.getOneByColorAndSize(this.idMauSac, idKichThuoc, this.idSP).subscribe(res => {
+      if (res) {
+        this.chiTietSanPham = res;
+        this.imgSanPhamMua = res.image;
+      }
+    })
   }
 
   // show form mua hàng
@@ -199,7 +209,11 @@ export class ProductDetailsComponent implements OnInit {
     })
   }
 
-  chonMaGiamGia(idVoucher: any, maVoucher: string, giaTri: number, loaiGiamGia: number) {
+  chonMaGiamGia(idVoucher: any, maVoucher: string, giaTri: number, loaiGiamGia: number, trangThaiVoucher: number) {
+    if(trangThaiVoucher == 0){
+      this.messs.error('Voucher đã hết hạn sử dụng!');
+      return;
+    }
     this.messs
       .loading('Đang áp dụng voucher ' + maVoucher, { nzDuration: 1500 })
       .onClose!.pipe(
@@ -303,6 +317,10 @@ export class ProductDetailsComponent implements OnInit {
 
   createBillDetail(id: any) {
     if (this.chiTietSanPham) {
+      if(this.soLuongMua > this.chiTietSanPham.soLuong){
+        this.messs.error('Số lượng trong kho không đủ');
+        return;
+      }
       const data = {
         idHoaDon: id,
         idChiTietSanPham: this.chiTietSanPham.id,
@@ -313,10 +331,32 @@ export class ProductDetailsComponent implements OnInit {
       }
       this.billDetailService.addBillDetail(data).subscribe(res => {
         if (res) {
+          this.chiTietSanPhamService.updateSoLuong(this.chiTietSanPham.id, this.soLuongMua).subscribe(resSoLuong => {
+            console.log(resSoLuong);
+          })
           console.log(res);
         }
       })
     }
+  }
+
+  // thêm vào giỏ hàng
+  addToCart(){
+    const data = {
+      idChiTietSanPham: this.chiTietSanPham.id,
+      idUser: this.authService.currentUserValue?.id,
+      donGia: this.chiTietSanPham.donGia,
+      giaBan: this.chiTietSanPham.giaBan,
+      soLuong: 1,
+      giamGia: 0
+    }
+    this.gioHangService.create(data).subscribe(res => {
+      if (res){
+        this.indexComponent.getCountCart();
+        this.messs.success('Đã thêm ' + this.chiTietSanPham.tenSanPham + ' ' + this.chiTietSanPham.tenMauSac + ' vào giỏ hàng!');
+        console.log(res);
+      }
+    })
   }
 
   protected readonly da_DK = da_DK;
