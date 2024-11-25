@@ -57,6 +57,7 @@ export class BillComponent implements OnInit {
   imgDefault: string = '';
 
   // check
+  checkQRProduct: number = 0;
   checkSelectColor = true;
   checkSelectSize = true;
   checkSelectKhachHang = 0;
@@ -174,25 +175,39 @@ export class BillComponent implements OnInit {
 
   createBillDetail() {
     if (this.chiTietSanPham) {
-      if(Number.parseInt((document.getElementById('soLuong') as HTMLInputElement).value) > this.chiTietSanPham.soLuong){
-        this.notification.error('Số lượng trong kho không đủ', '');
-        return;
+      if(this.checkQRProduct == 0){
+        if(Number.parseInt((document.getElementById('soLuong') as HTMLInputElement).value) > this.chiTietSanPham.soLuong){
+          this.notification.error('Số lượng trong kho không đủ', '');
+          return;
+        }
       }
-      const soLuongMua = Number.parseInt((document.getElementById('soLuong') as HTMLInputElement).value);
+      if(this.checkQRProduct == 1){
+        if(Number.parseInt((document.getElementById('soLuong2') as HTMLInputElement).value) > this.chiTietSanPham.soLuong){
+          this.notification.error('Số lượng trong kho không đủ', '');
+          return;
+        }
+      }
       const data = {
         idHoaDon: this.idBill,
         idChiTietSanPham: this.chiTietSanPham.id,
         donGia: this.chiTietSanPham.donGia,
-        soLuong: Number.parseInt((document.getElementById('soLuong') as HTMLInputElement).value),
+        soLuong: 0,
         giaBan: this.chiTietSanPham.donGia,
         giamGia: 0
       }
+      if(this.checkQRProduct == 0){
+        data.soLuong = Number.parseInt((document.getElementById('soLuong') as HTMLInputElement).value);
+      }
+      if(this.checkQRProduct == 1){
+        data.soLuong = Number.parseInt((document.getElementById('soLuong2') as HTMLInputElement).value);
+      }
       this.billDetailService.addBillDetail(data).subscribe(res => {
         if (res) {
-          this.chiTietSanPhamService.updateSoLuong(this.chiTietSanPham.id, soLuongMua).subscribe(res2 => {
+          this.chiTietSanPhamService.updateSoLuong(this.chiTietSanPham.id, data.soLuong).subscribe(res2 => {
             console.log(res2);
           })
           this.isVisibleShowCTSP = false;
+          this.isVisbleCTSPByQR = false;
           this.isVisibleListSP = false;
           this.checkSelectColor = true;
           this.checkSelectSize = true;
@@ -368,6 +383,7 @@ export class BillComponent implements OnInit {
         this.chiTietSanPhamService.getOneByMa(this.scannedCode).subscribe(res => {
           if (res){
             this.chiTietSanPham = res;
+            this.checkQRProduct = 1;
             console.log('Scanned code:', this.scannedCode);
             this.isVisbleCTSPByQR = true;
             this.cancelQuetQR();
@@ -386,6 +402,7 @@ export class BillComponent implements OnInit {
   }
 
   cancelShowCTSPByQR(){
+    this.checkQRProduct = 0;
     this.isVisbleCTSPByQR = false;
   }
 }

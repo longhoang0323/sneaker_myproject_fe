@@ -172,6 +172,7 @@ export class VoucherComponent implements OnInit{
           if (res2.code == "200"){
             this.messageNoti.success('Tạo mã giảm giá thành công!');
             this.isVisibleTaoMoi = false;
+            this.getVouchers();
             console.log(res2.body);
           }
         })
