@@ -13,6 +13,16 @@ export class BillDetailService {
   constructor(private http: HttpClient) {
   }
 
+  getList(page: number, size: number): Observable<any> {
+    const params = {page, size};
+    return this.http.get<any>(`${API_AU_URL}/list`, {params}).pipe(map(res => {
+      if (res.body && res.body) {
+        return res.body;
+      }
+      return null;
+    }));
+  }
+
   getListByBill(page: number, size: number, idHoaDon: any): Observable<any> {
     const params = {page, size, idHoaDon};
     return this.http.get<any>(`${API_AU_URL}/list-by-bill`, {params}).pipe(map(res => {

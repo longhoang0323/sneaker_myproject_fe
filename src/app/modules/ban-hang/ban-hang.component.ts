@@ -28,6 +28,8 @@ export class BanHangComponent implements OnInit {
   billOnlineModel!: BillModel;
   isVisbleBillOnlineDetails = false;
   isVisbleShowFormGiaoHang = false;
+  searchInput: string = '';
+  searchInput2: string = '';
 
   constructor(private vnpayService: VNPAYService,
               private paymentService: PaymentService,
@@ -55,6 +57,34 @@ export class BanHangComponent implements OnInit {
 
   getListOnLine(): void {
     this.billService.getListByLoaiHD(1, 15, 1).subscribe(res => {
+      if (res && res.content) {
+        this.billListOnline = res.content;
+      }
+    })
+  }
+
+  getListOfflineBySearch(): void {
+    this.searchInput = (document.getElementById('searchInput') as HTMLInputElement).value;
+    const trangThai = Number.parseInt((document.getElementById('trangThaiThanhToan') as HTMLInputElement).value);
+    const trangThaiGiaoHang = Number.parseInt((document.getElementById('trangThaiGiaoHang') as HTMLInputElement).value);
+    const hinhThucGiaoHang = Number.parseInt((document.getElementById('hinhThucGiaoHang') as HTMLInputElement).value);
+    const startDate = (document.getElementById('startDate') as HTMLInputElement).value;
+    const endDate = (document.getElementById('endDate') as HTMLInputElement).value;
+    this.billService.getListBySearch(1, 15, 0, this.searchInput, trangThai, trangThaiGiaoHang, hinhThucGiaoHang, startDate, endDate).subscribe(res => {
+      if (res && res.content) {
+        this.billList = res.content;
+      }
+    })
+  }
+
+  getListOnlineBySearch(): void {
+    this.searchInput2 = (document.getElementById('searchInput2') as HTMLInputElement).value;
+    const trangThai = Number.parseInt((document.getElementById('trangThaiThanhToan2') as HTMLInputElement).value);
+    const trangThaiGiaoHang = Number.parseInt((document.getElementById('trangThaiGiaoHang2') as HTMLInputElement).value);
+    const hinhThucGiaoHang = Number.parseInt((document.getElementById('hinhThucGiaoHang2') as HTMLInputElement).value);
+    const startDate = (document.getElementById('startDate2') as HTMLInputElement).value;
+    const endDate = (document.getElementById('endDate2') as HTMLInputElement).value;
+    this.billService.getListBySearch(1, 15, 1, this.searchInput2, trangThai, trangThaiGiaoHang, hinhThucGiaoHang, startDate, endDate).subscribe(res => {
       if (res && res.content) {
         this.billListOnline = res.content;
       }

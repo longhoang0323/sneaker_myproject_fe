@@ -4,12 +4,75 @@
   <div style="margin-top: 50px;margin-left: 30px">
     <nz-tabset>
       <nz-tab nzTitle="Giỏ hàng">
-          <div>
-            <header class="text-center">
-              <h1 class="text-xl font-bold text-gray-900 sm:text-3xl">Giỏ hàng của bạn</h1>
-            </header>
+        <div>
+          <header class="text-center">
+            <h1 class="text-xl font-bold text-gray-900 sm:text-3xl">Giỏ hàng của bạn</h1>
+          </header>
+          <div style="margin: 10px">
+            <nz-table #sortTable [nzData]="gioHangList" nzTableLayout="fixed">
+              <thead>
+              <tr>
+                <th style="width: 100px" nzLeft>STT</th>
+                <th class="items-center">Ảnh</th>
+                <th class="items-center">Tên SP</th>
+                <th class="items-center">Size</th>
+                <th class="items-center">Đơn giá</th>
+                <th class="items-center">Số lượng</th>
+                <th style="width: 300px" class="items-center">Hành động</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let data of sortTable.data; let i = index">
+                <th style="width: 100px" nzLeft>{{ i + 1 }}</th>
+                <td class="items-center"><img style="width: 100px;height: 120px" src="{{ data.imageSanPham }}"
+                                              alt="{{data.idChiTietSanPham}}"></td>
+                <td class="items-center">{{ data.tenSanPham }} {{ data.tenMauSac }}</td>
+                <td class="items-center">{{ data.tenKichThuoc }}</td>
+                <td class="items-center">{{ data.donGia | currency:'VND': '':'1.0-0'}}</td>
+                <td class="items-center">{{ data.soLuong }}</td>
+                <td nzLeft>
+                  <div style="margin-left: 10px" class="flex">
+                    <span class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                          (click)="editData(data.id)" nz-icon nzType="edit" nzTheme="outline"
+                          style="font-size: 24px"></span>
+                    <div style="margin-left: 10px" nz-tooltip nzTooltipTitle="Xóa" (click)="removeFromCart(data.id)">
+                      <svg style="color: red" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                           fill="currentColor"
+                           class="bi bi-trash" viewBox="0 0 16 16">
+                        <path
+                          d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"
+                          fill="red"></path>
+                        <path fill-rule="evenodd"
+                              d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"
+                              fill="red"></path>
+                      </svg>
+                    </div>
+                    <div class="flex items-center" *ngIf="data.trangThaiChon == 1">
+                      <div style="margin-top: 4px" class="btn-status-stop" (click)="updateTrangThaiChon(i, 0)">
+                        <span nz-icon nzType="close-circle" nzTheme="outline" style="font-size: 24px"></span>
+                      </div>
+                    </div>
+                    <div class="flex items-center" *ngIf="data.trangThaiChon == 0">
+                      <div style="margin-top: -4px" class="btn-status-active"
+                           (click)="updateTrangThaiChon(i, 1)">
+                        <span nz-icon nzType="check-circle" nzTheme="outline" style="font-size: 24px"></span>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </nz-table>
+          </div>
+        </div>
+      </nz-tab>
+      <nz-tab nzTitle="Lịch sử mua hàng">
+        <div style="margin: 10px">
+          <div *ngFor="let data of listBillByUser"
+               style="width: 90%;margin: 5px;border: 1px solid darkgray;border-radius: 5px">
+            <h3 style="font-weight: bolder;padding: 5px;font-size: 18px">Đơn hàng {{data.ma}}</h3>
             <div style="margin: 10px">
-              <nz-table #sortTable [nzData]="gioHangList" nzTableLayout="fixed">
+              <nz-table #sortTable2 [nzData]="listBillDetail" nzTableLayout="fixed">
                 <thead>
                 <tr>
                   <th style="width: 100px" nzLeft>STT</th>
@@ -18,40 +81,26 @@
                   <th class="items-center">Size</th>
                   <th class="items-center">Đơn giá</th>
                   <th class="items-center">Số lượng</th>
-                  <th style="width: 300px" class="items-center">Hành động</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr *ngFor="let data of sortTable.data; let i = index">
-                  <th style="width: 100px" nzLeft>{{ i + 1 }}</th>
-                  <td class="items-center"><img style="width: 100px;height: 120px" src="{{ data.imageSanPham }}" alt="{{data.idChiTietSanPham}}"></td>
-                  <td class="items-center">{{ data.tenSanPham }} {{ data.tenMauSac }}</td>
-                  <td class="items-center">{{ data.tenKichThuoc }}</td>
-                  <td class="items-center">{{ data.donGia | currency:'VND': '':'1.0-0'}}</td>
-                  <td class="items-center">{{ data.soLuong }}</td>
-                  <td nzLeft>
-                    <div style="margin-left: 10px" class="flex">
-                                <span class="font-medium text-blue-600 dark:text-blue-500 hover:underline" (click)="editData(data.id)" nz-icon nzType="edit" nzTheme="outline" style="font-size: 24px"></span>
-                      <div style="margin-left: 10px" nz-tooltip nzTooltipTitle="Xóa" (click)="removeFromCart(data.id)">
-                        <svg style="color: red" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                             class="bi bi-trash" viewBox="0 0 16 16">
-                          <path
-                            d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"
-                            fill="red"></path>
-                          <path fill-rule="evenodd"
-                                d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"
-                                fill="red"></path>
-                        </svg>
-                      </div>
-                    </div>
-                  </td>
+                <tr *ngFor="let data2 of sortTable2.data; let i = index">
+                  <th *ngIf="data2.idHoaDon == data.id" style="width: 100px" nzLeft>{{ i + 1 }}</th>
+                  <td *ngIf="data2.idHoaDon == data.id" class="items-center"><img style="width: 100px;height: 120px"
+                                                                                  src="{{ data2.imageCTSP }}"
+                                                                                  alt="{{data2.id}}"></td>
+                  <td *ngIf="data2.idHoaDon == data.id"
+                      class="items-center">{{ data2.tenSanPham }} {{ data2.tenMauSac }}</td>
+                  <td *ngIf="data2.idHoaDon == data.id" class="items-center">{{ data2.tenKichThuoc }}</td>
+                  <td *ngIf="data2.idHoaDon == data.id"
+                      class="items-center">{{ data2.giaBan | currency:'VND': '':'1.0-0'}}</td>
+                  <td *ngIf="data2.idHoaDon == data.id" class="items-center">{{ data2.soLuong }}</td>
                 </tr>
                 </tbody>
               </nz-table>
             </div>
           </div>
-      </nz-tab>
-      <nz-tab nzTitle="Lịch sử mua hàng">
+        </div>
       </nz-tab>
     </nz-tabset>
   </div>
