@@ -23,9 +23,29 @@ export class BillService{
     }));
   }
 
+  getBillListByUser(page: number, size: number, idUser: any): Observable<any> {
+    const params = {page, size, idUser};
+    return this.http.get<any>(`${API_AU_URL}/list-by-user`, {params}).pipe(map(res => {
+      if (res.body && res.body) {
+        return res.body;
+      }
+      return null;
+    }));
+  }
+
   getListByLoaiHD(page: number, size: number, loaiHoaDon: number): Observable<any> {
     const params = {page, size, loaiHoaDon};
     return this.http.get<any>(`${API_AU_URL}/list-by-loai-hd`, {params}).pipe(map(res => {
+      if (res.body && res.body) {
+        return res.body;
+      }
+      return null;
+    }));
+  }
+
+  getListBySearch(page: number, size: number, loaiHoaDon: number, searchInput: string, trangThai: number, trangThaiGiaoHang: number, hinhThucGiaoHang: number, startDate: string, endDate: string): Observable<any> {
+    const params = {page, size, loaiHoaDon, searchInput, trangThai, trangThaiGiaoHang, hinhThucGiaoHang, startDate, endDate};
+    return this.http.get<any>(`${API_AU_URL}/list-by-search`, {params}).pipe(map(res => {
       if (res.body && res.body) {
         return res.body;
       }
@@ -64,5 +84,15 @@ export class BillService{
   updateGiaoHang(id: any, data: any): Observable<any> {
     const params = {id};
     return this.http.put(`${API_AU_URL}/update-giao-hang`, data, {params});
+  }
+
+  getSumTongThanhToan(startDate: any, endDate: any, dayInput: any){
+    const params = {startDate, endDate, dayInput};
+    return this.http.get<any>(`${API_AU_URL}/get-sum-by-day`, {params});
+  }
+
+  getCountHoaDon(trangThai: any, startDate: any, endDate: any, dayInput: any){
+    const params = {trangThai, startDate, endDate, dayInput};
+    return this.http.get<any>(`${API_AU_URL}/get-count-hoa-don`, {params});
   }
 }

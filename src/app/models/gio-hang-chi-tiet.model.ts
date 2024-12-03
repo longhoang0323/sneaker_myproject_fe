@@ -13,5 +13,5 @@ export class GioHangChiTietModel{
   soLuong: number = 0;
   giamGia: number = 0;
   trangThai: number = 0;
-
+  trangThaiChon: number = 0;
 }

@@ -22,16 +22,18 @@
               <input type="search" name="Search" placeholder="Nhập để tìm kiếm" id="searchInput"
                      class="w-32 py-2 pl-10 text-sm rounded-md sm:w-96 focus:outline-0 dark:bg-gray-800 dark:text-white
                  focus:dark:bg-gray-900 focus:dark:border-violet-400 bg-gray-300"
+                     [ngModel]="searchInput"
+                     (ngModelChange)="getListOfflineBySearch()"
               >
             </div>
           </fieldset>
         </div>
         <div class="flex" style="font-size: 18px;margin-left: 30px;font-family: Arial;margin-top: 10px">
           <label>Trạng thái thanh toán: </label>
-          <select id="trangThaiThanhToan" class="select-input"
+          <select id="trangThaiThanhToan" class="select-input" (change)="getListOfflineBySearch()"
                   style="width: 300px;height: 30px;font-size: 18px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px;margin-left: 10px"
           >
-            <option class="option" value="">Tất cả</option>
+            <option class="option" value="10">Tất cả</option>
             <option class="option" value="0">Chờ thanh toán</option>
             <option class="option" value="1">Đã thanh toán</option>
             <option class="option" value="2">Đã hủy</option>
@@ -39,10 +41,10 @@
         </div>
         <div class="flex" style="font-size: 18px;margin-left: 30px;font-family: Arial;margin-top: 10px">
           <label>Trạng thái giao hàng: </label>
-          <select id="trangThaiGiaoHang" class="select-input"
+          <select id="trangThaiGiaoHang" class="select-input" (change)="getListOfflineBySearch()"
                   style="width: 300px;height: 30px;font-size: 18px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px;margin-left: 10px"
           >
-            <option class="option" value="">Tất cả</option>
+            <option class="option" value="10">Tất cả</option>
             <option class="option" value="0">Chờ thanh toán</option>
             <option class="option" value="1">Đã thanh toán</option>
             <option class="option" value="2">Đã hủy</option>
@@ -51,21 +53,11 @@
       </div>
       <div style="margin: 10px" class="flex">
         <div class="flex" style="font-size: 18px;margin-left: 10px;font-family: Arial;margin-top: 10px">
-          <label>Hình thức thanh toán: </label>
-          <select id="hinhThucThanhToan" class="select-input"
-                  style="width: 200px;height: 30px;font-size: 18px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px;margin-left: 10px"
-          >
-            <option class="option" value="">Tất cả</option>
-            <option class="option" value="0">Tiền mặt</option>
-            <option class="option" value="1">Chuyển khoản</option>
-          </select>
-        </div>
-        <div class="flex" style="font-size: 18px;margin-left: 30px;font-family: Arial;margin-top: 10px">
           <label>Hình thức giao hàng: </label>
-          <select id="hinhThucGiaoHang" class="select-input"
+          <select id="hinhThucGiaoHang" class="select-input" (change)="getListOfflineBySearch()"
                   style="width: 300px;height: 30px;font-size: 18px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px;margin-left: 14px"
           >
-            <option class="option" value="">Tất cả</option>
+            <option class="option" value="10">Tất cả</option>
             <option class="option" value="0">Trực tiếp</option>
             <option class="option" value="1">Đặt Ship</option>
           </select>
@@ -73,12 +65,12 @@
         <div class="flex">
           <div style="font-size: 18px;margin-left: 35px;font-family: Arial">
             <label>Từ ngày: </label>
-            <input type="date" id="startDate"
+            <input type="date" id="startDate" (change)="getListOfflineBySearch()"
                    style="width: 150px;height:30px;border-radius: 5px;border: 1px solid lightskyblue;margin-left: 10px;margin-top: 10px;padding: 5px">
           </div>
           <div style="font-size: 18px;margin-left: 10px;font-family: Arial">
             <label>đến ngày</label>
-            <input type="date" id="endDate"
+            <input type="date" id="endDate" (change)="getListOfflineBySearch()"
                    style="width: 150px;height:30px;border-radius: 5px;border: 1px solid lightskyblue;margin-left: 10px;margin-top: 10px;padding: 5px">
           </div>
         </div>
@@ -152,19 +144,21 @@
             </svg>
           </button>
         </span>
-              <input type="search" name="Search" placeholder="Nhập để tìm kiếm" id="searchInput"
+              <input type="search" name="Search" placeholder="Nhập để tìm kiếm" id="searchInput2"
                      class="w-32 py-2 pl-10 text-sm rounded-md sm:w-96 focus:outline-0 dark:bg-gray-800 dark:text-white
                  focus:dark:bg-gray-900 focus:dark:border-violet-400 bg-gray-300"
+                     [ngModel]="searchInput2"
+                     (ngModelChange)="getListOnlineBySearch()"
               >
             </div>
           </fieldset>
         </div>
         <div class="flex" style="font-size: 18px;margin-left: 30px;font-family: Arial;margin-top: 10px">
           <label>Trạng thái thanh toán: </label>
-          <select id="trangThaiThanhToan2" class="select-input"
+          <select id="trangThaiThanhToan2" class="select-input" (change)="getListOnlineBySearch()"
                   style="width: 300px;height: 30px;font-size: 18px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px;margin-left: 10px"
           >
-            <option class="option" value="">Tất cả</option>
+            <option class="option" value="10">Tất cả</option>
             <option class="option" value="0">Chờ thanh toán</option>
             <option class="option" value="1">Đã thanh toán</option>
             <option class="option" value="2">Đã hủy</option>
@@ -172,33 +166,23 @@
         </div>
         <div class="flex" style="font-size: 18px;margin-left: 30px;font-family: Arial;margin-top: 10px">
           <label>Trạng thái giao hàng: </label>
-          <select id="trangThaiGiaoHang2" class="select-input"
+          <select id="trangThaiGiaoHang2" class="select-input" (change)="getListOnlineBySearch()"
                   style="width: 300px;height: 30px;font-size: 18px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px;margin-left: 10px"
           >
-            <option class="option" value="">Tất cả</option>
-            <option class="option" value="0">Chờ thanh toán</option>
-            <option class="option" value="1">Đã thanh toán</option>
-            <option class="option" value="2">Đã hủy</option>
+            <option class="option" value="10">Tất cả</option>
+            <option class="option" value="0">Chờ giao hàng</option>
+            <option class="option" value="2">Đang giao hàng</option>
+            <option class="option" value="1">Đã giao hàng</option>
           </select>
         </div>
       </div>
       <div style="margin: 10px" class="flex">
         <div class="flex" style="font-size: 18px;margin-left: 10px;font-family: Arial;margin-top: 10px">
-          <label>Hình thức thanh toán: </label>
-          <select id="hinhThucThanhToan2" class="select-input"
-                  style="width: 200px;height: 30px;font-size: 18px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px;margin-left: 10px"
-          >
-            <option class="option" value="">Tất cả</option>
-            <option class="option" value="0">Tiền mặt</option>
-            <option class="option" value="1">Chuyển khoản</option>
-          </select>
-        </div>
-        <div class="flex" style="font-size: 18px;margin-left: 30px;font-family: Arial;margin-top: 10px">
           <label>Hình thức giao hàng: </label>
-          <select id="hinhThucGiaoHang2" class="select-input"
+          <select id="hinhThucGiaoHang2" class="select-input" (change)="getListOnlineBySearch()"
                   style="width: 300px;height: 30px;font-size: 18px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px;margin-left: 14px"
           >
-            <option class="option" value="">Tất cả</option>
+            <option class="option" value="10">Tất cả</option>
             <option class="option" value="0">Trực tiếp</option>
             <option class="option" value="1">Đặt Ship</option>
           </select>

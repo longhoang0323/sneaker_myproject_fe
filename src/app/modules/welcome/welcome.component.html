@@ -1,31 +1,41 @@
-<nz-page-header
-  class="site-page-header"
-  nzBackIcon
-  nzTitle="Thống kê"
->
-  <nz-breadcrumb nz-page-header-breadcrumb>
-    <nz-breadcrumb-item>Thống kê</nz-breadcrumb-item>
-    <nz-breadcrumb-item>Quản lý thống kê</nz-breadcrumb-item>
-  </nz-breadcrumb>
-</nz-page-header>
 <div>
-  <button class="button-create" (click)="startScanning()">Quét mã SP</button>
-  <button class="button-create" (click)="stopScanning()">Kết thúc</button>
-  <button class="button-create" (click)="openModal()">Show modal</button>
-</div>
-<div>
-  <video id="video" width="300" height="200"></video>
-  <div *ngIf="scannedCode">
-    <p>Scanned Code: {{ scannedCode }}</p>
+  <div class="flex" style="width: 95%;margin: 15px;justify-content: center;margin-left: 30px">
+    <div style="width: 24%;margin: 15px;height: 130px;border-radius: 8px;border: 2px solid lightseagreen">
+      <p style="padding: 10px;font-weight: bolder;font-size: 26px">Tổng doanh thu</p>
+      <p style="padding-left: 10px;font-size: 22px;">{{100000000 | currency:'VND': '':'1.0-0'}}</p>
+    </div>
+    <div style="width: 24%;margin: 15px;height: 130px;border-radius: 8px;border: 2px solid #17a78b">
+      <p style="padding: 10px;font-weight: bolder;font-size: 26px">Số đơn hoàn thành</p>
+      <p style="padding-left: 10px;font-size: 22px;">{{100000000 | currency:'VND': '':'1.0-0'}}</p>
+    </div>
+    <div style="width: 24%;margin: 15px;height: 130px;border-radius: 8px;border: 2px solid mediumvioletred">
+      <p style="padding: 10px;font-weight: bolder;font-size: 26px">Số đơn đã hủy</p>
+      <p style="padding-left: 10px;font-size: 22px;">{{100000000 | currency:'VND': '':'1.0-0'}}</p>
+    </div>
+    <div style="width: 24%;margin: 15px;height: 130px;border-radius: 8px;border: 2px solid green">
+      <p style="padding: 10px;font-weight: bolder;font-size: 26px">Số sản phẩm đã bán</p>
+      <p style="padding-left: 10px;font-size: 22px;">{{100000000 | currency:'VND': '':'1.0-0'}}</p>
+    </div>
   </div>
-</div>
-
-<div class="modal" *ngIf="isVisible" (click)="closeModal()">
-  <div class="modal-content" (click)="$event.stopPropagation()">
-    <span class="close" (click)="closeModal()">&times;</span>
-    <h2>Đây là Modal</h2>
-    <p>Nội dung modal có thể đặt ở đây.</p>
-    <button (click)="closeModal()">Đóng</button>
+  <div>
+    <hr style="width: 100%;height: 2px;margin: 5px;background-color: #5e2ced"/>
+  </div>
+  <div>
+    <div style="width: 30%;margin: 10px">
+      <nz-progress
+        nz-tooltip
+        nzTooltipTitle="3 done / 3 in progress / 4 to do"
+        [nzPercent]="60"
+        [nzSuccessPercent]="30"
+      ></nz-progress>
+      <nz-progress
+        nz-tooltip
+        nzTooltipTitle="3 done / 3 in progress / 4 to do"
+        nzType="circle"
+        [nzPercent]="60"
+        [nzSuccessPercent]="30"
+      ></nz-progress>
+    </div>
   </div>
 </div>
 

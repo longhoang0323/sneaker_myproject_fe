@@ -3,6 +3,10 @@ import {AuthService} from "../../../auth/services";
 import {UserModel} from "../../../auth/models/user.model";
 import {GioHangChiTietModel} from "../../../models/gio-hang-chi-tiet.model";
 import {GioHangService} from "../../../service/gio-hang-service";
+import {BillModel} from "../../../models/bill.model";
+import {BillService} from "../../../service/bill.service";
+import {BillDetailService} from "../../../service/bill-detail-service";
+import {BillDetailModel} from "../../../models/bill-detail.model";
 
 @Component({
   selector: 'cons-cart',
@@ -12,9 +16,13 @@ import {GioHangService} from "../../../service/gio-hang-service";
 export class CartComponent implements OnInit {
   user: UserModel | undefined;
   gioHangList: GioHangChiTietModel[] = [];
+  listBillByUser: BillModel[] = [];
+  listBillDetail: BillDetailModel[] = [];
 
   constructor(private authService: AuthService,
-              private gioHangService: GioHangService) {
+              private gioHangService: GioHangService,
+              private billService: BillService,
+              private billDetailService: BillDetailService) {
   }
 
   private cartStorageKey = 'cartItems';
@@ -23,6 +31,8 @@ export class CartComponent implements OnInit {
   ngOnInit(): void {
     this.user = this.authService.currentUserValue;
     this.getListByUser();
+    this.getListBillByUser();
+    this.getListBillDetails();
     this.loadCartItems(this.user?.id);
     this.subtotal();
   }
@@ -51,6 +61,23 @@ export class CartComponent implements OnInit {
     this.gioHangService.getListByUser(1, 50, this.authService.currentUserValue?.id).subscribe(res => {
       if (res) {
         this.gioHangList = res.content;
+        console.log(this.gioHangList);
+      }
+    })
+  }
+
+  getListBillByUser(){
+    this.billService.getBillListByUser(1, 5, this.authService.currentUserValue?.id).subscribe(res => {
+      if (res) {
+        this.listBillByUser = res.content;
+      }
+    })
+  }
+
+  getListBillDetails(){
+    this.billDetailService.getList(1, 100).subscribe(res => {
+      if (res) {
+        this.listBillDetail = res.content;
       }
     })
   }
@@ -63,4 +90,7 @@ export class CartComponent implements OnInit {
 
   }
 
+  updateTrangThaiChon(index: number, trangThaiChon: number){
+    this.gioHangList[index].trangThaiChon = trangThaiChon;
+  }
 }
