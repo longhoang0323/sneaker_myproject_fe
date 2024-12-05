@@ -86,8 +86,8 @@ export class BillService{
     return this.http.put(`${API_AU_URL}/update-giao-hang`, data, {params});
   }
 
-  getSumTongThanhToan(startDate: any, endDate: any, dayInput: any){
-    const params = {startDate, endDate, dayInput};
+  getSumTongThanhToan(loaiHoaDon: number, startDate: any, endDate: any, dayInput: any){
+    const params = {loaiHoaDon, startDate, endDate, dayInput};
     return this.http.get<any>(`${API_AU_URL}/get-sum-by-day`, {params});
   }
 
