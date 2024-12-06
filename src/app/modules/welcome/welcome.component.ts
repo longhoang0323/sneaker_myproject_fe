@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {BrowserMultiFormatReader, NotFoundException} from "@zxing/library";
 import {BillService} from "../../service/bill.service";
 import {NzNotificationService} from "ng-zorro-antd/notification";
+import {ChartData, ChartOptions, ChartType} from "chart.js";
 
 
 @Component({
@@ -159,5 +160,36 @@ export class WelcomeComponent implements OnInit {
     // this.checkCamera = false;
     this.codeReader.reset();
   }
+
+//   bar chart
+  public barChartOptions: ChartOptions = {
+    responsive: true,
+    scales: {
+      x: {
+        beginAtZero: true
+      },
+      y: {
+        beginAtZero: true
+      }
+    }
+  };
+
+  public barChartLabels: string[] = ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'];
+  public barChartData: ChartData<'bar'> = {
+    labels: this.barChartLabels,
+    datasets: [
+      {
+        data: [120000, 1500000, 1800000, 200000, 1700000, 2100000, 300000, 2000000, 500000, 1000000, 2000000, 1000000], // Doanh thu cho mỗi tháng
+        label: 'Doanh thu', // Tên bộ dữ liệu
+        backgroundColor: 'rgba(0, 123, 255, 0.6)', // Màu nền của cột
+        borderColor: 'rgba(0, 123, 255, 1)', // Màu viền của cột
+        borderWidth: 1
+      }
+    ]
+  };
+
+  public barChartType: ChartType = 'bar'; // Loại biểu đồ
+  public barChartLegend = true; // Hiển thị chú thích
+  public barChartPlugins = []; // Plugins nếu có
 
 }

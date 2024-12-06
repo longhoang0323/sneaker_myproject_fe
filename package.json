@@ -25,7 +25,7 @@
     "apexcharts": "^3.44.0",
     "bootstrap": "^5.3.1",
     "bootstrap-icons": "^1.10.5",
-    "chart.js": "^4.4.1",
+    "chart.js": "^4.4.7",
     "exceljs": "^4.3.0",
     "gh-pages": "^6.0.0",
     "html2canvas": "^1.4.1",
