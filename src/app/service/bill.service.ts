@@ -95,4 +95,9 @@ export class BillService{
     const params = {trangThai, startDate, endDate, dayInput};
     return this.http.get<any>(`${API_AU_URL}/get-count-hoa-don`, {params});
   }
+
+  getDoanhThuByMonth(year: number){
+    const params = {year};
+    return this.http.get<any>(`${API_AU_URL}/get-doanh-thu-by-month`, {params});
+  }
 }

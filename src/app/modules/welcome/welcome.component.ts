@@ -3,6 +3,7 @@ import {BrowserMultiFormatReader, NotFoundException} from "@zxing/library";
 import {BillService} from "../../service/bill.service";
 import {NzNotificationService} from "ng-zorro-antd/notification";
 import {ChartData, ChartOptions, ChartType} from "chart.js";
+import {DoanhThuModel} from "../../models/doanh-thu.model";
 
 
 @Component({
@@ -14,13 +15,15 @@ export class WelcomeComponent implements OnInit {
   codeReader: BrowserMultiFormatReader;
   public scannedCode: string | null = null;
   checkCamera = false;
+  showBarChart = 0;
   tongDoanhThu: number = 0;
   doanhThuOnline: number = 0;
   doanhThuOffline: number = 0;
   tongLuongDon: number = 0;
   luongDonHoanThanh: number = 0;
   luongDonDaHuy: number = 0;
-  soSanPhamDaBan: number = 0;
+  soSanPhamDaBan: number = 99;
+  public listMonth: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
 
   constructor(private billService: BillService,
@@ -30,113 +33,131 @@ export class WelcomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.getDoanhThu();
+    this.getDoanhThuByMonth(new Date().getFullYear());
   }
 
-  getDoanhThu(){
+  getDoanhThuByMonth(year: number) {
+    this.billService.getDoanhThuByMonth(year).subscribe(res => {
+      if (res) {
+        console.log(res.body[1].month)
+        for (let x = 0; x < this.listMonth.length; x++) {
+          this.showBarChart = x;
+          for (let y = 0; y < res.body.length; y++) {
+            if (this.listMonth[x] == res.body[y].month) {
+              // this.listOnlyDoanhThu[x] = res.body[y].doanhThu;
+              this.barChartData.datasets[0].data[x] = res.body[y].doanhThu;
+            }
+          }
+        }
+      }
+    })
+  }
+
+  getDoanhThu() {
     this.billService.getSumTongThanhToan(10, '', '', '').subscribe(res => {
-      if(res){
+      if (res) {
         this.tongDoanhThu = res.body;
       }
     })
     this.billService.getSumTongThanhToan(0, '', '', '').subscribe(res => {
-      if(res){
+      if (res) {
         this.doanhThuOffline = res.body;
       }
     })
     this.billService.getSumTongThanhToan(1, '', '', '').subscribe(res => {
-      if(res){
+      if (res) {
         this.doanhThuOnline = res.body;
       }
     })
     this.billService.getCountHoaDon(10, '', '', '').subscribe(res => {
-      if(res){
+      if (res) {
         this.tongLuongDon = res.body;
       }
     })
     this.billService.getCountHoaDon(1, '', '', '').subscribe(res => {
-      if(res){
+      if (res) {
         this.luongDonHoanThanh = res.body;
       }
     })
     this.billService.getCountHoaDon(5, '', '', '').subscribe(res => {
-      if(res){
+      if (res) {
         this.luongDonDaHuy = res.body;
       }
     })
   }
 
-  getDoanhThuByDay(){
-    if((document.getElementById('dayInput') as HTMLInputElement).value == ''){
+  getDoanhThuByDay() {
+    if ((document.getElementById('dayInput') as HTMLInputElement).value == '') {
       this.notification.error('Vui lòng chọn ngày tra cứu!', '');
       return;
     }
     const dayInput = (document.getElementById('dayInput') as HTMLInputElement).value;
     this.billService.getSumTongThanhToan(10, '', '', dayInput).subscribe(res => {
-      if(res){
+      if (res) {
         this.tongDoanhThu = res.body;
       }
     })
     this.billService.getSumTongThanhToan(0, '', '', dayInput).subscribe(res => {
-      if(res){
+      if (res) {
         this.doanhThuOffline = res.body;
       }
     })
     this.billService.getSumTongThanhToan(1, '', '', dayInput).subscribe(res => {
-      if(res){
+      if (res) {
         this.doanhThuOnline = res.body;
       }
     })
     this.billService.getCountHoaDon(10, '', '', dayInput).subscribe(res => {
-      if(res){
+      if (res) {
         this.tongLuongDon = res.body;
       }
     })
     this.billService.getCountHoaDon(1, '', '', dayInput).subscribe(res => {
-      if(res){
+      if (res) {
         this.luongDonHoanThanh = res.body;
       }
     })
     this.billService.getCountHoaDon(5, '', '', dayInput).subscribe(res => {
-      if(res){
+      if (res) {
         this.luongDonDaHuy = res.body;
       }
     })
   }
 
-  getDoanhThuByKhoangNgay(){
-    if((document.getElementById('startDate') as HTMLInputElement).value == '' || (document.getElementById('endDate') as HTMLInputElement).value == ''){
+  getDoanhThuByKhoangNgay() {
+    if ((document.getElementById('startDate') as HTMLInputElement).value == '' || (document.getElementById('endDate') as HTMLInputElement).value == '') {
       this.notification.error('Vui lòng chọn ngày bắt đầu và ngày kết thúc!', '');
       return;
     }
     const startDate = (document.getElementById('startDate') as HTMLInputElement).value;
     const endDate = (document.getElementById('endDate') as HTMLInputElement).value;
     this.billService.getSumTongThanhToan(10, startDate, endDate, '').subscribe(res => {
-      if(res){
+      if (res) {
         this.tongDoanhThu = res.body;
       }
     })
     this.billService.getSumTongThanhToan(0, startDate, endDate, '').subscribe(res => {
-      if(res){
+      if (res) {
         this.doanhThuOffline = res.body;
       }
     })
     this.billService.getSumTongThanhToan(1, startDate, endDate, '').subscribe(res => {
-      if(res){
+      if (res) {
         this.doanhThuOnline = res.body;
       }
     })
     this.billService.getCountHoaDon(10, startDate, endDate, '').subscribe(res => {
-      if(res){
+      if (res) {
         this.tongLuongDon = res.body;
       }
     })
     this.billService.getCountHoaDon(1, startDate, endDate, '').subscribe(res => {
-      if(res){
+      if (res) {
         this.luongDonHoanThanh = res.body;
       }
     })
     this.billService.getCountHoaDon(5, startDate, endDate, '').subscribe(res => {
-      if(res){
+      if (res) {
         this.luongDonDaHuy = res.body;
       }
     })
@@ -179,7 +200,7 @@ export class WelcomeComponent implements OnInit {
     labels: this.barChartLabels,
     datasets: [
       {
-        data: [120000, 1500000, 1800000, 200000, 1700000, 2100000, 300000, 2000000, 500000, 1000000, 2000000, 1000000], // Doanh thu cho mỗi tháng
+        data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], // Doanh thu cho mỗi tháng
         label: 'Doanh thu', // Tên bộ dữ liệu
         backgroundColor: 'rgba(0, 123, 255, 0.6)', // Màu nền của cột
         borderColor: 'rgba(0, 123, 255, 1)', // Màu viền của cột

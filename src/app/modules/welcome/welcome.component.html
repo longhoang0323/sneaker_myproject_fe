@@ -61,7 +61,7 @@
     </div>
     <div style="width: 24%;margin: 15px;height: 130px;border-radius: 8px;border: 2px solid green">
       <p style="padding: 10px;font-weight: bolder;font-size: 26px">Số sản phẩm đã bán</p>
-      <p style="padding-left: 10px;font-size: 22px;">{{100000000??0 | currency:'VND': '':'1.0-0'}}</p>
+      <p style="padding-left: 10px;font-size: 22px;">{{soSanPhamDaBan??0 | currency:'VND': '':'1.0-0'}}</p>
     </div>
   </div>
   <div>
@@ -105,7 +105,22 @@
       </div>
     </div>
     <div>
-      <div style="display: block;">
+      <div style="width: 30%;float: right;margin-top: 10px" class="flex">
+        <label style="font-size: 18px;padding-left: 10px">Chọn năm: </label>
+        <select id="year" class="select-input" (change)="getDoanhThuByMonth(2024)"
+                style="width: 150px;height: 30px;font-size: 18px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px;margin-left: 10px"
+        >
+          <option class="option" value="2023">2023</option>
+          <option class="option" value="2024" selected>2024</option>
+          <option class="option" value="2025">2025</option>
+          <option class="option" value="2026">2026</option>
+          <option class="option" value="2027">2027</option>
+          <option class="option" value="2028">2028</option>
+          <option class="option" value="2029">2029</option>
+          <option class="option" value="2030">2030</option>
+        </select>
+      </div>
+      <div *ngIf="showBarChart == 11" style="display: block;">
         <canvas baseChart style="width: 1000px;height: 400px"
                 [datasets]="barChartData.datasets"
                 [labels]="barChartLabels"
