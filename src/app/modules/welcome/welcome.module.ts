@@ -8,6 +8,7 @@ import { NzPageHeaderModule } from "ng-zorro-antd/page-header";
 import { FormsModule } from "@angular/forms";
 import {NzProgressModule} from "ng-zorro-antd/progress";
 import {NzDatePickerModule} from "ng-zorro-antd/date-picker";
+import {NgChartsModule} from "ng2-charts";
 
 @NgModule({
     imports: [
@@ -22,6 +23,7 @@ import {NzDatePickerModule} from "ng-zorro-antd/date-picker";
         CurrencyPipe,
         NzProgressModule,
         NzDatePickerModule,
+        NgChartsModule,
     ],
   declarations: [WelcomeComponent],
   exports: [WelcomeComponent],

@@ -54,6 +54,7 @@ export class BillComponent implements OnInit {
   isVisbleCTSPByQR = false;
   isVisbleShowChonKH = false;
   isVisbleShowModalChonKH = false;
+  isVisbleShowModalAddKH = false;
   imgDefault: string = '';
 
   // check
@@ -270,6 +271,10 @@ export class BillComponent implements OnInit {
 
   showModalChonKH(){
     this.isVisbleShowModalChonKH = true;
+    this.getListKH();
+  }
+
+  getListKH(){
     this.customerService.getCustomerList(1, 50).subscribe(res => {
       if(res){
         this.customerList = res.content;
@@ -291,8 +296,42 @@ export class BillComponent implements OnInit {
     })
   }
 
-  getListKhBySearch(){
+  showModalAddKH(){
+    this.isVisbleShowModalAddKH = true;
+  }
 
+  cancelModalAddKH(){
+    this.isVisbleShowModalAddKH = false;
+  }
+
+  addNewKH(){
+    const data = {
+      hoTen: (document.getElementById('hoTen') as HTMLInputElement).value,
+      ngaySinh: (document.getElementById('ngaySinh') as HTMLInputElement).value,
+      sdt: (document.getElementById('sdtKH') as HTMLInputElement).value,
+      diaChi: (document.getElementById('diaChiKH') as HTMLInputElement).value
+    }
+    this.customerService.create(data).subscribe(res => {
+      if(res){
+        this.getListKH();
+        this.isVisbleShowModalAddKH = false;
+        this.notification.success('Thêm mới thành công!', '');
+      }
+    })
+  }
+
+  getListKhBySearch(){
+    const inputElement = document.getElementById('searchInputKH') as HTMLInputElement;
+    this.searchInputKH = inputElement.value;
+    this.customerService.getListKHBySearch(1, 50, this.searchInputKH).subscribe(res => {
+      const queryParams = {
+        searchInput: this.searchInputKH
+      };
+      if (res && res.content) {
+        this.customerList = res.content;
+      }
+      // this.router.navigate(['/room'], { queryParams });
+    })
   }
 
   // thanh toán tại quầy
