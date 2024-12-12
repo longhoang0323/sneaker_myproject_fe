@@ -69,6 +69,9 @@
   </div>
   <div class="flex">
     <div style="width: 30%;margin: 10px">
+      <div>
+        <p style="padding: 10px;font-size: 18px;font-weight: bolder">Top 3 sản phẩm bán chạy</p>
+      </div>
       <div style="margin: 5px">
       <nz-progress
         nz-tooltip
@@ -105,9 +108,9 @@
       </div>
     </div>
     <div>
-      <div style="width: 30%;float: right;margin-top: 10px" class="flex">
+      <div style="width: 30%;float: right;margin-top: 10px;height: 80px" class="flex">
         <label style="font-size: 18px;padding-left: 10px">Chọn năm: </label>
-        <select id="year" class="select-input" (change)="getDoanhThuByMonth(2024)"
+        <select id="year" class="select-input" (change)="getDoanhThuByMonth()"
                 style="width: 150px;height: 30px;font-size: 18px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px;margin-left: 10px"
         >
           <option class="option" value="2023">2023</option>
@@ -130,6 +133,7 @@
         </canvas>
       </div>
     </div>
+
   </div>
 </div>
 
