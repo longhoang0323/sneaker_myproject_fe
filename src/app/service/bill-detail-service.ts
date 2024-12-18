@@ -36,4 +36,12 @@ export class BillDetailService {
   addBillDetail(data: any): Observable<any> {
     return this.http.post(`${API_AU_URL}/create-new-hdct`, data);
   }
+
+  getTopSPBanChay(): Observable<any>{
+    return this.http.get<any>(`${API_AU_URL}/top-sp-ban-chay`);
+  }
+
+  getTongSPBanChay(): Observable<any>{
+    return this.http.get<any>(`${API_AU_URL}/tong-sp-ban-chay`);
+  }
 }

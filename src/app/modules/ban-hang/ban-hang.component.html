@@ -45,9 +45,9 @@
                   style="width: 300px;height: 30px;font-size: 18px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px;margin-left: 10px"
           >
             <option class="option" value="10">Tất cả</option>
-            <option class="option" value="0">Chờ thanh toán</option>
-            <option class="option" value="1">Đã thanh toán</option>
-            <option class="option" value="2">Đã hủy</option>
+            <option class="option" value="0">Chờ giao hàng</option>
+            <option class="option" value="2">Đang giao hàng</option>
+            <option class="option" value="1">Đã giao hàng</option>
           </select>
         </div>
       </div>
@@ -85,7 +85,8 @@
             <th class="items-center">Ngày thanh toán</th>
             <th class="items-center">Khách hàng</th>
             <th class="items-center">Tổng tiền</th>
-            <th class="items-center">Trạng thái</th>
+            <th class="items-center">Trạng thái thanh toán</th>
+            <th class="items-center">Trạng thái giao hàng</th>
             <th class="items-center">Tác vụ</th>
           </tr>
           </thead>
@@ -108,6 +109,17 @@
                 <p>Đã hủy</p>
               </div>
             </td>
+            <td>
+              <div *ngIf="data.trangThaiGiaoHang == 0" style="background-color: deepskyblue;padding: 5px;border-radius: 5px;margin: 5px;text-align: center;font-weight: bolder;color: white;width: 135px">
+                <p>Chờ giao hàng</p>
+              </div>
+              <button (click)="showModalGiaoHangOffline(data.id)" *ngIf="data.trangThaiGiaoHang == 2" style="background-color: blueviolet;padding: 5px;border-radius: 5px;margin: 5px;text-align: center;font-weight: bolder;color: white;width: 135px">
+                Đang giao hàng
+              </button>
+              <div *ngIf="data.trangThaiGiaoHang == 1" style="background-color: dodgerblue;padding: 5px;border-radius: 5px;margin: 5px;text-align: center;font-weight: bolder;color: white;width: 135px">
+                <p>Đã giao hàng</p>
+              </div>
+            </td>
             <td nzLeft>
               <div class="btn-info flex">
                 <div style="margin-left: 5px">
@@ -124,6 +136,29 @@
       </div>
     </div>
   </nz-tab>
+
+  <nz-modal
+    [(nzVisible)]="isVisbleShowFormGiaoHangTaiQuay"
+    nzCentered
+    nzTitle=" "
+    (nzOnCancel)="cancelModalGiaoHangOffline()"
+    (nzOnOk)="hoanTatGiaoHangTaiQuay()"
+    nzWidth="25%"
+  >
+    <ng-container *nzModalContent>
+      <div style="margin: 5px">
+        <div style="margin: 5px">
+          <p style="padding: 5px;font-size: 16px;font-weight: bolder;color: #00A77D">Xác nhận đã giao hàng cho khách hàng?</p>
+        </div>
+        <div style="margin: 5px">
+          <p style="padding: 5px;font-size: 16px;font-weight: bolder;color: mediumvioletred">Tên người nhận: {{billOfflineModel.tenNguoiNhan}}</p>
+        </div>
+        <div style="margin: 5px">
+          <p style="padding: 5px;font-size: 16px;font-weight: bolder;color: mediumvioletred">Số điện thoại: {{billOfflineModel.sdtNguoiNhan}}</p>
+        </div>
+      </div>
+    </ng-container>
+  </nz-modal>
 
 
   <nz-tab nzTitle="Đơn Online" (nzClick)="getListOnLine()">
