@@ -3,18 +3,18 @@
     <div style="width: 45%;margin: 15px;height: 250px;border-radius: 8px;border: 2px solid darkgray">
       <p style="padding: 10px;font-weight: bolder;font-size: 28px">Tổng doanh thu</p>
       <hr style="width: 95%;height: 2px;margin: 5px;background-color: gray"/>
-      <p style="padding: 10px;font-size: 30px;">{{tongDoanhThu??0 | currency:'VND': '':'1.0-0'}}</p>
+      <p style="padding: 10px;font-size: 30px;">{{tongDoanhThu ?? 0 | currency:'VND': '':'1.0-0'}}</p>
       <hr style="width: 95%;height: 2px;margin: 5px;background-color: gray"/>
       <div class="flex">
         <div style="width: 48%;margin: 5px;">
           <p style="padding: 5px;font-weight: bolder;font-size: 20px">Doanh thu tại quầy</p>
-          <p style="padding-left: 5px;font-size: 22px;">{{doanhThuOffline??0 | currency:'VND': '':'1.0-0'}}</p>
+          <p style="padding-left: 5px;font-size: 22px;">{{doanhThuOffline ?? 0 | currency:'VND': '':'1.0-0'}}</p>
         </div>
         <div style="width: 0px;height: 75px;border: 1px solid gray;margin: 5px;margin-right: 15px">
         </div>
         <div style="width: 48%;margin: 5px;">
           <p style="padding: 5px;font-weight: bolder;font-size: 20px">Doanh thu online</p>
-          <p style="padding-left: 5px;font-size: 22px;">{{doanhThuOnline??0 | currency:'VND': '':'1.0-0'}}</p>
+          <p style="padding-left: 5px;font-size: 22px;">{{doanhThuOnline ?? 0 | currency:'VND': '':'1.0-0'}}</p>
         </div>
       </div>
     </div>
@@ -25,23 +25,24 @@
         <div style="width: 55%">
           <p style="width:200px;margin: 5px;font-weight: bolder;font-size: 15px" for="startDate">Từ ngày:</p>
           <input type="date" style="margin: 5px" id="startDate" class="dateStyle"
-                          placeholder="Chọn ngày bắt đầu">
+                 placeholder="Chọn ngày bắt đầu">
         </div>
         <div>
           <p style="width:200px;margin: 5px;font-weight: bolder;font-size: 15px" for="endDate">đến ngày:</p>
           <input type="date" style="margin: 5px" id="endDate" class="dateStyle"
-                          placeholder="Chọn ngày kết thúc">
+                 placeholder="Chọn ngày kết thúc">
         </div>
       </div>
       <div style="margin: 5px" class="flex">
         <div style="width: 55%">
           <p style="width:200px;margin: 5px;font-weight: bolder;font-size: 15px" for="dayInput">Tra cứu trong ngày:</p>
           <input type="date" style="margin: 5px" id="dayInput" class="dateStyle"
-                          placeholder="Chọn ngày muốn tìm" >
+                 placeholder="Chọn ngày muốn tìm">
         </div>
         <div style="margin-top: 37px">
           <button class="button-create" (click)="getDoanhThuByDay()">Trong ngày</button>
-          <button class="button-create" style="margin-left: 10px" (click)="getDoanhThuByKhoangNgay()">Theo khoảng</button>
+          <button class="button-create" style="margin-left: 10px" (click)="getDoanhThuByKhoangNgay()">Theo khoảng
+          </button>
         </div>
       </div>
     </div>
@@ -49,62 +50,70 @@
   <div class="flex" style="width: 95%;margin: 15px;justify-content: center;margin-left: 30px">
     <div style="width: 24%;margin: 15px;height: 130px;border-radius: 8px;border: 2px solid lightseagreen">
       <p style="padding: 10px;font-weight: bolder;font-size: 26px">Tổng lượng đơn</p>
-      <p style="padding-left: 10px;font-size: 22px;">{{tongLuongDon??0 | currency:'VND': '':'1.0-0'}}</p>
+      <p style="padding-left: 10px;font-size: 22px;">{{tongLuongDon ?? 0 | currency:'VND': '':'1.0-0'}}</p>
     </div>
     <div style="width: 24%;margin: 15px;height: 130px;border-radius: 8px;border: 2px solid #17a78b">
       <p style="padding: 10px;font-weight: bolder;font-size: 26px">Lượng đơn hoàn thành</p>
-      <p style="padding-left: 10px;font-size: 22px;">{{luongDonHoanThanh??0 | currency:'VND': '':'1.0-0'}}</p>
+      <p style="padding-left: 10px;font-size: 22px;">{{luongDonHoanThanh ?? 0 | currency:'VND': '':'1.0-0'}}</p>
     </div>
     <div style="width: 24%;margin: 15px;height: 130px;border-radius: 8px;border: 2px solid mediumvioletred">
       <p style="padding: 10px;font-weight: bolder;font-size: 26px">Lượng đơn đã hủy</p>
-      <p style="padding-left: 10px;font-size: 22px;">{{luongDonDaHuy??0 | currency:'VND': '':'1.0-0'}}</p>
+      <p style="padding-left: 10px;font-size: 22px;">{{luongDonDaHuy ?? 0 | currency:'VND': '':'1.0-0'}}</p>
     </div>
     <div style="width: 24%;margin: 15px;height: 130px;border-radius: 8px;border: 2px solid green">
       <p style="padding: 10px;font-weight: bolder;font-size: 26px">Số sản phẩm đã bán</p>
-      <p style="padding-left: 10px;font-size: 22px;">{{soSanPhamDaBan??0 | currency:'VND': '':'1.0-0'}}</p>
+      <p style="padding-left: 10px;font-size: 22px;">{{soSanPhamDaBan ?? 0 | currency:'VND': '':'1.0-0'}}</p>
     </div>
   </div>
   <div>
     <hr style="width: 100%;height: 2px;margin: 5px;background-color: #5e2ced"/>
   </div>
   <div class="flex">
-    <div style="width: 30%;margin: 10px">
+    <div style="width: 35%;margin: 10px">
       <div>
         <p style="padding: 10px;font-size: 18px;font-weight: bolder">Top 3 sản phẩm bán chạy</p>
       </div>
-      <div style="margin: 5px">
-      <nz-progress
-        nz-tooltip
-        nzTooltipTitle="3 done / 3 in progress / 4 to do"
-        [nzPercent]="60"
-        [nzSuccessPercent]="30"
-      ></nz-progress>
+      <div class="flex">
+        <p style="padding: 5px;width: 35%">{{listSpBanChay[0].tenSanPham}} {{listSpBanChay[0].mauSac}}</p>
+        <div style="margin: 5px;width: 60%">
+          <nz-progress
+            nz-tooltip
+            nzTooltipTitle="{{listSpBanChay[0].soLuong}} đã bán"
+            [nzPercent]="((listSpBanChay[0].soLuong / soSanPhamDaBan) * 100) | number:'1.0-1'"
+          ></nz-progress>
+        </div>
       </div>
-      <div style="margin: 5px">
+      <div class="flex">
+        <p style="padding: 5px;width: 35%">{{listSpBanChay[1].tenSanPham}} {{listSpBanChay[1].mauSac}}</p>
+        <div style="margin: 5px;width: 60%">
+          <nz-progress
+            nz-tooltip
+            nzTooltipTitle="{{listSpBanChay[1].soLuong}} đã bán"
+            [nzPercent]="((listSpBanChay[1].soLuong / soSanPhamDaBan) * 100) | number:'1.0-1'"
+            [nzStrokeColor]="'#124242'"
+          ></nz-progress>
+        </div>
+      </div>
+      <div class="flex">
+        <p style="padding: 5px;width: 35%">{{listSpBanChay[2].tenSanPham}} {{listSpBanChay[2].mauSac}}</p>
+        <div style="margin: 5px;width: 60%">
+          <nz-progress
+            nz-tooltip
+            nzTooltipTitle="{{listSpBanChay[2].soLuong}} đã bán"
+            [nzPercent]="((listSpBanChay[2].soLuong / soSanPhamDaBan) * 100) | number:'1.0-1'"
+            [nzStrokeColor]="'#00B247'"
+          ></nz-progress>
+        </div>
+      </div>
+      <div style="margin: 20px;width: 100%;margin-left: 20px">
         <nz-progress
           nz-tooltip
-          nzTooltipTitle="3 done / 3 in progress / 4 to do"
-          [nzPercent]="60"
-          [nzSuccessPercent]="30"
+          nzTooltipTitle="Tổng thị phần 3 sản phẩm bán chạy nhất"
+          nzType="circle"
+          [nzPercent]="((listSpBanChay[0].soLuong + listSpBanChay[1].soLuong + listSpBanChay[2].soLuong) * 100/ soSanPhamDaBan) | number:'1.0-1'"
+          [nzStrokeColor]="'#5e2ced'"
+          [nzWidth]="250"
         ></nz-progress>
-      </div>
-      <div style="margin: 5px">
-        <nz-progress
-          nz-tooltip
-          nzTooltipTitle="3 done / 3 in progress / 4 to do"
-          [nzPercent]="60"
-          [nzSuccessPercent]="30"
-        ></nz-progress>
-      </div>
-      <div style="margin: 10px;width: 100%;margin-left: 20px">
-      <nz-progress
-        nz-tooltip
-        nzTooltipTitle="3 done / 3 in progress / 4 to do"
-        nzType="circle"
-        [nzPercent]="60"
-        [nzSuccessPercent]="30"
-        [nzWidth]="200"
-      ></nz-progress>
       </div>
     </div>
     <div>
@@ -124,7 +133,7 @@
         </select>
       </div>
       <div *ngIf="showBarChart == 11" style="display: block;">
-        <canvas baseChart style="width: 1000px;height: 400px"
+        <canvas baseChart style="width: 900px;height: 400px"
                 [datasets]="barChartData.datasets"
                 [labels]="barChartLabels"
                 [options]="barChartOptions"

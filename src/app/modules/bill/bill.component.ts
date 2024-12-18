@@ -350,7 +350,8 @@ export class BillComponent implements OnInit {
       chuyenKhoan: 0,
       diaChi: '',
       idKhachHang: 0,
-      trangThai: 1
+      trangThai: 1,
+      trangThaiGiaoHang: 2
     }
     if (this.hinhThucGH == 1 && this.checkSelectKhachHang == 0) {
       data.tenNguoiNhan = (document.getElementById('tenNguoiNhan') as HTMLInputElement).value;
@@ -376,12 +377,14 @@ export class BillComponent implements OnInit {
       data.idKhachHang = this.khachBanLe.id;
       data.tenNguoiNhan = 'Khách bán lẻ';
       data.tienShip = 0;
+      data.trangThaiGiaoHang = 1;
       data.tongThanhToan = this.bill.tongTien - (this.bill.tienGiamGia ?? 0)
     }
     if (this.hinhThucGH == 0 && this.checkSelectKhachHang == 1) {
-      data.tenNguoiNhan = 'Khách bán lẻ';
+      data.tenNguoiNhan = this.customerModel.hoTen;
       data.idKhachHang = this.customerModel.id;
       data.tienShip = 0;
+      data.trangThaiGiaoHang = 1;
       data.tongThanhToan = this.bill.tongTien - (this.bill.tienGiamGia ?? 0)
     }
     if (this.hinhThucTT == 0) {

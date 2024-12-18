@@ -26,8 +26,10 @@ export class BanHangComponent implements OnInit {
   user: UserModel | undefined;
   idBillOnline: number = 0;
   billOnlineModel!: BillModel;
+  billOfflineModel!: BillModel;
   isVisbleBillOnlineDetails = false;
   isVisbleShowFormGiaoHang = false;
+  isVisbleShowFormGiaoHangTaiQuay = false;
   searchInput: string = '';
   searchInput2: string = '';
 
@@ -170,6 +172,34 @@ export class BanHangComponent implements OnInit {
             this.billOnlineModel = res2;
           }
         })
+      }
+    })
+  }
+
+  showModalGiaoHangOffline(id: any){
+    this.billService.get(id).subscribe(res => {
+     if(res) {
+       this.billOfflineModel = res;
+       this.isVisbleShowFormGiaoHangTaiQuay = true;
+     }
+    })
+  }
+
+  cancelModalGiaoHangOffline(){
+    this.isVisbleShowFormGiaoHangTaiQuay = false;
+  }
+
+  hoanTatGiaoHangTaiQuay(){
+    const data = {
+      trangThaiGiaoHang: 1,
+      tenNguoiShip: this.billOfflineModel.tenNguoiShip,
+      sdtNguoiShip: this.billOfflineModel.sdtNguoiShip
+    }
+    this.billService.updateGiaoHang(this.billOfflineModel.id, data).subscribe(res => {
+      if(res){
+        this.isVisbleShowFormGiaoHangTaiQuay = false;
+        this.notification.success('Hoàn tất giao hàng!', '');
+        this.getListOffline();
       }
     })
   }

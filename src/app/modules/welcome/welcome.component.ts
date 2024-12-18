@@ -4,6 +4,9 @@ import {BillService} from "../../service/bill.service";
 import {NzNotificationService} from "ng-zorro-antd/notification";
 import {ChartData, ChartOptions, ChartType} from "chart.js";
 import {DoanhThuModel} from "../../models/doanh-thu.model";
+import {BillDetailService} from "../../service/bill-detail-service";
+import {BillDetailModel} from "../../models/bill-detail.model";
+import {SanPhamBanChayModel} from "../../models/san-pham-ban-chay.model";
 
 
 @Component({
@@ -22,19 +25,40 @@ export class WelcomeComponent implements OnInit {
     tongLuongDon: number = 0;
     luongDonHoanThanh: number = 0;
     luongDonDaHuy: number = 0;
-    soSanPhamDaBan: number = 99;
+    soSanPhamDaBan: number = 0;
     yearInput: number = new Date().getFullYear();
     public listMonth: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
+    listSpBanChay: SanPhamBanChayModel[] = [];
 
     constructor(private billService: BillService,
-                private notification: NzNotificationService) {
+                private notification: NzNotificationService,
+                private billDetailService: BillDetailService) {
         this.codeReader = new BrowserMultiFormatReader();
     }
 
     ngOnInit(): void {
         this.getDoanhThu();
         this.getDoanhThuByMonthDefault();
+        this.getListTopSpBanChay();
+        this.getTongSpBanChay();
+    }
+
+    getTongSpBanChay(){
+      this.billDetailService.getTongSPBanChay().subscribe(res => {
+        if(res){
+          this.soSanPhamDaBan = res;
+        }
+      })
+    }
+
+    getListTopSpBanChay(){
+      this.billDetailService.getTopSPBanChay().subscribe(res => {
+        if(res){
+          this.listSpBanChay = res.body;
+          console.log(this.listSpBanChay)
+        }
+      })
     }
 
     getDoanhThuByMonthDefault() {
@@ -99,7 +123,6 @@ export class WelcomeComponent implements OnInit {
                     }
                 }, 1000)
             } else {
-                this.notification.error('khoông cos', '');
                 this.showBarChart = 11;
                 this.barChartLegend = !this.barChartLegend;
                 setTimeout(() => {
